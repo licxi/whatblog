@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcxjj.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="cn.lcxjj.pojo.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="CHAR" />
+    <result column="phone" property="phone" jdbcType="CHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="CHAR" />
+    <result column="qq" property="qq" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mark" property="mark" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_lock" property="isLock" jdbcType="SMALLINT" />
+    <result column="head_url" property="headUrl" jdbcType="CHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, nickname, password, phone, gender, email, qq, address, mark, description, 
+    create_time, is_lock, head_url, school
+  </sql>
+  
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from user where user_name= #{username,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="modifyHead" parameterType="java.util.Map">
+  	update user set head_url=#{headUrl,jdbcType=CHAR} where user_name = #{userName,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.lcxjj.pojo.User" >
+    insert into user (id, user_name, nickname, 
+      password, phone, gender, 
+      email, qq, address, mark, 
+      description, create_time, is_lock, 
+      head_url, school)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{email,jdbcType=CHAR}, #{qq,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{mark,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isLock,jdbcType=SMALLINT}, 
+      #{headUrl,jdbcType=CHAR}, #{school,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.lcxjj.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isLock != null" >
+        is_lock,
+      </if>
+      <if test="headUrl != null" >
+        head_url,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=CHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isLock != null" >
+        #{isLock,jdbcType=SMALLINT},
+      </if>
+      <if test="headUrl != null" >
+        #{headUrl,jdbcType=CHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcxjj.pojo.User" >
+    update user
+    <set >
+    	id = #{id,jdbcType=INTEGER}, <!-- 防止没有任何不为空的值时，导致错误的发生-->
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=CHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isLock != null" >
+        is_lock = #{isLock,jdbcType=SMALLINT},
+      </if>
+      <if test="headUrl != null" >
+        head_url = #{headUrl,jdbcType=CHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.lcxjj.pojo.User" >
+    update user
+    set 
+      nickname = #{nickname,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=CHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      email = #{email,jdbcType=CHAR},
+      qq = #{qq,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      head_url = #{headUrl,jdbcType=CHAR},
+      school = #{school,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcxjj.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="cn.lcxjj.pojo.Article" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="article_click" property="articleClick" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="TINYINT" />
+    <result column="article_type" property="articleType" jdbcType="INTEGER" />
+    <result column="article_summary" property="articleSummary" jdbcType="VARCHAR" />
+    <result column="article_up" property="articleUp" jdbcType="TINYINT" />
+    <result column="article_support" property="articleSupport" jdbcType="TINYINT" />
+    <result column="show_image" property="showImage" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="commentMap" type="cn.lcxjj.pojo.Comment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="cn.lcxjj.pojo.Article" extends="BaseResultMap" >
+    <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, article_title, create_time, article_click, user_name, type_id, article_type, 
+    article_summary, article_up, article_support, show_image
+  </sql>
+  <sql id="Blob_Column_List" >
+    article_content
+  </sql>
+  <!-- =========================================================================== -->
+  <resultMap type="cn.lcxjj.pojo.Article" id="articleMapAndCommentCount" extends="BaseResultMap">
+		<!-- <id property="id" column="id"/> -->
+		<!-- <collection property="postList" column="id" javaType="java.util.ArrayList" select="getUserPost"
+		ofType="cn.lcxjj.pojo.Post">
+		</collection>  -->
+		<collection property="commentsCount" column="id" javaType="java.lang.Integer" select="commentCount"
+		ofType="java.lang.Integer"></collection>
+	</resultMap>
+	<!-- 获取某用户的文章 -->
+	<select id="getUserAllArticle" parameterType="java.lang.String" resultMap="articleMapAndCommentCount">
+		select * from article where user_name = #{userName,jdbcType=VARCHAR}
+	</select>
+	<!-- 统计某篇文章的评论数 -->
+	<select id="commentCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select count(*) from comment where article_id=#{id,jdbcType=INTEGER}
+	</select>
+	<!-- =========================================================================== -->
+	
+	<resultMap type="cn.lcxjj.pojo.Article" id="articleComments" extends="ResultMapWithBLOBs">
+		<collection property="comments" column="id" javaType="java.util.ArrayList" select="getArticleComments"
+		ofType="cn.lcxjj.pojo.Comment"></collection>
+	</resultMap>
+	
+	<select id="getArticleAndComment" parameterType="java.lang.Integer" resultMap="articleComments">
+		select 
+		 <include refid="Base_Column_List" />
+    	,
+    	<include refid="Blob_Column_List" />
+		 from article where id = #{article_id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 获取某篇文章的评论 -->
+	<select id="getArticleComments" parameterType="java.lang.Integer" resultMap="commentMap">
+		select id,user_name,content,time,to_user_name,article_id from comment where article_id=#{id,jdbcType=INTEGER}
+	</select>
+	
+	
+  <!-- =========================================================================== -->
+  <!-- <select id="articleCommentCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  
+  </select> -->
+  
+  <!-- 博主的文章数量 -->
+  <select id="userArticleCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select count(*) from article where user_name=#{userName,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 获取博主十条热门文章，相对他自己的文章来说 -->
+  <select id="selectHostArticleByUserName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where user_name = #{userName,jdbcType=VARCHAR}
+    order by article_click desc
+    limit 0,10
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.lcxjj.pojo.Article" >
+    insert into article (id, article_title, create_time, 
+      article_click, user_name, type_id, 
+      article_type, article_summary, article_up, 
+      article_support, show_image, article_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{articleClick,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{typeId,jdbcType=TINYINT}, 
+      #{articleType,jdbcType=INTEGER}, #{articleSummary,jdbcType=VARCHAR}, #{articleUp,jdbcType=TINYINT}, 
+      #{articleSupport,jdbcType=TINYINT}, #{showImage,jdbcType=VARCHAR}, #{articleContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.lcxjj.pojo.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="articleTitle != null" >
+        article_title,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="articleClick != null" >
+        article_click,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="articleType != null" >
+        article_type,
+      </if>
+      <if test="articleSummary != null" >
+        article_summary,
+      </if>
+      <if test="articleUp != null" >
+        article_up,
+      </if>
+      <if test="articleSupport != null" >
+        article_support,
+      </if>
+      <if test="showImage != null" >
+        show_image,
+      </if>
+      <if test="articleContent != null" >
+        article_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="articleTitle != null" >
+        #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleClick != null" >
+        #{articleClick,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=TINYINT},
+      </if>
+      <if test="articleType != null" >
+        #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="articleSummary != null" >
+        #{articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="articleUp != null" >
+        #{articleUp,jdbcType=TINYINT},
+      </if>
+      <if test="articleSupport != null" >
+        #{articleSupport,jdbcType=TINYINT},
+      </if>
+      <if test="showImage != null" >
+        #{showImage,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null" >
+        #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcxjj.pojo.Article" >
+    update article
+    <set >
+      <if test="articleTitle != null" >
+        article_title = #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleClick != null" >
+        article_click = #{articleClick,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=TINYINT},
+      </if>
+      <if test="articleType != null" >
+        article_type = #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="articleSummary != null" >
+        article_summary = #{articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="articleUp != null" >
+        article_up = #{articleUp,jdbcType=TINYINT},
+      </if>
+      <if test="articleSupport != null" >
+        article_support = #{articleSupport,jdbcType=TINYINT},
+      </if>
+      <if test="showImage != null" >
+        show_image = #{showImage,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null" >
+        article_content = #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.lcxjj.pojo.Article" >
+    update article
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      article_click = #{articleClick,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=TINYINT},
+      article_type = #{articleType,jdbcType=INTEGER},
+      article_summary = #{articleSummary,jdbcType=VARCHAR},
+      article_up = #{articleUp,jdbcType=TINYINT},
+      article_support = #{articleSupport,jdbcType=TINYINT},
+      show_image = #{showImage,jdbcType=VARCHAR},
+      article_content = #{articleContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.lcxjj.pojo.Article" >
+    update article
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      article_click = #{articleClick,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=TINYINT},
+      article_type = #{articleType,jdbcType=INTEGER},
+      article_summary = #{articleSummary,jdbcType=VARCHAR},
+      article_up = #{articleUp,jdbcType=TINYINT},
+      article_support = #{articleSupport,jdbcType=TINYINT},
+      show_image = #{showImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

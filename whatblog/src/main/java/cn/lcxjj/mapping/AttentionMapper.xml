@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcxjj.mapper.AttentionMapper">
+	<resultMap id="BaseResultMap" type="cn.lcxjj.pojo.Attention">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="attention_user_name" property="attentionUserName"
+			jdbcType="VARCHAR" />
+		<result column="attention_time" property="attentionTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_name, attention_user_name, attention_time
+	</sql>
+
+
+	<!-- 根据用户id查找该用户关注的所有博主 -->
+	<select id="selectByUserName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from attention
+		where user_name = #{userName,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 获取有多少个人关注博主 -->
+	<select id="countUser" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(id) from attention where attention_user_name
+		=#{attentionUserName,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 获取关注了多少个博主 -->
+	<select id="countAttentionUser" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(id) from attention where user_name =#{userName,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据用户id查找所有关注他的用户 -->
+	<select id="selectByAttentionUserName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from attention
+		where attention_user_name = #{attentionUserName,jdbcType=VARCHAR}
+	</select>
+
+
+
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from attention
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from attention
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.lcxjj.pojo.Attention">
+		insert into attention (id, user_name, attention_user_name,
+		attention_time)
+		values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+		#{attentionUserName,jdbcType=VARCHAR},
+		#{attentionTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.lcxjj.pojo.Attention">
+		insert into attention
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="attentionUserName != null">
+				attention_user_name,
+			</if>
+			<if test="attentionTime != null">
+				attention_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="attentionUserName != null">
+				#{attentionUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="attentionTime != null">
+				#{attentionTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.lcxjj.pojo.Attention">
+		update attention
+		<set>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="attentionUserName != null">
+				attention_user_name = #{attentionUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="attentionTime != null">
+				attention_time = #{attentionTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.lcxjj.pojo.Attention">
+		update attention
+		set user_name = #{userName,jdbcType=VARCHAR},
+		attention_user_name = #{attentionUserName,jdbcType=VARCHAR},
+		attention_time = #{attentionTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
