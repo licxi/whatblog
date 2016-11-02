@@ -30,4 +30,14 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleMapper.insertSelective(article);
 	}
 
+	@Override
+	public List<Article> getUserAllArticle(String userName) {
+		return articleMapper.getUserAllArticle(userName);
+	}
+
+	@Override
+	public Article getArticleAndComment(int article_id) {
+		return articleMapper.getArticleAndComment(article_id);
+	}
+
 }

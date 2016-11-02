@@ -35,19 +35,33 @@ import cn.lcxjj.service.UserService;
 @RequestMapping("/{userName}")
 public class UserBlogHomeController {
 	
+	/**
+	 * 关注管理服务
+	 */
 	@Autowired
 	private AttentionService attentionService;
 	
+	/**
+	 * 文章管理服务
+	 */
 	@Autowired
 	private ArticleService articleService;
 	
+	/**
+	 * 留言管理服务
+	 */
 	@Autowired
 	private MessageService messageService;
 	
+	/**
+	 * 文章分类管理服务
+	 */
 	@Autowired
 	private TypeService typeService;
 	
-	
+	/**
+	 * 用户管理服务
+	 */
 	@Autowired
 	private UserService userService;
 	/**
@@ -94,9 +108,18 @@ public class UserBlogHomeController {
 			return "writeArticle.do";
 		}
 	}
+	
+	@RequestMapping("showArticle.do")
+	public String showArticle(@RequestParam("article_id") int article_id, ModelMap map){
+		Article article = articleService.getArticleAndComment(article_id);
+		map.addAttribute("article", article);
+		return "user_blog/show_article";
+	}
+	
 	@RequestMapping("articleManage.do")
 	public String articleManage(@PathVariable String userName,ModelMap map){
-		
+		List<Article> articles = articleService.getUserAllArticle(userName);
+		map.addAttribute("articles",articles);
 		return "user_blog/article_manage";
 	}
 	
@@ -123,6 +146,13 @@ public class UserBlogHomeController {
 
 	}
 	
+	/**
+	 * 用户修改头衔，将图片保存的地址存到数据库，并返回地址
+	 * @param userName
+	 * @param file
+	 * @param requset
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("modifyHead.do")
 	public Map<String,String> fileUpload(@PathVariable String userName,@RequestParam(value="imgUpl",required=false) 

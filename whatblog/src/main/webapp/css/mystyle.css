@@ -45,6 +45,29 @@
           border-radius: 0 !important;
 }
 
+.myul {
+	margin-bottom: 30px;
+	font-size: 12px;
+	color: #AAA;
+}
+.myli {
+	margin-right: 20px;
+	float: left;
+	cursor: default;
+}
+.mya {
+	color: #666;
+	text-decoration: none;
+}
+.mya:hover {
+	color: #3399CC;
+}
+.myli strong {
+	font-weight: normal;
+	color: #3399CC;
+	cursor: pointer;
+}
+
 /*用户头像*/
 .avatar {width: 145px; height: 145px; border-radius: 50%; overflow: hidden; }
 .avatar a { display: block; padding-top: 100px; width: 145px; background-size: 145px 145px; }

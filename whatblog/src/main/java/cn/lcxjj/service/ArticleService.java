@@ -24,4 +24,19 @@ public interface ArticleService {
      * @return
      */
     int saveArticle(Article article);
+    
+    
+    /**
+     * 获取用户的文章，并且统计文章的评论数
+     * @param userName
+     * @return
+     */
+    List<Article> getUserAllArticle(String userName);
+    
+    /**
+     * 获取一篇文章的内容，及评论
+     * @param article_id
+     * @return
+     */
+    Article getArticleAndComment(int article_id);
 }

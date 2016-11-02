@@ -40,5 +40,5 @@ public interface ArticleMapper {
      * @param article_id
      * @return
      */
-    List<Article> getArticleAndComment(int article_id);
+    Article getArticleAndComment(int article_id);
 }

@@ -55,7 +55,7 @@
 							<div class="form-group ">
 								<div class="col-sm-offset-1 col-sm-10">
 									<input type="text" class="form-control" id="articleSummary" 
-										name="articleSummary" value="${articleSummary }" placeholder="最多一百个字符，不填则在正文截取一百个字符">
+										name="articleSummary" value="${articleSummary }" placeholder="最多一百个字符">
 								</div>
 							</div>
 

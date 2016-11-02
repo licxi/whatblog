@@ -31,7 +31,7 @@
 			<!--内容-->
 			<div class="content">
 				<header class="news_header" style="height: 100px;">
-				<div class="col-sm-1 visible-lg">
+					<div class="col-sm-1 visible-lg">
 						      <img alt="" title="点我更换头像" src="/whatblog/img/logo.png" 
 						      	style="border-radius: 50%;width: 80px;height: 80px;"
 						      		id="openFile" class="img"/>
