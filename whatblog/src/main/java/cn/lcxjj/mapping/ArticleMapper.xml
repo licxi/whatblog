@@ -42,10 +42,14 @@
 		</collection>  -->
 		<collection property="commentsCount" column="id" javaType="java.lang.Integer" select="commentCount"
 		ofType="java.lang.Integer"></collection>
+		<collection property="typeName" column="type_id" javaType="java.lang.String" select="selectTypeName"
+		ofType="java.lang.String"></collection>
 	</resultMap>
 	<!-- 获取某用户的文章 -->
 	<select id="getUserAllArticle" parameterType="java.lang.String" resultMap="articleMapAndCommentCount">
-		select * from article where user_name = #{userName,jdbcType=VARCHAR}
+		select * from article 
+		where user_name = #{userName,jdbcType=VARCHAR} 
+		order by article_click desc,create_time desc
 	</select>
 	<!-- 统计某篇文章的评论数 -->
 	<select id="commentCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
@@ -56,6 +60,9 @@
 	<resultMap type="cn.lcxjj.pojo.Article" id="articleComments" extends="ResultMapWithBLOBs">
 		<collection property="comments" column="id" javaType="java.util.ArrayList" select="getArticleComments"
 		ofType="cn.lcxjj.pojo.Comment"></collection>
+		<collection property="typeName" column="type_id" javaType="java.lang.String" select="selectTypeName"
+		ofType="java.lang.String"></collection>
+		
 	</resultMap>
 	
 	<select id="getArticleAndComment" parameterType="java.lang.Integer" resultMap="articleComments">
@@ -71,6 +78,11 @@
 		select id,user_name,content,time,to_user_name,article_id from comment where article_id=#{id,jdbcType=INTEGER}
 	</select>
 	
+	
+	<!-- 获取文章的分类 -->
+  <select id="selectTypeName" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select type_name from type where id = #{type_id,jdbcType=INTEGER}
+  </select>
 	
   <!-- =========================================================================== -->
   <!-- <select id="articleCommentCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
@@ -90,9 +102,10 @@
     <include refid="Blob_Column_List" />
     from article
     where user_name = #{userName,jdbcType=VARCHAR}
-    order by article_click desc
+    order by article_click desc,create_time desc
     limit 0,10
   </select>
+  
   
   
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >

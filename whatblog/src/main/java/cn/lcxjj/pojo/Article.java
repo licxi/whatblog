@@ -15,6 +15,8 @@ public class Article {
 	private String userName;
 
 	private Byte typeId;
+	
+	private String typeName;
 
 	private Integer articleType;
 
@@ -151,14 +153,24 @@ public class Article {
 		this.comments = comments;
 	}
 
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", articleTitle=" + articleTitle + ", createTime=" + createTime + ", articleClick="
-				+ articleClick + ", userName=" + userName + ", typeId=" + typeId + ", articleType=" + articleType
-				+ ", articleSummary=" + articleSummary + ", articleUp=" + articleUp + ", articleSupport="
-				+ articleSupport + ", showImage=" + showImage + ", articleContent=" + articleContent
-				+ ", commentsCount=" + commentsCount + ", comments=" + comments + "]";
+				+ articleClick + ", userName=" + userName + ", typeId=" + typeId + ", typeName=" + typeName
+				+ ", articleType=" + articleType + ", articleSummary=" + articleSummary + ", articleUp=" + articleUp
+				+ ", articleSupport=" + articleSupport + ", showImage=" + showImage + ", articleContent="
+				+ articleContent + ", commentsCount=" + commentsCount + ", comments=" + comments + "]";
 	}
+
+	
 
 	
 	

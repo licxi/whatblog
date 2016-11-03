@@ -29,7 +29,7 @@
 								<!--循环取出-->
 								<c:if test="${articles != null && articles.size() != 0}">
 									<c:forEach items="${articles }" var="article">
-										<div class="ibox-content myshadow">
+										<%-- <div class="ibox-content myshadow">
 
 											<div class="row">
 												<div class="col-lg-2">
@@ -54,6 +54,7 @@
 											</div>
 											<div class="row">
 													<div class="col-md-7 " style="margin-bottom: 5px;">
+														<span class="label label-success" style="font-size: 12px;">分类:${article.typeName }</span>
 														<span class="label label-primary" style="font-size: 12px;">评论:${article.commentsCount }</span>
 														<span class="label label-info" style="font-size: 12px;">查看:${article.articleClick }</span>
 														<span class="label label-warning" style="font-size: 12px;">发布于:<fmt:formatDate
@@ -73,7 +74,11 @@
 													</div>
 												</div>
 										</div>
-										<br />
+										<br /> --%>
+											<c:set var="article" value="${article }" scope="application"></c:set>
+										<c:import url="../public/preview_article.jsp">
+									
+										</c:import>
 									</c:forEach>
 								</c:if>
 								<c:if test="${articles == null || articles.size() == 0}">
@@ -104,6 +109,9 @@
 	<script src="<c:url value='/js/inspinia.js'/>"></script>
 	<!-- 进度条 -->
 	<script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>
+	
+	<!-- 文章的相关操作 -->
+	<script type="text/javascript" src="<c:url value='/js/article_op.js'/>"></script>
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';

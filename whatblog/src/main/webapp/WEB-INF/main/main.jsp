@@ -224,7 +224,7 @@
 						if (window.XMLHttpRequest) { //如果不是ie6 
 							element.css({ //设置css 
 								position : "fixed", //固定定位,即不再跟随滚动 
-								top : 50
+								top : 51
 							//距离页面顶部为0 
 							}).addClass("shadow"); //加上阴影样式.shadow 
 						} else { //如果是ie6 

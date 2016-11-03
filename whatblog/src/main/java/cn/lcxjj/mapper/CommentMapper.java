@@ -14,4 +14,11 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+    
+    /**
+     * 删除文章的所有评论 
+     * @param article_id 文章的id
+     * @return
+     */
+    int deleteArticleComments(int article_id);
 }

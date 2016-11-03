@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,40 +74,9 @@
 								<!--循环取出-->
 								<c:if test="${hostArticles != null && hostArticles.size() != 0}">
 								<c:forEach items="${hostArticles }" var="article">
-								<div class="ibox-content myshadow">
-
-									<div class="row">
-										<div class="col-lg-2">
-											<a href="" class="button_link"> <img alt="image"
-												class="img-responsive"
-												src="${article[showImage] }"
-												style="max-height: 150px; min-height: 120px;"> <span
-												class="line line_top"></span> <span class="line line_right"></span>
-												<span class="line line_bottom"></span> <span
-												class="line line_left"></span>
-											</a>
-										</div>
-										<div class="col-lg-10">
-											<a href="" class="btn-link"> <!--跳转全文-->
-												<h2>${article[articleTitle] }</h2>
-											</a>
-											<p>${article[articleSummary] }</p>
-											<div class="row">
-												<div class="col-md-10">
-													<span class="label label-primary" style="font-size: 12px;">评论:100</span>
-													<span class="label label-info" style="font-size: 12px;">查看:100</span>
-													<span class="label label-warning" style="font-size: 12px;">时间:2016-7-8</span>
-												</div>
-												<div class="col-md-2" style="margin-top: 10px;">
-													<div class="small text-right">
-														<a href=""><button type="button"
-																class="btn btn-w-m btn-danger">查看全文</button></a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div><br />
+									<c:set var="article" value="${article }" scope="application"></c:set>
+									<c:import url="../public/preview_article.jsp" >
+									</c:import>
 								</c:forEach>
 								</c:if>
 								<c:if test="${hostArticles == null || hostArticles.size() == 0}">
@@ -138,6 +108,7 @@
 	<script src="<c:url value='/js/inspinia.js'/>"></script>
 	<!-- 进度条 -->
 	<script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/js/article_op.js'/>"></script>
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';

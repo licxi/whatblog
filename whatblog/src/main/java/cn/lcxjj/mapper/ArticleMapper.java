@@ -5,6 +5,12 @@ import java.util.List;
 import cn.lcxjj.pojo.Article;
 
 public interface ArticleMapper {
+	
+	/**
+	 * 删除一篇文章
+	 * @param id
+	 * @return
+	 */
     int deleteByPrimaryKey(Integer id);
 
     int insert(Article article);

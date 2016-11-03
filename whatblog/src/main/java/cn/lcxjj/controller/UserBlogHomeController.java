@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import cn.lcxjj.service.UserService;
 
 @Controller
 @RequestMapping("/{userName}")
+@Transactional
 public class UserBlogHomeController {
 	
 	/**
@@ -72,7 +74,11 @@ public class UserBlogHomeController {
 	 */
 	
 	@RequestMapping("/home.do")
-	public String userBlogHome(@PathVariable String userName,ModelMap map){
+	public String userBlogHome(@PathVariable String userName,ModelMap map,HttpSession session){
+		String loginUserName = (String) session.getAttribute("user_name");
+		if(!loginUserName.equals(userName)){
+			return "error";
+		}
 		int attentionCount = attentionService.countUser(userName);//关注博主的人数
 		int youAttentionCount = attentionService.countAttentionUser(userName);//博主关注的人数
 		int articleCount = articleService.userArticleCount(userName);
@@ -103,15 +109,18 @@ public class UserBlogHomeController {
 		//保存
 		int result = articleService.saveArticle(article);
 		if(result >0){
-			return "";
+			return "redirect:articleManage.do";
 		} else {
 			return "writeArticle.do";
 		}
 	}
 	
 	@RequestMapping("showArticle.do")
-	public String showArticle(@RequestParam("article_id") int article_id, ModelMap map){
+	public String showArticle(@PathVariable String userName,@RequestParam("article_id") int article_id, ModelMap map){
 		Article article = articleService.getArticleAndComment(article_id);
+		if(article == null || !article.getUserName().equals(userName)){ //防止用户在地址栏输入其他的文章id
+			return "redirect:articleManage.do";
+		}
 		map.addAttribute("article", article);
 		return "user_blog/show_article";
 	}
@@ -144,6 +153,40 @@ public class UserBlogHomeController {
 		}
 		return "redirect:userInfo.do";
 
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteArticle.do")
+	public Map<String,String> deleteArticle(@PathVariable String userName,@RequestParam("article_id") int id){
+		Map<String,String> map = new HashMap<String, String>();
+		if(articleService.deleteByPrimaryKey(userName, id)){ //userName 用户判断当前用户与文章的作者是否相同
+			map.put("errcode", "0");
+			map.put("msg", "删除成功");
+		} else {
+			map.put("errcode", "1");
+			map.put("msg", "删除失败");
+		}
+		return map;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("setIsPublic.do")
+	public Map<String,String> setIsPublic(Article article){
+		Map<String,String> map = new HashMap<String,String>();
+		if(article == null) {
+			map.put("errcode", "-1");
+			map.put("msg", "设置失败！");
+		}
+		int result = articleService.updateByPrimaryKeySelective(article);
+		if(result > 0){
+			map.put("errcode", "0");
+			map.put("msg", "设置成功！");
+		}else{
+			map.put("errcode", "-1");
+			map.put("msg", "设置失败！");
+		}
+		return map;
 	}
 	
 	/**
@@ -183,10 +226,8 @@ public class UserBlogHomeController {
 			session.removeAttribute("headUrl");
 			session.setAttribute("headUrl", "/whatblog/upload/img/"+saveName+fileType);
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return map;

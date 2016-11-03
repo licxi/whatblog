@@ -51,7 +51,7 @@
 					<!-- <form role="search" class="navbar-form-custom" action=""
 						method="post"> -->
 					<div class="form-group"
-						style="font-size: 26px; padding-top: 10px; padding-left: 10px;">
+						style="font-size: 26px; padding-top: 10px; padding-left: 16px;">
 						<!-- <input type="text" placeholder="搜索你的文章" class="form-control"
 								name="keywords" id="top-search" required> -->
 						<a href="../"><strong>WhatBlog主页</strong></a>

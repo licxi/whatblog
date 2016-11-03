@@ -7,6 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${article.articleTitle }</title>
+<link type="text/css" href="<c:url value='/css/shThemeMidnight.css'/>"
+	rel="stylesheet" />
+<script type="text/javascript" src="<c:url value='/js/shCore.min.js'/>"></script>
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css'/>"
 	rel="stylesheet">
@@ -14,6 +17,19 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css" rel="stylesheet'/>"
 	rel="stylesheet">
+
+<!-- 引入代码高亮 -->
+<link type="text/css" href="<c:url value='/css/shThemeMidnight.css'/>"
+	rel="stylesheet" />
+<script type="text/javascript" src="<c:url value='/js/shCore.min.js'/>"></script>
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+<style type="text/css">
+.container{
+	width: 100%;
+}/
+</style>
 </head>
 <body>
 	<c:import url="../public/user_sidebar.jsp"></c:import>
@@ -23,16 +39,18 @@
 			<div class="col-sm-10">
 				<h2>${article.articleTitle }</h2>
 				<ul class="myul">
-					<li class="myli">发布于 ：<fmt:formatDate value="${article.createTime }"
-						pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></li>
-					<li class="myli">分类：<a  class="mya" href="" title="" target="_blank">网站前端</a></li>
+					<li class="myli">发布于 ：<fmt:formatDate
+							value="${article.createTime }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></li>
+					<li class="myli">分类：<a class="mya" href="" title=""
+						target="_blank">${article.typeName }</a></li>
 					<li class="myli"><strong>${article.articleClick }</strong> 查看
 					</li>
-					<li class="myli"><strong>${article.comments.size() }</strong> 评论</li>
+					<li class="myli"><strong>${article.comments.size() }</strong>
+						评论</li>
 				</ul>
 			</div>
 			<div class="col-sm-offset-10">
-				<a class="btn btn-danger navbar-right" href="">删除</a>
+				<button class="btn btn-danger navbar-right" onclick="deleteArticleInShowArticle(${article.id})">删除</button>
 			</div>
 		</div>
 
@@ -43,8 +61,9 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="ibox myshadow"
-								style="background-color: white; padding: 10px 20px 10px 20px">
-									${article.articleContent }
+								style="background-color: white; padding: 10px 20px 10px 20px;">
+								${article.articleContent }
+								
 							</div>
 						</div>
 						<!-- 首页文章结束 -->
@@ -71,6 +90,8 @@
 	<script src="<c:url value='/js/inspinia.js'/>"></script>
 	<!-- 进度条 -->
 	<script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>
+	<!-- 文章的相关操作 -->
+	<script type="text/javascript" src="<c:url value='/js/article_op.js'/>"></script>
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';
