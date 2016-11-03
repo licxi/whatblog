@@ -14,7 +14,7 @@
 </head>
 <body>
 	<!-- 加载编辑器的容器 -->
-	<form action="user/getUeditorContent.do" method="post">
+	<form action="user/getUeditorContent" method="post">
 		<script id="container" name="content" type="text/plain"></script>
 		<input type="submit" value="提交">
 	</form>

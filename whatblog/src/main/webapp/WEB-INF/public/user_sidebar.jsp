@@ -21,13 +21,13 @@
 						<!--导航栏缩小时显示文字-->
 					</div>
 				</li>
-				<li><a href="home.do"><i class="fa fa-globe"></i> <span
+				<li><a href="home"><i class="fa fa-globe"></i> <span
 						class="nav-label">主页</span></a></li>
-				<li><a href="userInfo.do"><i class="fa fa-globe"></i> <span
+				<li><a href="userInfo"><i class="fa fa-globe"></i> <span
 						class="nav-label">个人信息</span></a></li>
-				<li><a href="writeArticle.do"><i class="fa fa-globe"></i> <span
+				<li><a href="writeArticle"><i class="fa fa-globe"></i> <span
 						class="nav-label">撰写文章</span></a></li>
-				<li><a href="articleManage.do"><i class="fa fa-globe"></i>
+				<li><a href="articleManage"><i class="fa fa-globe"></i>
 						<span class="nav-label">管理文章</span></a></li>
 				<li><a href=""><i class="fa fa-globe"></i> <span
 						class="nav-label">评论管理</span></a></li>
@@ -61,8 +61,8 @@
 				</div>
 				<ul class="nav navbar-top-links navbar-right">
 					<c:if test="${user_name == null }">
-						<li><a href="user/toLogin.do">登录</a></li>
-						<li><a href="user/toReg.do">注册</a></li>
+						<li><a href="user/toLogin">登录</a></li>
+						<li><a href="user/toReg">注册</a></li>
 					</c:if>
 					<c:if test="${user_name != null && user_name != '' }">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -70,14 +70,14 @@
 								<span id="show_user_name">${nickname }</span><b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a class="btn" href="home.do" style="text-align: left;">我的博客</a></li>
-								<li><a class="btn" href="writeArticle.do"
+								<li><a class="btn" href="home" style="text-align: left;">我的博客</a></li>
+								<li><a class="btn" href="writeArticle"
 									style="text-align: left;">写文章</a></li>
 								<li><a class="btn" href="#" style="text-align: left;">修改密码</a></li>
-								<li><a class="btn" href="userInfo.do"
+								<li><a class="btn" href="userInfo"
 									style="text-align: left;">修改资料</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="<c:url value='/user/logout.do'/>">退出</a></li>
+								<li><a href="<c:url value='/user/logout'/>">退出</a></li>
 							</ul></li>
 					</c:if>
 

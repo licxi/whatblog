@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("main")
 public class MainController {
 
-	@RequestMapping("index.do")
+	@RequestMapping("index")
 	public String index(){
 		return "main/main";
 	}

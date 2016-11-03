@@ -22,7 +22,7 @@ public class IsLoginInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		//如果没有登录，则跳转到登录页面
 		if(session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")){
-			response.sendRedirect("../user/toLogin.do");
+			response.sendRedirect("../user/toLogin");
 			return false;
 		}
 		return true;

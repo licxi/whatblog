@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="ibox-content myshadow" id="content${article.id }">
 
 	<div class="row">
@@ -13,7 +14,7 @@
 			</a>
 		</div>
 		<div class="col-lg-10">
-			<a href="showArticle.do?article_id=${article.id }" class="btn-link">
+			<a href="showArticle?article_id=${article.id }" class="btn-link">
 				<!--跳转全文-->
 				<h2>${article.articleTitle }</h2>
 			</a>
@@ -31,7 +32,7 @@
 		</div>
 		<div class="col-md-5">
 			<div class="small text-right">
-				<a href="showArticle.do?article_id=${article.id }"
+				<a href="showArticle?article_id=${article.id }"
 					class="btn btn-primary">查看全文</a>
 				<button class="btn btn-danger" onclick="dArticle(${article.id})">删除</button>
 				

@@ -43,7 +43,7 @@
 													</a>
 												</div>
 												<div class="col-lg-10">
-													<a href="showArticle.do?article_id=${article.id }"
+													<a href="showArticle?article_id=${article.id }"
 														class="btn-link"> <!--跳转全文-->
 														<h2>${article.articleTitle }</h2>
 													</a>
@@ -63,7 +63,7 @@
 													</div>
 													<div class="col-md-5">
 														<div class="small text-right">
-															<a href="showArticle.do?article_id=${article.id }" class="btn btn-primary">查看全文</a>
+															<a href="showArticle?article_id=${article.id }" class="btn btn-primary">查看全文</a>
 															<a href="#" class="btn btn-danger">删除</a>
 															<a href="#" class="btn btn-info">
 																<c:if test="${article.articleType == 1 }">设为不可见</c:if>

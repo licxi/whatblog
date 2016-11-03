@@ -56,7 +56,7 @@ function checkUserName(){
     	 $('#userCue').text("");
     }
     /*检查账号是否已经注册*/
-     var url = "checkUserName.do";
+     var url = "checkUserName";
      jQuery.post(url,{"userName" : userName.val()},
             function(data) {
               if (data.code == 'ok') {
@@ -134,7 +134,7 @@ function getParam(pname) {
 
 var reMethod = "GET";
 var	pwdmin = 6;
-var loginUrl = "doLogin.do"
+var loginUrl = "doLogin"
 
 $(document).ready(function() {
 
@@ -212,7 +212,7 @@ $(document).ready(function() {
 			});
 			
 		}*/
-		var vc = "../util/vc.do";
+		var vc = "../util/vc";
 		jQuery.post(vc, {
 			vc : $("#reg_vc").val()
 		}, function(data) {

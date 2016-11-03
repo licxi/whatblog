@@ -75,7 +75,7 @@ function validata(fileName) {
  * */
 function ajaxFileUpload() {
 	jQuery.ajaxFileUpload({
-		url: "modifyHead.do",
+		url: "modifyHead",
 		secureuri: false,
 		fileElementId: "imgUpl",
 		dataType: "json",

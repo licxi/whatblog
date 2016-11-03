@@ -32,11 +32,9 @@
 		<input type="file" id="imgUpl" name="imgUpl"
 					onchange="fileSelectd()" style="display: none;" />
 			<div class="ibox">
-				<!--  <foreach name= "list" item = "vo">-->
-				<!--循环取出-->
 				<div class="ibox-content">
 					<div style="text-align: center; padding-top: 0px;">
-						<form class="form-horizontal" role="form" id="form" method="post" action="saveArticle.do" onsubmit="return checkSubmit()">
+						<form class="form-horizontal" role="form" id="form" method="post" action="saveArticle" onsubmit="return checkSubmit()">
 							<input type="hidden" value="${userName }" name="userName"/>
 							
 							<div class="form-group">
@@ -45,7 +43,7 @@
 							<div class="form-group ">
 								<div class="col-sm-offset-1 col-sm-10">
 									<input type="text" class="form-control" id="articleTitle" name="articleTitle"
-										placeholder="最多30个字符" value="${articleTitle }">
+										placeholder="最多30个字符" value="${article.articleTitle }">
 								</div>
 							</div>
 
@@ -55,7 +53,7 @@
 							<div class="form-group ">
 								<div class="col-sm-offset-1 col-sm-10">
 									<input type="text" class="form-control" id="articleSummary" 
-										name="articleSummary" value="${articleSummary }" placeholder="最多一百个字符">
+										name="articleSummary" value="${article.articleSummary }" placeholder="最多一百个字符">
 								</div>
 							</div>
 
@@ -103,7 +101,7 @@
 							</div>
 							<div align="left" class="form-group">
 								<div class="col-sm-offset-1 col-sm-10">
-									<script id="container1" name="articleContent" type="text/plain"></script>
+									<script id="container1" name="articleContent" type="text/plain" ></script>
 								</div>
 							</div>
 							
@@ -111,8 +109,8 @@
 								<label style="font-size: 18px">图片展示</label>
 							</div>
 							<div class="form-group ">
-								<input type="text"  <c:if test="${showImage == null }">value="/whatblog/img/logo.png"</c:if>
-									<c:if test="${showImage != null }">value="${showImage }"</c:if>  
+								<input type="text"  <c:if test="${article.showImage == null }">value="/whatblog/img/logo.png"</c:if>
+									<c:if test="${article.showImage != null }">value="${showImage }"</c:if>  
 									id="showImage" name="showImage" style="display: none;"/>
 								<img alt="展示图片" src="/whatblog/img/logo.png" id="showimg" style="width: 120px;height: 120px;">
 								<br><br>
@@ -121,17 +119,24 @@
 
 							<div class="form-group">
 
-								<div class="col-sm-offset-5 col-sm-4">
-									<label for="radio" class="col-sm-3 control-labell">是否公开</label>
+								<div class="col-sm-4" style="margin-left: 38%;">
+									<label for="radio" class="col-sm-4 control-labell">是否公开</label>
 									<div style="padding-top: 0px;" class="radio col-sm-4">
-										<c:if test="${articleType == 1 }">
+										<c:if test="${article.articleType == null }">
 											<label> <input type="radio" value="1" name="articleType"
 											id="articleType" checked> 是
 										</label> <label> <input type="radio" value="0" name="articleType"
 											id="articleType"> 否
 										</label>
 										</c:if>
-										<c:if test="${articleType == 0 }">
+										<c:if test="${article.articleType == 1 }">
+											<label> <input type="radio" value="1" name="articleType"
+											id="articleType" checked> 是
+										</label> <label> <input type="radio" value="0" name="articleType"
+											id="articleType"> 否
+										</label>
+										</c:if>
+										<c:if test="${article.articleType == 0 }">
 											<label> <input type="radio" value="1" name="articleType"
 											id="articleType" > 是
 										</label> <label> <input type="radio" value="0" name="articleType"

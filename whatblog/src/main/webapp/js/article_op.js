@@ -1,5 +1,5 @@
 function dArticle(id) {
-	var url = "deleteArticle.do";
+	var url = "deleteArticle";
 	if (confirm("删除后不可恢复！确定删除该文章吗？")) {
 		jQuery.post(url, {
 			"article_id" : id
@@ -17,8 +17,8 @@ function dArticle(id) {
 }
 // 在浏览文章时删除该文章，然后跳转到 管理文章页面
 function deleteArticleInShowArticle(id) {
-	var url = "deleteArticle.do";
-	var callbackurl = "articleManage.do"
+	var url = "deleteArticle";
+	var callbackurl = "articleManage"
 	if (confirm("删除后不可恢复！确定删除该文章吗？")) {
 		jQuery.post(url, {
 			"article_id" : id
@@ -36,7 +36,7 @@ function deleteArticleInShowArticle(id) {
 }
 
 function setIsPublic(article_id){
-	var url = "setIsPublic.do";
+	var url = "setIsPublic";
 	var isPublic = $("#isPublic");
 	if(isPublic.text().trim()=="设为公开"){
 	 	var tip = "执行该操作，文章将会公开？确定要继续吗？";

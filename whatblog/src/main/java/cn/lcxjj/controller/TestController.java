@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("{main}")
 public class TestController {
-	@RequestMapping("{id}/test.do")
+	@RequestMapping("{id}/test")
 	public void test(@PathVariable String main,@PathVariable String id){
 		System.out.println(main+":"+id);
 	}
 	
-	@RequestMapping("index.do")
+	@RequestMapping("index")
 	public String index(){
 		return "index";
 	}

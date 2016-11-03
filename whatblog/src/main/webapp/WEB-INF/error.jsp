@@ -2,9 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>达内－NetCTOSS</title>
-        <link type="text/css" rel="stylesheet" media="all" href="styles/global.css" />
-        <link type="text/css" rel="stylesheet" media="all" href="styles/global_color.css" />
+        <title>WhatBlog</title>
         <script language="javascript" type="text/javascript">
             var timer;
             //启动跳转的定时器

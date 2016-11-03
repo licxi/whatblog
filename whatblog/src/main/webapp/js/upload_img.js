@@ -34,7 +34,7 @@ function validata(fileName) {
  * */
 function ajaxFileUpload() {
 	jQuery.ajaxFileUpload({
-		url: "/whatblog/util/fileupload.do",
+		url: "/whatblog/util/fileupload",
 		secureuri: false,
 		fileElementId: "imgUpl",
 		dataType: "json",

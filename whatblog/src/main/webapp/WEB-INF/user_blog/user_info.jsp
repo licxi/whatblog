@@ -28,7 +28,7 @@
 
 				<div
 					style="text-align: left; padding-top: 0px; margin-left: 10px; margin-right: 10px;">
-					<form class="form-horizontal" role="form" action="saveUserInfo.do" method="post">
+					<form class="form-horizontal" role="form" action="saveUserInfo" method="post">
 						<input type="hidden" name="id" value="${user.id }">
 						<div class="form-group ">
 						
@@ -153,7 +153,7 @@
 
 							<div class="col-sm-6" style="margin-left: 38%;">
 								<button type="button" id="modify" class="btn btn-default">修改</button>
-								<a type="button" id="cancel" class="btn btn-default" href="userInfo.do"
+								<a type="button" id="cancel" class="btn btn-default" href="userInfo"
 									style="display: none">取消</a>
 								<button type="submit" id="submit" class="btn btn-primary"
 									style="display: none">提交</button>

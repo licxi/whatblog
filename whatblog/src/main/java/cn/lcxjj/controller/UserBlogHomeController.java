@@ -73,9 +73,12 @@ public class UserBlogHomeController {
 	 * @return
 	 */
 	
-	@RequestMapping("/home.do")
+	@RequestMapping("/home")
 	public String userBlogHome(@PathVariable String userName,ModelMap map,HttpSession session){
 		String loginUserName = (String) session.getAttribute("user_name");
+		if(loginUserName == null){
+			return "error";
+		}
 		if(!loginUserName.equals(userName)){
 			return "error";
 		}
@@ -93,7 +96,7 @@ public class UserBlogHomeController {
 		return "user_blog/blog_home";
 	}
 	
-	@RequestMapping("writeArticle.do")
+	@RequestMapping("writeArticle")
 	public String writeArticle(@PathVariable String userName,ModelMap map){
 		List<Type> types = typeService.selectAll();
 		map.addAttribute("types", types);
@@ -102,37 +105,35 @@ public class UserBlogHomeController {
 		return "user_blog/write_article";
 	}
 	
-	@RequestMapping("saveArticle.do")
-	public String saveArticle(Article article,ModelMap map){
-		System.err.println(article);
-		map.addAttribute("content", article.toString());
+	@RequestMapping("saveArticle")
+	public String saveArticle(Article article){
 		//保存
 		int result = articleService.saveArticle(article);
-		if(result >0){
-			return "redirect:articleManage.do";
+		if(result > 0){
+			return "redirect:articleManage";
 		} else {
-			return "writeArticle.do";
+			return "writeArticle";
 		}
 	}
 	
-	@RequestMapping("showArticle.do")
+	@RequestMapping("showArticle")
 	public String showArticle(@PathVariable String userName,@RequestParam("article_id") int article_id, ModelMap map){
 		Article article = articleService.getArticleAndComment(article_id);
 		if(article == null || !article.getUserName().equals(userName)){ //防止用户在地址栏输入其他的文章id
-			return "redirect:articleManage.do";
+			return "redirect:articleManage";
 		}
 		map.addAttribute("article", article);
 		return "user_blog/show_article";
 	}
 	
-	@RequestMapping("articleManage.do")
+	@RequestMapping("articleManage")
 	public String articleManage(@PathVariable String userName,ModelMap map){
 		List<Article> articles = articleService.getUserAllArticle(userName);
 		map.addAttribute("articles",articles);
 		return "user_blog/article_manage";
 	}
 	
-	@RequestMapping("userInfo.do")
+	@RequestMapping("userInfo")
 	public String userInfo(@PathVariable String userName,ModelMap map,HttpServletRequest request){
 		User user = userService.selectByUserName(userName);
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -144,19 +145,19 @@ public class UserBlogHomeController {
 		return "user_blog/user_info";
 	}
 	
-	@RequestMapping("saveUserInfo.do")
+	@RequestMapping("saveUserInfo")
 	public String savaeUserInfo(User user,RedirectAttributes att){
 		if(userService.modifyUserInfoById(user)){
 			att.addFlashAttribute("msg", "修改成功");
 		}else{
 			att.addFlashAttribute("msg", "修改失败！");
 		}
-		return "redirect:userInfo.do";
+		return "redirect:userInfo";
 
 	}
 	
 	@ResponseBody
-	@RequestMapping("deleteArticle.do")
+	@RequestMapping("deleteArticle")
 	public Map<String,String> deleteArticle(@PathVariable String userName,@RequestParam("article_id") int id){
 		Map<String,String> map = new HashMap<String, String>();
 		if(articleService.deleteByPrimaryKey(userName, id)){ //userName 用户判断当前用户与文章的作者是否相同
@@ -171,7 +172,7 @@ public class UserBlogHomeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("setIsPublic.do")
+	@RequestMapping("setIsPublic")
 	public Map<String,String> setIsPublic(Article article){
 		Map<String,String> map = new HashMap<String,String>();
 		if(article == null) {
@@ -197,7 +198,7 @@ public class UserBlogHomeController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("modifyHead.do")
+	@RequestMapping("modifyHead")
 	public Map<String,String> fileUpload(@PathVariable String userName,@RequestParam(value="imgUpl",required=false) 
 		MultipartFile file,HttpServletRequest requset){
 		Map<String,String> map = new HashMap<String,String>();

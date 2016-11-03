@@ -31,7 +31,7 @@ public class UtilController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("getVC.do")
+	@RequestMapping("getVC")
 	public void validataCode(HttpServletRequest request,HttpServletResponse response){
 		Object[] vaImg = ImageUtil.createIamge();
 		HttpSession session = request.getSession();
@@ -46,7 +46,7 @@ public class UtilController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("vc.do")
+	@RequestMapping("vc")
 	public Map<String,String> vc(HttpServletRequest request,String vc){
 		Map<String,String> map = new HashMap<String, String>();
 		HttpSession session = request.getSession();
@@ -61,7 +61,7 @@ public class UtilController {
 		
 	}
 	@ResponseBody
-	@RequestMapping("fileupload.do")
+	@RequestMapping("fileupload")
 	public Map<String,String> fileUpload(@RequestParam(value="imgUpl",required=false) 
 		MultipartFile file,HttpServletRequest requset){
 		Map<String,String> map = new HashMap<String,String>();

@@ -81,7 +81,7 @@
 			style="display: <c:if test="${type == 0 }">block</c:if> <c:if test="${type == 1 }">none</c:if>; ">
 
 			<div class="web_login">
-				<form name="form2" id="regUser" accept-charset="utf-8" action="reg.do"
+				<form name="form2" id="regUser" accept-charset="utf-8" action="reg"
 					method="post">
 					<input type="hidden" name="to" value="reg" /> <input type="hidden"
 						name="did" value="0" />
@@ -121,7 +121,7 @@
 
 								<input type="text" id="reg_vc" name="vc" maxlength="10"
 									class="inputstyle3" />
-								<img title="点击更改换验证码" id="vc" class="vc_img" src="../util/getVC.do" onclick="refalsh_code()" />
+								<img title="点击更改换验证码" id="vc" class="vc_img" src="../util/getVC" onclick="refalsh_code()" />
 							</div></li>
 
 						<li>

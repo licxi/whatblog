@@ -23,20 +23,20 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("toLogin.do")
+	@RequestMapping("toLogin")
 	public String toLogin(Model model){
 		model.addAttribute("type", 1);
 		return "user/login_register";
 	}
 	
-	@RequestMapping("getUeditorContent.do")
+	@RequestMapping("getUeditorContent")
 	public String getUeditorContent(String content,Model model){
 		model.addAttribute("content", content);
 		return "user/showUeditorContent";
 	}
 	
 	
-	@RequestMapping("test.do")
+	@RequestMapping("test")
 	public String test(){
 		//return "user/show_blog_for_reader";
 		//return "user/user_info";
@@ -48,14 +48,14 @@ public class UserController {
 		return "user_blog/follow";
 	}
 	
-	@RequestMapping("toReg.do")
+	@RequestMapping("toReg")
 	public String toReg(Model model){
 		model.addAttribute("type", 0);
 		return "user/login_register";
 	}
 	
 	@ResponseBody
-	@RequestMapping("checkUserName.do")
+	@RequestMapping("checkUserName")
 	public Map<String,String> checkUserName(String userName){
 		Map<String,String> map = new HashMap<String,String>();
 		int result = userService.checkUserName(userName);
@@ -71,24 +71,24 @@ public class UserController {
 	
 	
 	
-	@RequestMapping(value="reg.do",method=RequestMethod.POST)
+	@RequestMapping(value="reg",method=RequestMethod.POST)
 	public String reg(User user){
 		//System.out.println(user);
 		boolean result = false;
 		if(userService.checkUserName(user.getUserName())==0){ //防止用户重复提交
 			result = userService.register(user);
 		}else{
-			return "redirect:toLogin.do";
+			return "redirect:toLogin";
 		}
 		if(result){
 			return "main/reg_success";
 		}else{
-			return "redirect:toReg.do";
+			return "redirect:toReg";
 		}
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="doLogin.do",method=RequestMethod.POST)
+	@RequestMapping(value="doLogin",method=RequestMethod.POST)
 	public Map<String, String> doLogin(HttpServletRequest request,String username,String password){
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = request.getSession();
@@ -113,14 +113,14 @@ public class UserController {
 		return map;
 	}
 	
-	@RequestMapping("logout.do")
+	@RequestMapping("logout")
 	public String logout(HttpServletRequest request, HttpSession session){
 		session.invalidate(); //退出登录，删除session
 		return "redirect:../";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="modifyUserInfo.do")
+	@RequestMapping(value="modifyUserInfo")
 	public Map<String,String> modifyUserInfo(User user,HttpSession session){
 		Map<String,String> map = new HashMap<String,String>();
 		boolean result = userService.modifyUserInfoById(user);
