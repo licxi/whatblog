@@ -1,7 +1,5 @@
 package cn.lcxjj.service;
 
-import java.util.Map;
-
 import cn.lcxjj.pojo.User;
 
 public interface UserService {

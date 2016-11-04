@@ -76,7 +76,7 @@ public class UserBlogHomeController {
 	@RequestMapping("/home")
 	public String userBlogHome(@PathVariable String userName,ModelMap map,HttpSession session){
 		String loginUserName = (String) session.getAttribute("user_name");
-		if(loginUserName == null){
+		if(loginUserName == null){  
 			return "error";
 		}
 		if(!loginUserName.equals(userName)){
@@ -116,9 +116,9 @@ public class UserBlogHomeController {
 		}
 	}
 	
-	@RequestMapping("showArticle")
-	public String showArticle(@PathVariable String userName,@RequestParam("article_id") int article_id, ModelMap map){
-		Article article = articleService.getArticleAndComment(article_id);
+	@RequestMapping("showArticle/{id}")
+	public String showArticle(@PathVariable String userName,@PathVariable int id, ModelMap map){
+		Article article = articleService.getArticleAndComment(id);
 		if(article == null || !article.getUserName().equals(userName)){ //防止用户在地址栏输入其他的文章id
 			return "redirect:articleManage";
 		}
@@ -204,7 +204,6 @@ public class UserBlogHomeController {
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = requset.getSession();
 		String path = session.getServletContext().getRealPath("/")+"/upload/img";//图片保存的路径
-		//String path = requset.getSession().getServletContext().getRealPath("/")+"\\uploads";
 		String fileName = file.getOriginalFilename(); //获取文件名
 		String name = fileName.substring(0, fileName.indexOf("."));
 		String fileType = fileName.substring(fileName.indexOf("."),fileName.length());
@@ -212,20 +211,16 @@ public class UserBlogHomeController {
 		Date date = new Date();
 		saveName = Base64.getEncoder().encodeToString((name+date.getTime()).getBytes());
 		saveName = saveName.replace(".", "a");//防止出现"."
-		String type = file.getContentType();
 		System.out.println(path);
 		File uploadFile = new File(path,saveName+fileType);
-//		System.out.println("地址:"+path);
-		/*if(!uploadFile.exists()){
-			uploadFile.mkdirs();
-		}*/
+		String ContextPath = requset.getContextPath();
 		try {
 			file.transferTo(uploadFile); //将来要将路径保存到数据库中
 			map.put("error", "0");
-			map.put("url", "/whatblog/upload/img/"+saveName+fileType);
-			userService.modifyHead("/whatblog/upload/img/"+saveName+fileType, userName);
+			map.put("url", "/"+ContextPath+"/upload/img/"+saveName+fileType);  //返回图片的地址，用于显示
+			userService.modifyHead("/"+ContextPath+"/upload/img/"+saveName+fileType, userName);  //修改数据库中的头像地址，
 			session.removeAttribute("headUrl");
-			session.setAttribute("headUrl", "/whatblog/upload/img/"+saveName+fileType);
+			session.setAttribute("headUrl", "/"+ContextPath+"/upload/img/"+saveName+fileType); //更新session
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

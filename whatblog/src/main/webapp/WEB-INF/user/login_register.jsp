@@ -45,7 +45,7 @@
 
 					<div class="login_form">
 						<form action="" name="loginform" accept-charset="utf-8"
-							id="login_form" class="loginForm" method="post">
+							id="login_form" class="loginForm" method="POST">
 							<input type="hidden" name="did" value="0" /> <input type="hidden"
 								name="to" value="log" />
 							<div class="uinArea" id="uinArea">

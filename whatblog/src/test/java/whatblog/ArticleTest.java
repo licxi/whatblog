@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.lcxjj.mapper.ArticleMapper;
+import cn.lcxjj.service.ArticleService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring-mybatis.xml" })
@@ -14,6 +15,9 @@ public class ArticleTest {
 	
 	@Autowired
 	private ArticleMapper articleMapper;
+	
+	@Autowired
+	private ArticleService articleService;
 	
 	@Test
 	public void getArticle(){
@@ -23,7 +27,7 @@ public class ArticleTest {
 	
 	@Test
 	public void getArticleAndComment(){
-		System.out.println(articleMapper.getArticleAndComment(1));
+		System.out.println(articleService.getArticleAndComment(8));
 	}
 	
 }

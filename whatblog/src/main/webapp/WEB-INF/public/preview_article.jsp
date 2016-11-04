@@ -32,7 +32,7 @@
 		</div>
 		<div class="col-md-5">
 			<div class="small text-right">
-				<a href="showArticle?article_id=${article.id }"
+				<a href="showArticle/${article.id }"
 					class="btn btn-primary">查看全文</a>
 				<button class="btn btn-danger" onclick="dArticle(${article.id})">删除</button>
 				

@@ -134,7 +134,7 @@ function getParam(pname) {
 
 var reMethod = "GET";
 var	pwdmin = 6;
-var loginUrl = "doLogin"
+var loginUrl = "doLogin";
 
 $(document).ready(function() {
 

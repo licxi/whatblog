@@ -73,8 +73,25 @@
 		 from article where id = #{article_id,jdbcType=INTEGER}
 	</select>
 	
+	<!-- ======================================================= -->
+	<!-- 获取评论测试,获取用户昵称-->
+	<resultMap type="cn.lcxjj.pojo.Comment" id="CommentDetailMap" extends="commentMap">
+		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+		<collection property="toNickname" column="to_user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+	</resultMap>
+	
+	<select id="getNickname" parameterType="java.lang.String" resultType="java.lang.String">
+		select nickname from user where user_name = #{user_name,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- ======================================================= -->
+	
 	<!-- 获取某篇文章的评论 -->
-	<select id="getArticleComments" parameterType="java.lang.Integer" resultMap="commentMap">
+	<select id="getArticleComments" parameterType="java.lang.Integer" resultMap="CommentDetailMap">
 		select id,user_name,content,time,to_user_name,article_id from comment where article_id=#{id,jdbcType=INTEGER}
 	</select>
 	

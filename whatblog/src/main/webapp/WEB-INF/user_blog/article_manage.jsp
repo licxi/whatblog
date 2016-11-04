@@ -112,6 +112,8 @@
 	
 	<!-- 文章的相关操作 -->
 	<script type="text/javascript" src="<c:url value='/js/article_op.js'/>"></script>
+	<!-- 鼠标进过时，展开下拉栏 -->
+	<script type="text/javascript" src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script>
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';

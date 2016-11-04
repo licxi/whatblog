@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <div id="wrapper">
 	<nav style="" class="navbar-default navbar-static-side-write-article">
 		<div class="sidebar-collapse">
@@ -21,13 +22,13 @@
 						<!--导航栏缩小时显示文字-->
 					</div>
 				</li>
-				<li><a href="home"><i class="fa fa-globe"></i> <span
+				<li><a href="<c:url value='/${user_name}/home'/>"><i class="fa fa-globe"></i> <span
 						class="nav-label">主页</span></a></li>
-				<li><a href="userInfo"><i class="fa fa-globe"></i> <span
+				<li><a href="<c:url value='/${user_name}/userInfo'/>"><i class="fa fa-globe"></i> <span
 						class="nav-label">个人信息</span></a></li>
-				<li><a href="writeArticle"><i class="fa fa-globe"></i> <span
+				<li><a href="<c:url value='/${user_name}/writeArticle'/>"><i class="fa fa-globe"></i> <span
 						class="nav-label">撰写文章</span></a></li>
-				<li><a href="articleManage"><i class="fa fa-globe"></i>
+				<li><a href="<c:url value='/${user_name}/articleManage'/>"><i class="fa fa-globe"></i>
 						<span class="nav-label">管理文章</span></a></li>
 				<li><a href=""><i class="fa fa-globe"></i> <span
 						class="nav-label">评论管理</span></a></li>

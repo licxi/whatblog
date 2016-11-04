@@ -151,6 +151,8 @@
 	<script src="<c:url value='/js/inspinia.js'/>"></script>
 	<!-- 进度条 -->
 	<script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>
+	<!-- 鼠标进过时，展开下拉栏 -->
+	<script type="text/javascript" src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script>
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';
