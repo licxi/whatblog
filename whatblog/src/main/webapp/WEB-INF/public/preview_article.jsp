@@ -14,7 +14,7 @@
 			</a>
 		</div>
 		<div class="col-lg-10">
-			<a href="showArticle?article_id=${article.id }" class="btn-link">
+			<a href="showArticle/${article.id }" class="btn-link">
 				<!--跳转全文-->
 				<h2>${article.articleTitle }</h2>
 			</a>
@@ -34,6 +34,8 @@
 			<div class="small text-right">
 				<a href="showArticle/${article.id }"
 					class="btn btn-primary">查看全文</a>
+				<a href="modifyArticle/${article.id }"
+					class="btn btn-primary">修改</a>
 				<button class="btn btn-danger" onclick="dArticle(${article.id})">删除</button>
 				
 				<c:if test="${article.articleType == 1 }">

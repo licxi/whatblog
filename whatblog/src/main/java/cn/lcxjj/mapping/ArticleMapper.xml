@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.lcxjj.mapper.ArticleMapper" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" ><mapper namespace="cn.lcxjj.mapper.ArticleMapper" >
   <resultMap id="BaseResultMap" type="cn.lcxjj.pojo.Article" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
@@ -58,10 +57,12 @@
 	<!-- =========================================================================== -->
 	
 	<resultMap type="cn.lcxjj.pojo.Article" id="articleComments" extends="ResultMapWithBLOBs">
+		<collection property="commentsCount" column="id" javaType="java.lang.Integer" select="commentCount"
+		ofType="java.lang.Integer"></collection> <!-- 获取文章评论数，包括回复评论的数量 -->
 		<collection property="comments" column="id" javaType="java.util.ArrayList" select="getArticleComments"
-		ofType="cn.lcxjj.pojo.Comment"></collection>
+		ofType="cn.lcxjj.pojo.Comment"></collection> <!-- 获取所有评论 -->
 		<collection property="typeName" column="type_id" javaType="java.lang.String" select="selectTypeName"
-		ofType="java.lang.String"></collection>
+		ofType="java.lang.String"></collection> <!-- 获取分类 -->
 		
 	</resultMap>
 	
@@ -74,9 +75,12 @@
 	</select>
 	
 	<!-- ======================================================= -->
-	<!-- 获取评论测试,获取用户昵称-->
+	<!-- 获取用户昵称，和头像-->
 	<resultMap type="cn.lcxjj.pojo.Comment" id="CommentDetailMap" extends="commentMap">
 		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+		<collection property="headUrl" column="user_name" javaType="java.lang.String" select="getHeadUrl"
 			ofType="java.lang.String">
 		</collection>
 		<collection property="toNickname" column="to_user_name" javaType="java.lang.String" select="getNickname"
@@ -86,6 +90,10 @@
 	
 	<select id="getNickname" parameterType="java.lang.String" resultType="java.lang.String">
 		select nickname from user where user_name = #{user_name,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getHeadUrl" parameterType="java.lang.String" resultType="java.lang.String">
+		select head_url from user where user_name = #{user_name,jdbcType=VARCHAR}
 	</select>
 	
 	<!-- ======================================================= -->

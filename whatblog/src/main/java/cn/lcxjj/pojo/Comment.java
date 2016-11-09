@@ -9,8 +9,18 @@ public class Comment {
     private String userName;
     
     private String nickname;
+    
+    private String headUrl;
 
-    private String content;
+    public String getHeadUrl() {
+		return headUrl;
+	}
+
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+	}
+
+	private String content;
 
     private Date time;
 

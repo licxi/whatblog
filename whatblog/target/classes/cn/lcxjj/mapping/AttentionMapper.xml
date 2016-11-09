@@ -13,9 +13,40 @@
 		id, user_name, attention_user_name, attention_time
 	</sql>
 
+	<resultMap id="attentionDetailMap" type="cn.lcxjj.pojo.Attention"
+		extends="BaseResultMap">
+		<collection property="nickname" column="user_name"
+			javaType="java.lang.String" select="getNickname" ofType="java.lang.String">
+		</collection>
+		<collection property="attentionNickname" column="attention_user_name"
+			javaType="java.lang.String" select="getNickname" ofType="java.lang.String">
+		</collection>
+		<collection property="headUrl" column="user_name" javaType="java.lang.String" select="getHeadUrl"
+			ofType="java.lang.String">
+		</collection>
+		<collection property="attentionHeadUrl" column="attention_user_name" javaType="java.lang.String" select="getHeadUrl"
+			ofType="java.lang.String">
+		</collection>
+	</resultMap>
+	
+	<!-- 获取用户头像地址 -->
+	<select id="getHeadUrl" parameterType="java.lang.String" resultType="java.lang.String">
+		select head_url from user where user_name = #{user_name,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="cancelAttention" parameterType="map">
+		delete attention where 
+	</delete>
+	
+	<!-- 获取用户昵称 -->
+	<select id="getNickname" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select nickname from user where user_name =
+		#{user_name,jdbcType=VARCHAR}
+	</select>
 
-	<!-- 根据用户id查找该用户关注的所有博主 -->
-	<select id="selectByUserName" resultMap="BaseResultMap"
+	<!-- 根据用户userName查找该用户关注的所有博主 -->
+	<select id="selectByUserName" resultMap="attentionDetailMap"
 		parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
@@ -36,8 +67,8 @@
 		select count(id) from attention where user_name =#{userName,jdbcType=VARCHAR}
 	</select>
 
-	<!-- 根据用户id查找所有关注他的用户 -->
-	<select id="selectByAttentionUserName" resultMap="BaseResultMap"
+	<!-- 根据用户userName查找所有关注他的用户 -->
+	<select id="selectByAttentionUserName" resultMap="attentionDetailMap"
 		parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />

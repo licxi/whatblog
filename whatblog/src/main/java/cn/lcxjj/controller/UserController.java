@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.lcxjj.pojo.User;
@@ -45,7 +46,12 @@ public class UserController {
 		//return "user_blog/blog_home";
 		//return "user_blog/user_info";
 		//return "user_blog/massage";
-		return "user_blog/follow";
+		///return "user_blog/follow";
+		//return "admin/system_manage";
+		//return "admin/modify_password";
+		//return "admin/user_manage";
+		//return "admin/article_manage";
+		return "admin/type_manage";
 	}
 	
 	@RequestMapping("toReg")
@@ -137,5 +143,62 @@ public class UserController {
 
 	}
 	
+	/**
+	 * 检查原密码是否一致
+	 * @param password
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="checkPwd")
+	public Map<String, String> checkPwd(@RequestParam("old_password") String password,HttpSession session){
+		return check(password, session);
+		
+	}
+
+	private Map<String, String> check(String password, HttpSession session) {
+		Map<String,String> map = new HashMap<String,String>();
+		String userName = (String) session.getAttribute("user_name");
+		if(userName == null){
+			map.put("errCode", "-1");
+			map.put("msg", "密码不匹配！");
+			return map;
+		}
+		User user = userService.selectByUserName(userName);
+		if(user == null){
+			map.put("errCode", "-1");
+			map.put("msg", "密码不匹配！");
+			return map;
+		} else if(user.getPassword().equals(password)){
+			map.put("errCode", "0");
+			return map;
+		} else{
+			map.put("errCode", "-1");
+			map.put("msg", "密码不匹配！");
+			return map;
+		}
+	}
 	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="modifyPwd")
+	public Map<String, String> modifyPwd(@RequestParam("old_password") String old_password,@RequestParam("new_password") String new_password,HttpSession session){
+		Map<String ,String> check = check(old_password, session);
+		if(check.get("errCode").equals("0")){
+			String userName = (String) session.getAttribute("user_name");
+			int result = userService.modifyPwd(userName, new_password);
+			if(result>0){
+				check.put("errCode", "0");
+				check.put("msg", "修改成功！");
+			}else{
+				check.put("errCode", "-1");
+				check.put("msg", "修改失败！");
+			}
+		}else{
+			check.put("errCode", "-1");
+			check.put("msg", "修改失败！");
+		}
+		return check;
+	}
 }

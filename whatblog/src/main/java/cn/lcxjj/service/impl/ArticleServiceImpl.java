@@ -1,6 +1,7 @@
 package cn.lcxjj.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	
+	
+	
 
 	@Override
 	public int userArticleCount(String userName) {
@@ -33,7 +38,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public int saveArticle(Article article) {
-		return articleMapper.insertSelective(article);
+		if(article.getId() == null){
+			return articleMapper.insertSelective(article);  //新增文章
+		} else{
+			article.setCreateTime(new Date());  //更新时间
+			return articleMapper.updateByPrimaryKeySelective(article); //修改文章
+		}
+		
 	}
 
 	@Override
@@ -41,6 +52,7 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleMapper.getUserAllArticle(userName);
 	}
 
+	
 	@Override
 	public Article getArticleAndComment(int article_id) {
 		Article article = articleMapper.getArticleAndComment(article_id);
@@ -88,7 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(Article article) {
+	public int modifyArticleType(Article article) {
 		if (article == null) {
 			return 0;
 		}
@@ -101,4 +113,14 @@ public class ArticleServiceImpl implements ArticleService {
 		int result = articleMapper.updateByPrimaryKeySelective(article);
 		return result;
 	}
+
+	@Override
+	public Article selectByPrimaryKey(Integer id) {
+		return articleMapper.selectByPrimaryKey(id);
+	}
+
+	/*@Override
+	public int modifyArticle(Article article) {
+		return articleMapper.updateByPrimaryKeySelective(article);
+	}*/
 }

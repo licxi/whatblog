@@ -11,6 +11,14 @@
 <meta name="viewport"
 	content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 <title>用户的博客</title>
+<style type="text/css">
+.body{
+	overflow: auto !important;
+}
+.model{
+	overflow: auto !important;
+}
+</style>
 </head>
 <body>
 	<c:import url="../public/navbar.jsp"></c:import>

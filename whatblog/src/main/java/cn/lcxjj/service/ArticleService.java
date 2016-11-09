@@ -5,6 +5,14 @@ import java.util.List;
 import cn.lcxjj.pojo.Article;
 
 public interface ArticleService {
+	
+	
+	/**
+     * 获取一篇文章的内容
+     * @param id
+     * @return
+     */
+    Article selectByPrimaryKey(Integer id);
 	/**
 	 * 获取用户的文章数量
 	 * @param userName
@@ -48,9 +56,11 @@ public interface ArticleService {
     boolean deleteByPrimaryKey(String userName,Integer id);
     
     /**
-     * 将有值得属性更新
+     * 修改文章是否公开，当公开时修改成非公开，当非公开时修改成公开
      * @param article
      * @return
      */
-    int updateByPrimaryKeySelective(Article article);
+    int modifyArticleType(Article article);
+    
+   /* int modifyArticle(Article article);*/
 }

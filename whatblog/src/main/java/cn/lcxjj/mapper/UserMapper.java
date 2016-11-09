@@ -19,6 +19,13 @@ public interface UserMapper {
 	 * @return
 	 */
     int deleteByPrimaryKey(Integer id);
+    
+    /**
+     * 修改密码
+     * @param map
+     * @return
+     */
+    int modifyPwd(Map<String, String> map);
 
     /**
      * 插入一条信息，所有字段都要有值

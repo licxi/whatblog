@@ -17,6 +17,11 @@ public interface ArticleMapper {
 
     int insertSelective(Article article);
 
+    /**
+     * 获取一篇文章的内容
+     * @param id
+     * @return 
+     */
     Article selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Article article);

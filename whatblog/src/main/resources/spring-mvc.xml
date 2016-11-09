@@ -74,6 +74,7 @@
 			<mvc:exclude-mapping path="/ueditor/**"/>
 			<mvc:exclude-mapping path="/font-awesome/**"/>
 			<mvc:exclude-mapping path="/upload/**"/>
+			<mvc:exclude-mapping path="/admin/**"/>
 			<bean class="cn.lcxjj.interceptor.IsLoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> 

@@ -28,7 +28,7 @@
 						<div class="col-lg-3 ">
 							<div class="ibox float-e-margins myshadow">
 								<div class="ibox-title">
-									<h5>关注你人数</h5>
+									<a href="<c:url value='/${user_name}/attentionManage'/>"><h5>关注你人数</h5></a>
 								</div>
 								<div class="ibox-content">
 									<h1 class="no-margins">${attentionCount }</h1>
@@ -38,7 +38,7 @@
 						<div class="col-lg-3">
 							<div class="ibox float-e-margins myshadow">
 								<div class="ibox-title">
-									<h5>文章数量</h5>
+									<a href="<c:url value='/${user_name}/articleManage'/>"><h5>文章数量</h5></a>
 								</div>
 								<div class="ibox-content">
 									<h1 class="no-margins">${articleCount }</h1>
@@ -48,7 +48,7 @@
 						<div class="col-lg-3 ">
 							<div class="ibox float-e-margins myshadow">
 								<div class="ibox-title">
-									<h5>留言数量</h5>
+									<a href="<c:url value='/${user_name}/messageManage'/>"><h5>留言数量</h5></a>
 								</div>
 								<div class="ibox-content">
 									<h1 class="no-margins">${messageCount }</h1>
@@ -110,7 +110,10 @@
 	<script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/js/article_op.js'/>"></script>
 	<!-- 鼠标进过时，展开下拉栏 -->
-<script type="text/javascript" src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script>
+ <script type="text/javascript" src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script> 
+	<!-- 留言 -->
+		<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+	
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';

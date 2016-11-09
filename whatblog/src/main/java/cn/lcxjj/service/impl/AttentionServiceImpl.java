@@ -34,6 +34,11 @@ public class AttentionServiceImpl implements AttentionService {
 	public List<Attention> selectByAttentionUserName(String attentionUserName) {
 		return attentionMapper.selectByAttentionUserName(attentionUserName);
 	}
+
+	@Override
+	public int deleteByPrimaryKey(Integer id) {
+		return attentionMapper.deleteByPrimaryKey(id);
+	}
 	
 	
 }

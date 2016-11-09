@@ -16,7 +16,7 @@
 	<c:if test="${type == 0 }">用户注册</c:if>
 </title>
 </head>
-<body>
+<body onkeydown="login()">
 	<h1>欢迎使用WhatBlog</h1>
 
 	<div class="login" style="margin-top: 50px;">

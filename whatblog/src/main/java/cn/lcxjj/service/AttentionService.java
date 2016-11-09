@@ -10,6 +10,13 @@ import cn.lcxjj.pojo.Attention;
  *
  */
 public interface AttentionService {
+	
+	/**
+	 * 删除一条关注记录
+	 * @param id
+	 * @return
+	 */
+    int deleteByPrimaryKey(Integer id);
 	/**
      * 获取有多少个人关注博
      * @param attentionUserName

@@ -45,7 +45,7 @@
       	  <ul class="dropdown-menu">
       	  	<li><a class="btn" href="${user_name }/home" style="text-align: left;">我的博客</a></li>
       	  	<li><a class="btn" href="${user_name }/writeArticle" style="text-align: left;">写文章</a></li>
-      	    <li><a class="btn" href="#" style="text-align: left;">修改密码</a></li>
+      	    <!-- <li><a class="btn" href="#" style="text-align: left;">修改密码</a></li> -->
       	    <li><a class="btn" href="${user_name }/userInfo" style="text-align: left;">修改资料</a></li>
       	    <li role="separator" class="divider"></li>
       	    <li><a href="user/logout">退出</a></li>

@@ -79,7 +79,7 @@ public class UtilController {
 		try {
 			file.transferTo(uploadFile); //将来要将路径保存到数据库中
 			map.put("error", "0");
-			map.put("url", "/"+ContextPath+"/upload/img/"+saveName+fileType);
+			map.put("url", ContextPath+"/upload/img/"+saveName+fileType);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,5 +1,7 @@
 package cn.lcxjj.service;
 
+import java.util.Map;
+
 import cn.lcxjj.pojo.User;
 
 public interface UserService {
@@ -26,6 +28,13 @@ public interface UserService {
 	 * @return
 	 */
 	boolean register(User user);
+	
+	/**
+     * 修改密码
+     * @param map
+     * @return
+     */
+    int modifyPwd(String userName, String password);
 	
 	boolean modifyUserInfoById(User user);
 	

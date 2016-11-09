@@ -29,21 +29,24 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-		<input type="file" id="imgUpl" name="imgUpl"
-					onchange="fileSelectd()" style="display: none;" />
+			<input type="file" id="imgUpl" name="imgUpl" onchange="fileSelectd()"
+				style="display: none;" />
 			<div class="ibox">
 				<div class="ibox-content">
 					<div style="text-align: center; padding-top: 0px;">
-						<form class="form-horizontal" role="form" id="form" method="post" action="saveArticle" onsubmit="return checkSubmit()">
-							<input type="hidden" value="${userName }" name="userName"/>
-							
+						<form class="form-horizontal" role="form" id="form" method="post"
+							action="<c:url value='/${userName }/saveArticle'/>"
+							onsubmit="return checkSubmit()">
+							<input type="hidden" value="${userName }" name="userName" /> <input
+								type="hidden" value="${id }" name="id">
 							<div class="form-group">
 								<label style="font-size: 18px">标题</label>
 							</div>
 							<div class="form-group ">
 								<div class="col-sm-offset-1 col-sm-10">
-									<input type="text" class="form-control" id="articleTitle" name="articleTitle"
-										placeholder="最多30个字符" value="${article.articleTitle }">
+									<input type="text" class="form-control" id="articleTitle"
+										name="articleTitle" placeholder="最多30个字符"
+										value="${article.articleTitle }">
 								</div>
 							</div>
 
@@ -52,8 +55,9 @@
 							</div>
 							<div class="form-group ">
 								<div class="col-sm-offset-1 col-sm-10">
-									<input type="text" class="form-control" id="articleSummary" 
-										name="articleSummary" value="${article.articleSummary }" placeholder="最多一百个字符">
+									<input type="text" class="form-control" id="articleSummary"
+										name="articleSummary" value="${article.articleSummary }"
+										placeholder="最多一百个字符">
 								</div>
 							</div>
 
@@ -73,23 +77,12 @@
 							<div class="form-group ">
 								<div class="col-sm-offset-1 col-sm-10">
 									<div class="radio" align="left">
-										<!-- <label> <input type="radio" value="" name="type"
-											id="math"> 数学世界&nbsp;&nbsp;
-										</label> <label> <input type="radio" value="" name="type"
-											id="internet"> 移动开发&nbsp;&nbsp;
-										</label> <label> <input type="radio" value="" name="type"
-											id="hardware"> 硬件设计&nbsp;&nbsp;
-										</label> <label> <input type="radio" value="" name="type"
-											id="math"> 编程语言&nbsp;&nbsp;
-										</label> <label> <input type="radio" value="" name="type"
-											id="math"> 运营管理&nbsp;&nbsp;
-										</label> <label> <input type="radio" value="" name="type"
-											id="math" checked> 其他
-										</label> -->
 										<c:if test="${types != null }">
 											<c:forEach items="${types }" var="type">
-												<label> <input type="radio" value="${type.id }" name="typeId" <c:if test="${type.id == typeId }">checked</c:if>
-											id="typeId">${type.typeName }&nbsp;&nbsp;</label>
+												<label data-toggle="tooltip" data-placement="top" title="${type.typeDesc }"> <input type="radio" value="${type.id }"
+													name="typeId"
+													<c:if test="${type.id == article.typeId }">checked</c:if>
+													id="typeId">${type.typeName }&nbsp;&nbsp;</label>
 											</c:forEach>
 										</c:if>
 									</div>
@@ -101,20 +94,23 @@
 							</div>
 							<div align="left" class="form-group">
 								<div class="col-sm-offset-1 col-sm-10">
-									<script id="container1" name="articleContent" type="text/plain" ></script>
+									<script id="container1" name="articleContent" type="text/plain">${article.articleContent}</script>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label style="font-size: 18px">图片展示</label>
 							</div>
 							<div class="form-group ">
-								<input type="text"  <c:if test="${article.showImage == null }">value="/whatblog/img/logo.png"</c:if>
-									<c:if test="${article.showImage != null }">value="${showImage }"</c:if>  
-									id="showImage" name="showImage" style="display: none;"/>
-								<img alt="展示图片" src="/whatblog/img/logo.png" id="showimg" style="width: 120px;height: 120px;">
-								<br><br>
-								<a class="btn btn-primary" id="openFile" class="img">更换图片</a>
+								<input type="text"
+									<c:if test="${article.showImage == null }">value="/whatblog/img/logo.png"</c:if>
+									<c:if test="${article.showImage != null }">value="${article.showImage }"</c:if>
+									id="showImage" name="showImage" style="display: none;" /> <img
+									alt="展示图片"
+									<c:if test="${article.showImage == null }">src="/whatblog/img/logo.png"</c:if>
+									<c:if test="${article.showImage != null }">src="${article.showImage }"</c:if>
+									id="showimg" style="width: 120px; height: 120px;"> <br>
+								<br> <a class="btn btn-primary" id="openFile" class="img">更换图片</a>
 							</div>
 
 							<div class="form-group">
@@ -123,34 +119,38 @@
 									<label for="radio" class="col-sm-4 control-labell">是否公开</label>
 									<div style="padding-top: 0px;" class="radio col-sm-4">
 										<c:if test="${article.articleType == null }">
-											<label> <input type="radio" value="1" name="articleType"
-											id="articleType" checked> 是
-										</label> <label> <input type="radio" value="0" name="articleType"
-											id="articleType"> 否
-										</label>
+											<label> <input type="radio" value="1"
+												name="articleType" id="articleType" checked> 是
+											</label>
+											<label> <input type="radio" value="0"
+												name="articleType" id="articleType"> 否
+											</label>
 										</c:if>
 										<c:if test="${article.articleType == 1 }">
-											<label> <input type="radio" value="1" name="articleType"
-											id="articleType" checked> 是
-										</label> <label> <input type="radio" value="0" name="articleType"
-											id="articleType"> 否
-										</label>
+											<label> <input type="radio" value="1"
+												name="articleType" id="articleType" checked> 是
+											</label>
+											<label> <input type="radio" value="0"
+												name="articleType" id="articleType"> 否
+											</label>
 										</c:if>
 										<c:if test="${article.articleType == 0 }">
-											<label> <input type="radio" value="1" name="articleType"
-											id="articleType" > 是
-										</label> <label> <input type="radio" value="0" name="articleType"
-											id="articleType" checked> 否
-										</label>
+											<label> <input type="radio" value="1"
+												name="articleType" id="articleType"> 是
+											</label>
+											<label> <input type="radio" value="0"
+												name="articleType" id="articleType" checked> 否
+											</label>
 										</c:if>
-										
+
 									</div>
 
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="">
-									<a class="btn btn-default" href="#">取消</a>
+									<a class="btn btn-default"
+										href="<c:url value='/${user_name}/articleManage'/>">取消</a>
 									<button type="submit" id="submit" class="btn btn-info">提交</button>
 								</div>
 							</div>
@@ -184,15 +184,19 @@
 	<!-- 进度条 -->
 	<script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>
 	<!-- 鼠标进过时，展开下拉栏 -->
-<script type="text/javascript" src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script>
+	<script type="text/javascript"
+		src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script>
 
 	<script type="text/javascript"
 		src="<c:url value='/ueditor/ueditor.config.js'/>"></script>
 	<script type="text/javascript"
 		src="<c:url value='/ueditor/ueditor.all.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/js/ajaxfileupload.js'/>"></script>
+	<script type="text/javascript"
+		src="<c:url value='/js/ajaxfileupload.js'/>"></script>
 	<script src="<c:url value='/js/upload_img.js'/>"></script>
 	<script src="<c:url value='/js/article_validata.js'/>"></script>
+	<!-- 留言 -->
+	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 
 
 	<script type="text/javascript">
@@ -266,7 +270,7 @@
 			/* 设置高度 */
 			initialFrameWidth : '100%' /* 设置宽度 *///占屏幕的一半
 		});
-		ue.setContent(${articleContent });
+		//ue.setContent(${articleContent });
 	</script>
 
 	<script>

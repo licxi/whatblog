@@ -5,6 +5,12 @@ import java.util.List;
 import cn.lcxjj.pojo.Attention;
 
 public interface AttentionMapper {
+	
+	/**
+	 * 删除一条关注记录
+	 * @param id
+	 * @return
+	 */
     int deleteByPrimaryKey(Integer id);
 
     int insert(Attention attention);

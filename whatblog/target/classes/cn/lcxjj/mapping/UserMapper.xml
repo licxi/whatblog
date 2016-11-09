@@ -29,6 +29,10 @@
   	from user where user_name= #{username,jdbcType=VARCHAR}
   </select>
   
+  <update id="modifyPwd" parameterType="map">
+  	update user set password = #{password,jdbcType=CHAR} where user_name = #{userName,jdbcType=VARCHAR}
+  </update>
+  
   <update id="modifyHead" parameterType="java.util.Map">
   	update user set head_url=#{headUrl,jdbcType=CHAR} where user_name = #{userName,jdbcType=VARCHAR}
   </update>

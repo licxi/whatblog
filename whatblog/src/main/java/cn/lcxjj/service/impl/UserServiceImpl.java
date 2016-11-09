@@ -62,8 +62,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int modifyHead(String headUrl, String userName) {
 		Map<String,String> map = new HashMap<String,String>();
+		System.out.println("保存的地址："+headUrl);
 		map.put("headUrl", headUrl);
 		map.put("userName", userName);
 		return userMapper.modifyHead(map);
+	}
+
+
+	@Override
+	public int modifyPwd(String userName, String password) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("password", password);
+		map.put("userName", userName);
+		return userMapper.modifyPwd(map);
 	}
 }

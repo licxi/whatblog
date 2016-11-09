@@ -136,6 +136,14 @@ var reMethod = "GET";
 var	pwdmin = 6;
 var loginUrl = "doLogin";
 
+function login() {
+	if(event.keyCode == 13){
+		if($("#qlogin").css("display") == "none"){
+			$("#login").click();
+		}
+	}
+}
+
 $(document).ready(function() {
 
 	$("#login").click(function(){

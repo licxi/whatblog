@@ -32,7 +32,7 @@
 						<input type="hidden" name="id" value="${user.id }">
 						<div class="form-group ">
 						
-							<div class="col-sm-offset-4 col-sm-6 avatar"
+							<div class="col-sm-offset-4 col-sm-12"
 								style="padding-left: 0px;">
 								<%-- <a style="background: url('${user.headUrl}');"
 									id="openFile" class="img"> <!--<img alt="" title="点我更换头像" src="/whatblog/img/logo.png" 
@@ -44,8 +44,8 @@
 						      	style="border-radius: 50%;width: 145px;height: 145px;"
 						      		id="openFile" class="img" >
 							</div>
-							<div style="margin-top: 60px" id="modify_head_tip">
-								<span>点击图片更换头像</span>
+							<div class="col-sm-offset-4" style="margin-top: 60px" id="modify_head_tip">
+								<span>提示：点击图片更换头像</span>
 							</div>
 						</div>
 						<input type="hidden" name="headUrl" value="${headUrl }" id="headUrl" >
@@ -153,8 +153,10 @@
 
 							<div class="col-sm-6" style="margin-left: 38%;">
 								<button type="button" id="modify" class="btn btn-default">修改</button>
-								<a type="button" id="cancel" class="btn btn-default" href="userInfo"
-									style="display: none">取消</a>
+								<!-- <a type="button" id="cancel" class="btn btn-default" href="userInfo"
+									style="display: none">取消</a> -->
+									<button type="reset" id="cancel" class="btn btn-default" href="userInfo"
+									style="display: none">取消</button>
 								<button type="submit" id="submit" class="btn btn-primary"
 									style="display: none">提交</button>
 							</div>
@@ -186,6 +188,9 @@
 	<script type="text/javascript" src="<c:url value='/js/user_info.js'/>"></script>
 	<!-- 鼠标进过时，展开下拉栏 -->
 <script type="text/javascript" src="<c:url value='/js/bootstrap-hover-dropdown.js'/>"></script>
+	
+	<!-- 留言 -->
+		<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 	<script>
 			var s_url = window.location.pathname;
 			var now_url = '';
