@@ -20,4 +20,38 @@ public class TypeServiceImpl implements TypeService {
 		return typeMapper.selectAll();
 	}
 
+	@Override
+	public int deleteByPrimaryKey(Integer id) {
+		return typeMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public int insert(Type type) {
+		if(type == null){
+			return -1;
+		}
+		return typeMapper.insert(type);
+	}
+
+	@Override
+	public int insertSelective(Type type) {
+		if(type == null){
+			return -1;
+		}
+		return typeMapper.insertSelective(type);
+	}
+
+	@Override
+	public Type selectByPrimaryKey(Integer id) {
+		return typeMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Type type) {
+		if(type == null){
+			return -1;
+		}
+		return typeMapper.updateByPrimaryKeySelective(type);
+	}
+
 }

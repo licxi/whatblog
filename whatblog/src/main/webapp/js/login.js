@@ -36,7 +36,17 @@ function logintab(){
 
 function checkUserName(){
     var userName = $("#userName");
-    if ( userName.val() == "") { //判断学号是否为空或者空格？
+    if(isChineseChar(userName.val())){
+		userName.focus();
+		$('#userCue').html("<font color='red'><b>×用户名不能有非法字符</b></font>");
+		$("#reg_password").attr("readOnly",true);
+        $("#reg_repassword").attr("readOnly",true);
+        $("#qq").attr("readOnly",true);
+        $("#nickname").attr("readOnly",true);
+        $('#reg').attr("disabled",true);
+		return false;
+	}
+    if ( userName.val().trim() == "") { //判断学号是否为空或者空格？
       $('#userCue').html("<font color='red'><b>用户名不能空</b></font>");
       $("#reg_password").attr("readOnly",false);
       $("#reg_repassword").attr("readOnly",false);
@@ -149,19 +159,19 @@ $(document).ready(function() {
 	$("#login").click(function(){
 		var username = $("#username");
 		var password = $("#password");
-		if(username.val() == ""){
+		if(username.val().trim() == ""){
 			alert("用户名不能为空");
 			username.focus();
 			return false;
 		}
-		if(password.val() == ""){
+		if(password.val().trim() == ""){
 			alert("密码不能为空");
 			password.focus();
 			return false;
 		}
 		jQuery.post(loginUrl, {
-			username : username.val(),
-			password : password.val()
+			username : username.val().trim(),
+			password : $.md5(password.val().trim())
 		}, function(data) {
 			if (data.code == 'ok') {
 				 //alert('登录成功！');
@@ -175,24 +185,29 @@ $(document).ready(function() {
 	});
 	
 	$('#reg').click(function() {
-		var userNmae = $('#userName');
+		var userName = $('#userName');
 		var password = $("#reg_password");
 		var repassword = $("#reg_repassword");
 		var nickname = $("#nickname");
-		if (userNmae.val() == "") {
-			userNmae.focus();
+		if(isChineseChar(userName.val())){
+			userName.focus();
+			$('#userCue').html("<font color='red'><b>×用户名不能有非法字符</b></font>");
+			return false;
+		}
+		if (userName.val().trim() == "") {
+			userName.focus();
 			$('#userCue').html("<font color='red'><b>×用户名不能为空</b></font>");
 			return false;
 		}
 
-		if (userNmae.val().length < 8 || userNmae.val().length > 16) {
+		if (userName.val().trim().length < 8 || userName.val().length > 16) {
 
-			userNmae.focus();
+			userName.focus();
 			$('#userCue').html("<font color='red'><b>×用户名只能8-16字符</b></font>");
 			return false;
 
 		}
-		if (password.val().length < pwdmin) {
+		if (password.val().trim().length < pwdmin) {
 			password.focus();
 			$('#userCue').html("<font color='red'><b>×密码不能小于" + pwdmin + "位</b></font>");
 			$('#reg').attr("disabled",true);
@@ -243,3 +258,9 @@ $(document).ready(function() {
 	
 
 });
+
+//判断是否包含中文
+function isChineseChar(str){
+	   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+	   return reg.test(str);
+	}

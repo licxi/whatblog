@@ -33,7 +33,7 @@
               <span > 确认密码
               </span>
             </span>
-            <input id ="new_password" name="new_password" class="form-control" type="password"/>
+            <input id ="re_password" name="re_password" class="form-control" type="password"/>
           </div>
       </div>
       <div class="modal-footer">

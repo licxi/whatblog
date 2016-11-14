@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcxjj.mapper.AdminMapper" >
+  <resultMap id="BaseResultMap" type="cn.lcxjj.pojo.Admin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin_account" property="adminAccount" jdbcType="CHAR" />
+    <result column="admin_name" property="adminName" jdbcType="VARCHAR" />
+    <result column="admin_password" property="adminPassword" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, admin_account, admin_name, admin_password
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByAdminAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where admin_account = #{adminAccount,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.lcxjj.pojo.Admin" >
+    insert into admin (id, admin_account, admin_name, 
+      admin_password)
+    values (#{id,jdbcType=INTEGER}, #{adminAccount,jdbcType=CHAR}, #{adminName,jdbcType=VARCHAR}, 
+      #{adminPassword,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.lcxjj.pojo.Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="adminAccount != null" >
+        admin_account,
+      </if>
+      <if test="adminName != null" >
+        admin_name,
+      </if>
+      <if test="adminPassword != null" >
+        admin_password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="adminAccount != null" >
+        #{adminAccount,jdbcType=CHAR},
+      </if>
+      <if test="adminName != null" >
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null" >
+        #{adminPassword,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcxjj.pojo.Admin" >
+    update admin
+    <set >
+      <if test="adminAccount != null" >
+        admin_account = #{adminAccount,jdbcType=CHAR},
+      </if>
+      <if test="adminName != null" >
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null" >
+        admin_password = #{adminPassword,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="modifyPassword" parameterType="map" >
+    update admin
+    set 
+      admin_password = #{adminPassword,jdbcType=CHAR}
+    where admin_account = #{adminAccount,jdbcType=CHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="cn.lcxjj.pojo.Admin" >
+    update admin
+    set admin_account = #{adminAccount,jdbcType=CHAR},
+      admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

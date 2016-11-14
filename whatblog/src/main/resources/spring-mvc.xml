@@ -75,7 +75,18 @@
 			<mvc:exclude-mapping path="/font-awesome/**"/>
 			<mvc:exclude-mapping path="/upload/**"/>
 			<mvc:exclude-mapping path="/admin/**"/>
+			<mvc:exclude-mapping path="/fonts/**"/>
 			<bean class="cn.lcxjj.interceptor.IsLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<!-- 拦截后台相关操作 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"/>
+			<mvc:exclude-mapping path="/admin/toLogin"/>
+			<mvc:exclude-mapping path="/admin/login"/>
+			<mvc:exclude-mapping path="/admin"/>
+			<mvc:exclude-mapping path="/admin/checkPwd"/>
+			<mvc:exclude-mapping path="/admin/modifyPwd"/>
+			<bean class="cn.lcxjj.interceptor.AdminIsLoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> 
 	

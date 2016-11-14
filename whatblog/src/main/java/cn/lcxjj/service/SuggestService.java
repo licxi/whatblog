@@ -10,5 +10,11 @@ public interface SuggestService {
 	 * @return
 	 */
 	int savaSuggest(Suggest suggest);
+	
+	/**
+	 * 用户提交的建议数
+	 * @return
+	 */
+	int suggestCount();
 
 }

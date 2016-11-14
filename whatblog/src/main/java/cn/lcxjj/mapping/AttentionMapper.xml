@@ -34,6 +34,23 @@
 		select head_url from user where user_name = #{user_name,jdbcType=VARCHAR}
 	</select>
 	
+	<resultMap id="attentionCountMap" type="cn.lcxjj.pojo.HostUser">
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="attention_count" property="attentionCount"></result>
+		<collection property="nickname" column="user_name"
+			javaType="java.lang.String" select="getNickname" ofType="java.lang.String">
+		</collection>
+	</resultMap>
+	
+	<!-- 获取热门博主 -->
+	<select id="selectHostUser" resultMap="attentionCountMap">
+		SELECT `attention_user_name` as user_name, count('user_name') as attention_count
+		FROM `attention`
+		group by `attention_user_name`
+		order by attention_count desc
+		limit 0,10
+	</select>
+	
 	<delete id="cancelAttention" parameterType="map">
 		delete attention where 
 	</delete>

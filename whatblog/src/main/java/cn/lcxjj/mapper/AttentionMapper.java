@@ -3,8 +3,15 @@ package cn.lcxjj.mapper;
 import java.util.List;
 
 import cn.lcxjj.pojo.Attention;
+import cn.lcxjj.pojo.HostUser;
 
 public interface AttentionMapper {
+	
+	/**
+     * 获取十个热门博主
+     * @return
+     */
+    List<HostUser> selectHostUser();
 	
 	/**
 	 * 删除一条关注记录

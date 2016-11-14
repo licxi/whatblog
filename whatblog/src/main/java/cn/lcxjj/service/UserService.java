@@ -1,10 +1,16 @@
 package cn.lcxjj.service;
 
-import java.util.Map;
+import java.util.List;
 
 import cn.lcxjj.pojo.User;
 
 public interface UserService {
+	/**
+	 * 会员总数
+	 * @return
+	 */
+	int usersCount();
+	
 	/**
 	 * 检查用户信息，判断是否能登录
 	 * @return 返回检查结果：
@@ -52,4 +58,42 @@ public interface UserService {
      * @return
      */
     int modifyHead(String headUrl,String userName);
+    
+    /**
+     * 获取全部的会员
+     * @return
+     */
+    List<User> selectAll();
+    
+    /**增加会员积分
+     * 
+     */
+    int addMark(String userName,Integer mark);
+    
+    /**
+     * 获取用户是否被禁
+     * @param userName
+     * @return 0 未禁        1 为被禁
+     */
+    Short getIsLock(String userName);
+    
+    /**
+     * 修改用户状态，当被禁时，修改为启用，当启用时，修改为被禁
+     */
+    
+    int modifyIsLock(String userName);
+    
+    /**
+	 * 根据id删除用户信息
+	 * @param id
+	 * @return
+	 */
+    int deleteByUserId(Integer id);
+    
+    /**
+     * 根据用户名/昵称/手机号/邮箱/qq查询用户
+     * @param search
+     * @return
+     */
+    List<User> searchUser(String search,boolean isLock);
 }

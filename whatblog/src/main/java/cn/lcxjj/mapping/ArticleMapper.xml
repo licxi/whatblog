@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" ><mapper namespace="cn.lcxjj.mapper.ArticleMapper" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcxjj.mapper.ArticleMapper">
   <resultMap id="BaseResultMap" type="cn.lcxjj.pojo.Article" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
@@ -14,6 +15,31 @@
     <result column="show_image" property="showImage" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap id="ResultMapWithBLOBs" type="cn.lcxjj.pojo.Article" extends="BaseResultMap" >
+    <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <select id="searchArticle" parameterType="map" resultMap="articleMapAndCommentCount">
+  	select 
+    <include refid="Base_Column_List" />
+    from article
+    <where>
+    	<if test="articleIsLock == true">
+    		article_support=1
+    	</if>
+    	<if test="articleUp == true">
+    		and article_up=1
+    	</if>
+    	<if test="search != null">
+    		and article_title like CONCAT('%',#{search},'%')
+    	</if>
+    </where>
+    <if test="hostArticle == true">
+    	order by article_click desc,create_time desc
+    </if>
+  </select>
+  
+  
   <resultMap id="commentMap" type="cn.lcxjj.pojo.Comment" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
@@ -23,9 +49,7 @@
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="cn.lcxjj.pojo.Article" extends="BaseResultMap" >
-    <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
-  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, article_title, create_time, article_click, user_name, type_id, article_type, 
     article_summary, article_up, article_support, show_image
@@ -39,6 +63,9 @@
 		<!-- <collection property="postList" column="id" javaType="java.util.ArrayList" select="getUserPost"
 		ofType="cn.lcxjj.pojo.Post">
 		</collection>  -->
+		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
 		<collection property="commentsCount" column="id" javaType="java.lang.Integer" select="commentCount"
 		ofType="java.lang.Integer"></collection>
 		<collection property="typeName" column="type_id" javaType="java.lang.String" select="selectTypeName"
@@ -104,6 +131,7 @@
 	</select>
 	
 	
+	
 	<!-- 获取文章的分类 -->
   <select id="selectTypeName" parameterType="java.lang.Integer" resultType="java.lang.String">
   	select type_name from type where id = #{type_id,jdbcType=INTEGER}
@@ -119,6 +147,24 @@
   	select count(*) from article where user_name=#{userName,jdbcType=VARCHAR}
   </select>
   
+  <select id="articlesCount" resultType="java.lang.Integer">
+  	select count(*) from article
+  </select>
+  
+  
+  <select id="findAriclePropertyByArticleId" parameterType="java.lang.Integer" resultType="map">
+    select article_up as articleUp,article_support as articleLock from article where id=#{articleId,jdbcType=INTEGER}
+  </select>
+  
+  <update id="modifyArticleUp" parameterType="map">
+  	update article set article_up = #{articleUp,jdbcType=INTEGER} where id=#{articleId,jdbcType=INTEGER}
+  </update>
+  <update id="modifyArticleLock" parameterType="map">
+  	update article set article_support = #{articleLock,jdbcType=INTEGER} where id=#{articleId,jdbcType=INTEGER}
+  </update>
+  
+  
+  
   <!-- 获取博主十条热门文章，相对他自己的文章来说 -->
   <select id="selectHostArticleByUserName" resultMap="articleMapAndCommentCount" parameterType="java.lang.String" >
     select 
@@ -130,6 +176,25 @@
     order by article_click desc,create_time desc
     limit 0,10
   </select>
+  
+  <resultMap type="cn.lcxjj.pojo.Article" id="hostArticleDetailMap" extends="BaseResultMap">
+		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+		
+	</resultMap>
+  
+  <!-- 获取十条热门文章(根据点击数) -->
+  <select id="selectHostArticle" resultMap="hostArticleDetailMap" parameterType="map">
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    order by article_click desc,create_time desc
+    <if test="start != null and size != null">
+    limit #{start,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+    </if>
+  </select>
+  
   
   
   

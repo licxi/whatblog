@@ -8,7 +8,7 @@
 <!-- 引入css文件 -->
 <c:import url="../public/admin_common_css.jsp"></c:import>
 <link href="<c:url value='/css/fileinput.css'/>" media="all"
-	rel="stylesheet" type="text/css" />
+	rel="stylesheet" type="text/css" /> 
 <title>文章分类管理</title>
 <style>
 th {
@@ -16,9 +16,12 @@ th {
 }
 
 td {
-	text-align: center;
+	text-align: center;	
 }
 
+.opra{
+padding:2px 6px;
+}
 .col-my-1 {
 	width: 8.6%;
 	float: left;
@@ -51,15 +54,15 @@ td {
 						<label>添加分类:</label>
 					</div>
 					<div class="col-lg-4">
-						<input class="form-control" type="text" name="typeName"
+						<input class="form-control" type="text" name="typeName" id="typeName"
 							placeholder="分类名称">
 					</div>
 					<div class="col-lg-4">
-						<input class="form-control" type="text" name="typeDesc"
+						<input class="form-control" type="text" name="typeDesc" id="typeDesc"
 							placeholder="分类描述">
 					</div>
 					<div class="col-lg-2">
-						<input class="btn btn-primary" type="button" value="添加">
+						<input class="btn btn-primary" type="button" value="添加" id="addType">
 					</div>
 				</div>
 				<div class="ibox-content">
@@ -68,43 +71,49 @@ td {
 						class="table table-striped table-bordered table-hover dataTables-example">
 						<thead>
 							<tr>
-								<th>分类名称</th>
-								<th>分类描述</th>
-								<th>操作</th>
+								<th style="width: 30%">分类名称</th>
+								<th style="width: 40%">分类描述</th>
+								<th style="width: 30%">操作</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="gradeU">
-								<td>移动互联网</td>
-								<td>关于移动互联网的开发知识</td>
-								<td>
-									<button class="btn btn-info">修改</button> 
-									<button onclick="" class="btn btn-danger"> 删除</button>
-								</td>
+							<c:set var="types" value="${pages.list }"/>
+							<c:if test="${types != null && types.size() != 0 }">
+								<c:forEach items="${types }" var="type">
+									<tr class="gradeU" id="type${type.id }">
+										<td id="typeName${type.id }">${type.typeName}</td>
+										<td id="typeDesc${type.id }">${type.typeDesc}</td>
+										<td>
+											<a class="btn btn-info opra" onclick="modifyType(${type.id},'${type.typeName }','${type.typeDesc }')">修改</a>
+											<button onclick="deleteType(${type.id})" class="btn btn-danger opra">删除</button>
+										</td>
 
-							</tr>
-							<tr class="gradeU">
-								<td>移动互联网</td>
-								<td>关于移动互联网的开发知识</td>
-								<td><button href="" class="btn  btn-info">修改</button> <button
-									href="" onclick="" class="btn  btn-danger"> 删除</button></td>
-
-							</tr>
-							<tr class="gradeU">
-								<td>移动互联网</td>
-								<td>关于移动互联网的开发知识</td>
-								<td><button href="" class="btn  btn-info">修改</button> <button
-									href="" onclick="" class="btn  btn-danger"> 删除</button></td>
-
-							</tr>
-
-
-
+									</tr>
+								</c:forEach>
+							</c:if>
 						</tbody>
 
 					</table>
+					<div style="text-align: right;">
+						<h3>总计：<span id="total">${pages.total }</span></h3>
+					</div>
 
 				</div>
+				 <c:if test="${pages.pages > 1 }">
+					
+
+						<nav style="text-align: center;">
+							<ul class="pagination">
+								<li><a href="/whatblog/admin/typeManage?page=1">首页</a></li>
+								<c:forEach var="page" varStatus="status" begin="1" end="${pages.pages }" >
+									<li <c:if test="${pages.pageNum == status.index }">class="active"</c:if>><a href="/whatblog/admin/typeManage?page=${status.index }">${status.index }</a></li>
+								</c:forEach>
+								<li><a href="/whatblog/admin/typeManage?page=${pages.lastPage }">尾页</a></li>
+								
+							</ul>
+						</nav>
+					
+				</c:if> 
 
 
 			</div>
@@ -112,10 +121,12 @@ td {
 		</div>
 
 	</div>
+	
 
 	<!-- 弹出分类修改框 -->
-	<div class="modal fade bs-example-modal-sm" id="modifyType" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade bs-example-modal-sm" id="modify_type"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -130,22 +141,19 @@ td {
 						<div class="input-group" id="id">
 							<span class="input-group-addon" id="sizing-addon1"> <span>
 									分类名称 </span>
-							</span> <input id="typeName" name="typeName" class="form-control"
-								onkeyup="check_suggest_content()"
-								onblur="check_suggest_content()" placeholder="简要概括就好！"
+							</span> <input id="modalTypeName" name="typeName" class="form-control" required="required" placeholder="简要概括就好！"
 								type="text" />
 						</div>
-
+					
 						<div style="text-align: center;">
 							<span id="input_tip" style="color: red; font-size: 16px;"></span>
 						</div>
-						
+						<br>
+
 						<div class="input-group" id="id">
 							<span class="input-group-addon" id="sizing-addon1"> <span>
 									分类描述 </span>
-							</span> <input id="typeDesc" name="typeDesc" class="form-control"
-								onkeyup="check_suggest_content()"
-								onblur="check_suggest_content()" placeholder="简要概括就好！"
+							</span> <input id="modalTypeDesc" name="typeDesc" class="form-control" placeholder="简要概括就好！"
 								type="text" />
 						</div>
 
@@ -153,13 +161,14 @@ td {
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">取消</button>
 							<button type="button" class="btn btn-primary" id="submitSuggest"
-								onclick="submitSuggestContent()">修改</button>
+								onclick="submitModify()">修改</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 
 
 	<a href="javascript:;" class="gotop1" style="display: block;"></a>
@@ -172,6 +181,8 @@ td {
 		type="text/javascript"></script
 	<script type="text/javascript" src="<c:url value='/js/type_op.js'/>"></script>
 
+	
+	
 	<!-- 返回顶部 -->
 	<script>
 		//返回顶部按钮

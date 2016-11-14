@@ -3,6 +3,11 @@ package cn.lcxjj.mapper;
 import cn.lcxjj.pojo.Comment;
 
 public interface CommentMapper {
+	/**
+	 * 评论总数
+	 * @return
+	 */
+	int commentsCount();
     int deleteByPrimaryKey(Integer id);
 
     int insert(Comment record);

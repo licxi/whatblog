@@ -1,5 +1,8 @@
 package whatblog;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +35,20 @@ public class UserTest {
 	}
 	
 	@Test
-	public void loginTest(){
-		System.out.println("登录测试："+userService.login("licxi", "4177084597"));
+	public void search(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String search = "417708459@qq.com";
+		map.put("isLock", 1);
+		map.put("search", search);
+		System.out.println(userMapper.searchUser(map));
 	}
+	
+	@Test
+	public void loginTest(){
+		System.out.println(": 的值"+(int)':');
+		System.out.println("登录测试："+userService.login("licxi", "30c8586794579fc0ea93c5b8561460b2"));
+	}
+	
 	
 	@Test
 	public void select(){

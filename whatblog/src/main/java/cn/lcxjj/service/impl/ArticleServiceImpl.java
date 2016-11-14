@@ -2,7 +2,9 @@ package cn.lcxjj.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,6 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private CommentMapper commentMapper;
-	
-	
-	
-	
 
 	@Override
 	public int userArticleCount(String userName) {
@@ -38,13 +36,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public int saveArticle(Article article) {
-		if(article.getId() == null){
-			return articleMapper.insertSelective(article);  //新增文章
-		} else{
-			article.setCreateTime(new Date());  //更新时间
-			return articleMapper.updateByPrimaryKeySelective(article); //修改文章
+		if (article.getId() == null) {
+			return articleMapper.insertSelective(article); // 新增文章
+		} else {
+			article.setCreateTime(new Date()); // 更新时间
+			return articleMapper.updateByPrimaryKeySelective(article); // 修改文章
 		}
-		
+
 	}
 
 	@Override
@@ -52,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleMapper.getUserAllArticle(userName);
 	}
 
-	
 	@Override
 	public Article getArticleAndComment(int article_id) {
 		Article article = articleMapper.getArticleAndComment(article_id);
@@ -67,14 +64,14 @@ public class ArticleServiceImpl implements ArticleService {
 						Comment c = comments.get(j);
 						if (c.getToUserName() != null) {
 							if (c.getToUserName().equals(c1.getUserName())) {
-								if(c1.getComments() != null){
+								if (c1.getComments() != null) {
 									subtemps.addAll(c1.getComments());
 								}
 								subtemps.add(c);
 							}
 						}
 					}
-					if(subtemps.size() != 0){
+					if (subtemps.size() != 0) {
 						c1.setComments(subtemps);
 					}
 					temps.add(c1);
@@ -119,8 +116,65 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleMapper.selectByPrimaryKey(id);
 	}
 
-	/*@Override
-	public int modifyArticle(Article article) {
-		return articleMapper.updateByPrimaryKeySelective(article);
-	}*/
+	@Override
+	public int articlesCount() {
+		return articleMapper.articlesCount();
+	}
+
+	@Override
+	public List<Article> selectHostArticle(Integer start, Integer size) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("size", size);
+		return articleMapper.selectHostArticle(map);
+	}
+
+	@Override
+	public List<Article> searchArticle(boolean articleIsLock, boolean articleUp, boolean hostArticle, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("articleIsLock", articleIsLock);
+		map.put("articleUp", articleUp);
+		map.put("hostArticle", hostArticle);
+		map.put("search", search);
+		return articleMapper.searchArticle(map);
+	}
+
+	@Override
+	public Map<String, Object> findAriclePropertyByArticleId(Integer articleId) {
+		return articleMapper.findAriclePropertyByArticleId(articleId);
+	}
+
+	@Override
+	public boolean modifyArticleUp(Integer articleId) {
+		Map<String, Object> temp = findAriclePropertyByArticleId(articleId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("articleId", articleId);
+		map.put("articleUp", temp.get("articleUp").equals(1) ? 0 : 1);
+		int result = articleMapper.modifyArticleUp(map);
+		return result != 0 ? true : false;
+	}
+
+	@Override
+	public boolean modifyArticleLock(Integer articleId) {
+		Map<String, Object> temp = findAriclePropertyByArticleId(articleId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("articleId", articleId);
+		map.put("articleLock", temp.get("articleLock").equals(1) ? 0 : 1);
+		int result = articleMapper.modifyArticleLock(map);
+		return result != 0 ? true : false;
+	}
+
+	@Override
+	public boolean adminDeleteByArticleId(Integer id) {
+		int result = articleMapper.deleteByPrimaryKey(id);
+		if (result != 0) {
+			commentMapper.deleteArticleComments(id); // 删除评论
+		}
+		return result != 0 ? true : false;
+	}
+
+	/*
+	 * @Override public int modifyArticle(Article article) { return
+	 * articleMapper.updateByPrimaryKeySelective(article); }
+	 */
 }

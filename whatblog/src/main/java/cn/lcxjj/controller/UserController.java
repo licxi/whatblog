@@ -1,11 +1,13 @@
 package cn.lcxjj.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	
 	@RequestMapping("toLogin")
 	public String toLogin(Model model){
 		model.addAttribute("type", 1);
@@ -37,22 +40,7 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping("test")
-	public String test(){
-		//return "user/show_blog_for_reader";
-		//return "user/user_info";
-		//return "article/write_article";
-		//return "article/show_article";
-		//return "user_blog/blog_home";
-		//return "user_blog/user_info";
-		//return "user_blog/massage";
-		///return "user_blog/follow";
-		//return "admin/system_manage";
-		//return "admin/modify_password";
-		//return "admin/user_manage";
-		//return "admin/article_manage";
-		return "admin/type_manage";
-	}
+	
 	
 	@RequestMapping("toReg")
 	public String toReg(Model model){
@@ -64,7 +52,7 @@ public class UserController {
 	@RequestMapping("checkUserName")
 	public Map<String,String> checkUserName(String userName){
 		Map<String,String> map = new HashMap<String,String>();
-		int result = userService.checkUserName(userName);
+		int result = userService.checkUserName(userName.trim());
 		if(result == 0){
 			//用户存在，可以注册
 			map.put("code","ok");
@@ -82,6 +70,11 @@ public class UserController {
 		//System.out.println(user);
 		boolean result = false;
 		if(userService.checkUserName(user.getUserName())==0){ //防止用户重复提交
+			Date data = new Date();
+			user.setCreateTime(data);
+			System.out.println("是什么格式："+data.toString());
+			//将密码加密保存
+			user.setPassword(DigestUtils.md5Hex(DigestUtils.md5Hex(user.getPassword())+data.toString()));
 			result = userService.register(user);
 		}else{
 			return "redirect:toLogin";
@@ -98,6 +91,8 @@ public class UserController {
 	public Map<String, String> doLogin(HttpServletRequest request,String username,String password){
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = request.getSession();
+		username = username.trim();
+		password = password.trim();
 		int result = userService.login(username, password);
 		if(result == -1){
 			map.put("code", "error");
@@ -105,16 +100,17 @@ public class UserController {
 		} else if(result == 0){
 			map.put("code", "error");
 			map.put("msg", "密码错误");
+		} else if(result == 2){
+			map.put("code", "error");
+			map.put("msg", "你的账号已被管理员限制登录");
 		} else if(result == 1){
 			map.put("code", "ok");
 			map.put("msg", "登录成功");
 			map.put("callback", request.getContextPath()+"/");
 			User user = userService.selectByUserName(username);
-			System.err.println(user);
 			session.setAttribute("user_name", username);
 			session.setAttribute("nickname", user.getNickname());
 			session.setAttribute("headUrl", user.getHeadUrl());
-			System.err.println("用户头像"+user.getHeadUrl());
 		}
 		return map;
 	}

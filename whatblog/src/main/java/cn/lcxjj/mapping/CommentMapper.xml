@@ -13,12 +13,16 @@
     id, user_name, content, time, to_user_name, article_id
   </sql>
   
+  
   <!-- 删除文章的所有评论 -->
   <delete id="deleteArticleComments" parameterType="java.lang.Integer">
   	delete from comment
   	where article_id = #{article_id,jdbcType=INTEGER}
   </delete>
   
+  <select id="commentsCount" resultType="java.lang.Integer">
+  	select count(*) from comment
+  </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

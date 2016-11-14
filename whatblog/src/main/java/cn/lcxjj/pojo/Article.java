@@ -14,6 +14,8 @@ public class Article {
 
 	private String userName;
 
+	private String nickname;
+	
 	private Byte typeId;
 	
 	private String typeName;
@@ -79,6 +81,16 @@ public class Article {
 
 	public void setUserName(String userName) {
 		this.userName = userName == null ? null : userName.trim();
+	}
+	
+	
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public Byte getTypeId() {
@@ -164,7 +176,7 @@ public class Article {
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", articleTitle=" + articleTitle + ", createTime=" + createTime + ", articleClick="
-				+ articleClick + ", userName=" + userName + ", typeId=" + typeId + ", typeName=" + typeName
+				+ articleClick + ", userName=" + userName +", nickname=" + nickname+ ", typeId=" + typeId + ", typeName=" + typeName
 				+ ", articleType=" + articleType + ", articleSummary=" + articleSummary + ", articleUp=" + articleUp
 				+ ", articleSupport=" + articleSupport + ", showImage=" + showImage + ", articleContent="
 				+ articleContent + ", commentsCount=" + commentsCount + ", comments=" + comments + "]";

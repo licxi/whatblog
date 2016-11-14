@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import cn.lcxjj.mapper.AttentionMapper;
 import cn.lcxjj.pojo.Attention;
+import cn.lcxjj.pojo.HostUser;
 import cn.lcxjj.service.AttentionService;
 
 @Service
@@ -38,6 +39,11 @@ public class AttentionServiceImpl implements AttentionService {
 	@Override
 	public int deleteByPrimaryKey(Integer id) {
 		return attentionMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public List<HostUser> selectHostUser() {
+		return attentionMapper.selectHostUser();
 	}
 	
 	

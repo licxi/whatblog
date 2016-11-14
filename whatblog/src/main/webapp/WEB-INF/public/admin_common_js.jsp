@@ -29,3 +29,6 @@
 
     <script src="<c:url value='/js/plugins/chartJs/Chart.min.js'/>"></script>
     <script src="<c:url value='/js/li_active.js'/>"></script>
+    <script src="<c:url value='/js/admin_common.js'/>"></script>
+    
+    <script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>

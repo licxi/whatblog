@@ -23,14 +23,58 @@
     create_time, is_lock, head_url, school
   </sql>
   
+  <select id="usersCount" resultType="java.lang.Integer">
+  	select count(id) from user
+  </select>
+  
+  <select id="searchUser" parameterType="map" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from user 
+  	where
+  	<if test="isLock != null">
+  		is_lock = 1 and (
+  	</if>
+  	user_name like CONCAT('%',#{search},'%' )
+  	or nickname like CONCAT('%',#{search},'%')
+  	or phone like CONCAT('%',#{search},'%')
+  	or email like CONCAT('%',#{search},'%')
+  	or qq like CONCAT('%',#{search},'%')
+  	<if test="isLock != null">
+  		)
+  	</if>
+  	order by mark desc,create_time desc
+  	
+  </select>
+  
   <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List"/>
   	from user where user_name= #{username,jdbcType=VARCHAR}
   </select>
   
+  <!-- 获取全部会员 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from user order by mark desc,create_time desc
+  </select>
+  
+  <!-- 增加会员积分 -->
+	<update id="addMark" parameterType="map">
+		update user set mark=mark+#{mark,jdbcType=INTEGER} where user_name=#{userName,jdbcType=CHAR}
+	</update>
+  
   <update id="modifyPwd" parameterType="map">
   	update user set password = #{password,jdbcType=CHAR} where user_name = #{userName,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getIsLock" parameterType="java.lang.String" resultType="java.lang.Short">
+  	select is_lock from user where user_name = #{userName,jdbcType=CHAR}
+  </select>
+  
+  <update id="modifyIsLock" parameterType="map">
+  	update user set is_lock = #{isLock,jdbcType=SMALLINT} where user_name = #{userName,jdbcType=VARCHAR}
   </update>
   
   <update id="modifyHead" parameterType="java.util.Map">

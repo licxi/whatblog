@@ -24,31 +24,42 @@ function submitSuggestContent(){
 }
 /*检查信息是否合法*/
 function check_password() {
-    var old_password = $("#old_password").val();
-    var new_password = $("#new_password").val();
-    if(old_password == ""){
-      alert("旧密码未填写");
-      $("#old_password").focus();
+	var old_password = $("#old_password");
+    var new_password = $("#new_password");
+    var re_password = $("#re_password");
+    if(old_password.val() == ""){
+      alert("原始密码未填写");
+      old_password.focus();
       return;
-    } if(new_password == ""){
+    } if(new_password.val() == ""){
       alert("新密码未填写");
-      $("#new_password").focus();
+      new_password.focus();
       return;
-    } if(new_password.length>16 || new_password.length<6){
+    } 
+    if(re_password.val() == ""){
+    	alert("确认密码未填写");
+        re_password.focus();
+        return;
+    }
+    if(new_password.val().length>16 || new_password.val().length<6){
       alert("密码必须大于6位或小于16位");
-      $("#new_password").focus();
+      new_password.focus();
       return;
+    } if(new_password.val() != re_password.val()){
+    	alert("确认密码不一致");
+    	new_password.focus();
+        return;
     }
     
     var url = "/whatblog/user/checkPwd";
     jQuery.post(url, {
-        old_password : old_password,
+        old_password : old_password.val(),
       }, function(data) {
         if (data.errCode == '0') {
           var modify_url = "/whatblog/user/modifyPwd";
           jQuery.post(modify_url, {
-        	  	old_password : old_password,
-                new_password : new_password
+        	  	old_password : old_password.val(),
+                new_password : new_password.val()
                 }, function(data) {
                 if (data.errCode == '0') {
                     alert(data.msg);

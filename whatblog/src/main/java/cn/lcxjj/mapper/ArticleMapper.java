@@ -1,6 +1,7 @@
 package cn.lcxjj.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.lcxjj.pojo.Article;
 
@@ -30,7 +31,17 @@ public interface ArticleMapper {
 
     int updateByPrimaryKey(Article article);
     
+    /**
+     * 某博主的文章总数
+     * @param userName
+     * @return
+     */
     int userArticleCount(String userName);
+    /**
+     * 系统文章总数
+     * @return
+     */
+    int articlesCount();
     
     /**
      * 获取博主热门的文章
@@ -52,4 +63,31 @@ public interface ArticleMapper {
      * @return
      */
     Article getArticleAndComment(int article_id);
+    
+    /**
+     * 获取十条系统热门文章
+     * @return
+     */
+    List<Article> selectHostArticle(Map<String, Integer> map);
+    
+    /**
+     * map的value值功能介绍
+     * articleIsLock  文章是否被禁，false未锁，true被锁
+     * articleUp  false 未置顶 ，true 置顶
+     * hostArticle false 不查找热门文章，true 查找热门文章
+     * @param map
+     * @return
+     */
+    List<Article> searchArticle(Map<String,Object> map);
+    
+    /**
+     * map 属性描述
+     * key=articleUp value=1 or 0,1为文章时置顶，0为文章未置顶
+     * key=articleLock value=1 or 0,1为文章被禁，0为文章正常
+     * @param articldId
+     * @return
+     */
+    Map<String,Object> findAriclePropertyByArticleId(Integer articldId);
+    int modifyArticleUp(Map<String, Object> map);
+    int modifyArticleLock(Map<String, Object> map);
 }

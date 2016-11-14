@@ -3,6 +3,7 @@ package cn.lcxjj.service;
 import java.util.List;
 
 import cn.lcxjj.pojo.Attention;
+import cn.lcxjj.pojo.HostUser;
 
 /**
  * 关注相关操作
@@ -43,4 +44,10 @@ public interface AttentionService {
      * @return
      */
     List<Attention> selectByAttentionUserName(String attentionUserName);
+    
+    /**
+     * 获取十个热门博主
+     * @return
+     */
+    List<HostUser> selectHostUser();
 }

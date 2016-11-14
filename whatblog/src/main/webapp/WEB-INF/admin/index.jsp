@@ -33,7 +33,7 @@ td {
 									<h5>会员数量</h5>
 								</div>
 								<div class="ibox-content">
-									<h1 class="no-margins">12</h1>
+									<h1 class="no-margins">${usersCount }</h1>
 								</div>
 							</div>
 						</div>
@@ -43,7 +43,7 @@ td {
 									<h5>文章数量</h5>
 								</div>
 								<div class="ibox-content">
-									<h1 class="no-margins">1</h1>
+									<h1 class="no-margins">${articlesCount }</h1>
 								</div>
 							</div>
 						</div>
@@ -53,7 +53,7 @@ td {
 									<h5>用户建议数量</h5>
 								</div>
 								<div class="ibox-content">
-									<h1 class="no-margins">3</h1>
+									<h1 class="no-margins">${suggestsCount }</h1>
 								</div>
 							</div>
 						</div>
@@ -63,44 +63,57 @@ td {
 									<h5>评论数量</h5>
 								</div>
 								<div class="ibox-content">
-									<h1 class="no-margins">7</h1>
+									<h1 class="no-margins">${commentsCount }</h1>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-7" style="padding-left: 0px;">
+					
+					<div class="col-lg-8" style="padding-left: 0px;">
 						<div class="panel panel-primary">
 							<div class="panel-heading">热门文章</div>
 							<div class="panel-body">
 								<div class="list-group">
-									<if condition="$exam_list"> <foreach name="exam_list"
-										item="vo"> <a href="{:U("
-										admin/exams/getExams?key=$vo[title]
-										","","")}"  class="list-group-item">{$vo.title}<span
-										style="float: right !important;">{$vo.status}</span></a> </foreach> <else />
-									<span style="color: red">没有文章</span> </if>
+									<c:if test="${hostArticles != null && hostArticles.size() !=0 }">
+										<!-- <a class="list-group-item"> <span
+											style="float: left !important;">标题</span> <span
+											style="float: right !important;">点击数</span></a> -->
+										<c:forEach items="${hostArticles }" var="article">
+											<a href="" class="list-group-item">${article.articleTitle}
+											<span style="float: right !important;">${article.nickname }</span></a>
+										</c:forEach>
+									</c:if>
+									<c:if test="${hostArticles == null || hostArticles.size() ==0 }">
+										<span style="color: red">没有热门</span>
+									</c:if>
 								</div>
 							</div>
 						</div>
 					</div>
-					
-					<div class="col-lg-5" style="padding-right: 0px;">
-					<div class="panel panel-primary">
-						<div class="panel-heading">人气博主</div>
-						<div class="panel-body">
-							<div class="list-group">
-								<if condition="$exam_list"> <foreach name="exam_list"
-									item="vo"> <a href="{:U("
-									admin/exams/getExams?key=$vo[title]
-									","","")}"  class="list-group-item">{$vo.title}<span
-									style="float: right !important;">{$vo.status}</span></a> </foreach> <else />
-								<span style="color: red">还没有</span> </if>
+
+					<div class="col-lg-4" style="padding-right: 0px;">
+						<div class="panel panel-primary">
+							<div class="panel-heading">人气博主</div>
+							<div class="panel-body">
+								<div class="list-group">
+									<c:if test="${hostUsers != null && hostUsers.size() != 0 }">
+										<!-- <a class="list-group-item" style="margin-bottom: 10px;border: 0px"> <span
+											style="float: left !important;">昵称</span> <span
+											style="float: right !important;">关注数</span></a> -->
+											
+										<c:forEach items="${hostUsers }" var="user">
+											<a href=""  class="list-group-item">${user.nickname}<span
+									style="float: right !important;">关注数：${user.attentionCount}</span></a>
+									</c:forEach>
+									</c:if>
+									<c:if test="${hostUsers == null || hostUsers.size() == 0 }">
+										<span style="color: red">还没有</span>
+									</c:if>
+								</div>
 							</div>
 						</div>
 					</div>
-					</div>
-					
-					
+
 				</div>
 			</div>
 		</div>

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -8,13 +9,21 @@
 <script src="<c:url value='/js/jquery.min.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/js/bootstrap.min.js'/>"
 	type="text/javascript"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery-md5.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/login.js'/>"></script>
 <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/login.css'/>" />
+
 <title>
 	<c:if test="${type == 1 }">用户登录</c:if>
 	<c:if test="${type == 0 }">用户注册</c:if>
 </title>
+<style type="text/css">
+body{  
+    overflow-x: hidden;  
+    overflow-y: hidden;  
+}  
+</style>
 </head>
 <body onkeydown="login()">
 	<h1>欢迎使用WhatBlog</h1>

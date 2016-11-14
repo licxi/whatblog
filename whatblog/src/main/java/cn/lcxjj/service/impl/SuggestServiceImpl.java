@@ -22,4 +22,10 @@ public class SuggestServiceImpl implements SuggestService {
 		return suggestMapper.insertSelective(suggest);
 	}
 
+
+	@Override
+	public int suggestCount() {
+		return suggestMapper.suggestCount();
+	}
+
 }

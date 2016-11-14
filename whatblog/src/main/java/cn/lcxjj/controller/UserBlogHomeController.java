@@ -34,6 +34,7 @@ import cn.lcxjj.service.ArticleService;
 import cn.lcxjj.service.AttentionService;
 import cn.lcxjj.service.MessageService;
 import cn.lcxjj.service.SuggestService;
+import cn.lcxjj.service.SystemSetupService;
 import cn.lcxjj.service.TypeService;
 import cn.lcxjj.service.UserService;
 
@@ -77,6 +78,9 @@ public class UserBlogHomeController {
 	 */
 	@Autowired
 	private SuggestService suggestService;
+	
+	@Autowired
+	private SystemSetupService systemSetupService;
 
 	/**
 	 * 
@@ -159,6 +163,10 @@ public class UserBlogHomeController {
 		// 保存
 		int result = articleService.saveArticle(article);
 		if (result > 0) {
+			if(article.getId() == null){
+				//当文章第一发表时，给用户增加积分，修改文章不增加
+				userService.addMark(article.getUserName(), systemSetupService.getWriteArticleMark());
+			}
 			return "redirect:articleManage";
 		} else {
 			return "writeArticle";

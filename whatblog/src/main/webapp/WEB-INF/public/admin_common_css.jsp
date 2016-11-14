@@ -24,3 +24,5 @@
 
 <link href="<c:url value='/css/animate.css'/>" rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css'/>" rel="stylesheet">
+<link href="<c:url value='/css/animate.css" rel="stylesheet'/>"
+	rel="stylesheet">

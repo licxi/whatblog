@@ -280,9 +280,14 @@ body.body-small .navbar-top-links li:last-child {
 	background: #293846;
 }
 
-.nav.nav-second-level> li.active {
-	border: none;
+.nav> li>ul>li.active {
+	border-left: 4px solid #19aa8d;
+	background: #293846;
 }
+
+/* .nav.nav-second-level> li.active {
+	border: none;
+} */
 
 .nav.nav-second-level.collapse[style] {
 	height: auto !important;
@@ -1445,7 +1450,7 @@ button.dim:active:before {
 
 /* PAGINATIN */
 
-.pagination> .active> a,
+/* .pagination> .active> a,
 .pagination> .active> span,
 .pagination> .active> a:hover,
 .pagination> .active> span:hover,
@@ -1470,7 +1475,7 @@ button.dim:active:before {
 	position: relative;
 	text-decoration: none;
 }
-
+ */
 
 /* TOOLTIPS */
 
@@ -2184,7 +2189,7 @@ table.dataTable thead .sorting:after {
 	padding-left: 0;
 }
 
-.form-control,
+/* .form-control,
 .single-line {
 	background-color: #FFFFFF;
 	background-image: none;
@@ -2194,9 +2199,10 @@ table.dataTable thead .sorting:after {
 	display: block;
 	padding: 6px 12px;
 	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-	width: 100%;
+	width: 80%;
 	font-size: 14px;
-}
+	
+} */
 
 .form-control:focus,
 .single-line:focus {
@@ -4231,6 +4237,7 @@ table.table-mail tr td {
 
 .gray-bg {
 	background-color: #f3f3f4;
+	margin: 0;
 }
 
 .white-bg {
@@ -4881,10 +4888,10 @@ body.modal-open {
 /* ERROR & LOGIN & LOCKSCREEN*/
 
 .middle-box {
-	max-width: 400px;
+	max-width: 360px;
 	z-index: 100;
 	margin: 0 auto;
-	padding-top: 40px;
+	padding-top: 100px;
 }
 
 .lockscreen.middle-box {
@@ -4893,7 +4900,7 @@ body.modal-open {
 }
 
 .loginscreen.middle-box {
-	width: 300px;
+	width: 370px;
 }
 
 .loginColumns {
@@ -4916,10 +4923,10 @@ body.modal-open {
 	margin-bottom: 0px;
 }
 
-.middle-box h1 {
+/* .middle-box h1 {
 	font-size: 170px;
 }
-
+ */
 .wrapper .middle-box {
 	margin-top: 140px;
 }

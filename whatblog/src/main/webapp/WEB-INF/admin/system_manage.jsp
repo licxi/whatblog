@@ -35,8 +35,8 @@ td {
 				<div>
 					<div class="col-xs-12 col-md-5">
 						<h3 style="color: black;">当前背景</h3>
-						<a href="/whatblog/img/1.jpg" class="thumbnail"> <img
-							src="/whatblog/img/1.jpg" id="bg" alt="...">
+						<a href="/whatblog/img/1.jpg" class="thumbnail" target="_black">
+							<img src="/whatblog/img/1.jpg" id="bg" alt="当前登录背景">
 						</a>
 					</div>
 					<div class="col-xs-12 col-md-7">
@@ -46,40 +46,84 @@ td {
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="wrapper wrapper-content animated fadeInRight"
-					style="padding-bottom: 10px;">
-					<h3>修改网站名称</h3>
-					
-					<div class="form-group">
-						<div class="col-sm-5" style="padding-left: 0">
-							<input class="form-control" type="text" name="systemName" value="WhatBlog"
-							placeholder="输入网站名">
-						</div>
-						<div class="col-sm-5">
-							<button class="btn btn-primary">修改</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="wrapper wrapper-content animated fadeInRight"
-					style="padding-bottom: 10px;">
-					<h3>每日一句</h3>
-					
-					<div class="form-group">
-						<div class="col-sm-5" style="padding-left: 0">
-							<input class="form-control" type="text" name="day" value="每日一句"
-							placeholder="输入网站名">
-						</div>
-						<div class="col-sm-5">
-							<button class="btn btn-primary" >修改</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<div class="col-sm-offset-4" style="margin-bottom: 100px;">
+				<div class="row">
+					<div class="wrapper wrapper-content animated fadeInRight"
+						style="padding-bottom: 10px;">
+						<h3>修改网站名称</h3>
 
+						<div class="form-group">
+							<div class="col-sm-5" style="padding-left: 0">
+								<input class="form-control" type="text" name="systemName" required
+									value="${systemSetup.systemName }" placeholder="输入网站名">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper wrapper-content animated fadeInRight"
+						style="padding-bottom: 10px;">
+						<h3>每日一句</h3>
+
+						<div class="form-group">
+							<div class="col-sm-5" style="padding-left: 0">
+								<input class="form-control" type="text" name="daily" value="${systemSetup.daily }" required
+									placeholder="每日一句">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="wrapper wrapper-content animated fadeInRight"
+						style="padding-bottom: 10px;">
+						<h3>发表文章积分</h3>
+
+						<div class="form-group">
+							<div class="col-sm-5" style="padding-left: 0">
+								<input class="form-control" type="text" name="writeArticleMark" required="required"
+									value="${systemSetup.writeArticleMark }" placeholder="用户发表文章时得到的积分" onkeydown="onlyNum()">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper wrapper-content animated fadeInRight"
+						style="padding-bottom: 10px;">
+						<h3>评论积分</h3>
+
+						<div class="form-group">
+							<div class="col-sm-5" style="padding-left: 0">
+								<input class="form-control" type="text" name="writeCommentMark" required="required"
+									value="${systemSetup.writeCommentMark }" placeholder="用户发表评论时获得的积分" onkeydown="onlyNum()">
+							</div>
+						</div>
+					</div>
+				</div>
+					<div class="row">
+					<div class="wrapper wrapper-content animated fadeInRight"
+						style="padding-bottom: 10px;">
+						<h3>收到评论积分</h3>
+
+						<div class="form-group">
+							<div class="col-sm-5" style="padding-left: 0">
+								<input class="form-control" type="text" name="receiveCommentMark" required="required"
+									value="${systemSetup.receiveCommentMark }" placeholder="用户的文章收到评论时获得的积分" onkeydown="onlyNum()">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper wrapper-content animated fadeInRight"
+						style="padding-bottom: 10px;">
+						<div class="form-group">
+							<div class="col-sm-5" style="padding-left: 0">
+								<input class="form-control btn btn-primary" type="button" value="修改">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</div>
@@ -112,7 +156,7 @@ td {
 				});
 	</script>
 	<!-- 返回顶部 -->
-		<script>
+	<script>
 		//返回顶部按钮
 		$(function() {
 			$(window).scroll(function() {

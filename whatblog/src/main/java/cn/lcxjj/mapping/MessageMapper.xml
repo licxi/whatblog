@@ -12,7 +12,7 @@
 	<sql id="Base_Column_List">
 		id, user_name, content, from_user_name, time
 	</sql>
-
+	
 	<resultMap id="messageDetailMap" type="cn.lcxjj.pojo.Message"
 		extends="BaseResultMap">
 		<collection property="nickname" column="user_name"

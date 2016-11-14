@@ -7,4 +7,10 @@ public interface CommentService {
      * @return
      */
     int deleteArticleComments(int article_id);
+    
+    /**
+	 * 评论总数
+	 * @return
+	 */
+	int commentsCount();
 }
