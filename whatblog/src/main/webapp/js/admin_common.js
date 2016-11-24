@@ -170,6 +170,8 @@ function articleUp(id){
 		});
 	}
 }
+
+
 function articleLock(id){
 	var articleLock = $("#articleLock"+id);
 	var url = "modifyArticleLock";
@@ -274,6 +276,7 @@ function modifyType(id,typeName,typeDesc){
 	$("#modify_type").modal("show");
 	
 }
+//提交修改分类
 function submitModify(){
 	var typeName = $("#modalTypeName");
 	var typeDesc = $("#modalTypeDesc");
@@ -299,5 +302,119 @@ function submitModify(){
 	},'json').error(function(){
 		alert("网络连接错误,请稍后再试");
 	});
-	
 }
+
+$("#submitModifySystemSetup").click(function(){
+	var systemName = $("#systemName");
+	var daily = $("#daily");
+	var writeArticleMark = $("#writeArticleMark");
+	var writeCommentMark = $("#writeCommentMark");
+	var receiveCommentMark = $("#receiveCommentMark");
+	if(systemName.val().trim() == ""){
+		alert("网站名不能空");
+		systemName.focus();
+		return false;
+	}
+	if(writeArticleMark.val().trim()=="" || parseInt(writeArticleMark.val().trim()) < 0){
+		alert("发表文章积分参数不合法，必须为大于或等于零的整数");
+		writeArticleMark.focus();
+		return false;
+	}
+	if(writeCommentMark.val().trim()=="" || parseInt(writeCommentMark.val().trim()) < 0){
+		alert("发表评论积分参数不合法，必须为大于或等于零的整数");
+		writeCommentMark.focus();
+		return false;
+	}
+	if(receiveCommentMark.val().trim()=="" || parseInt(receiveCommentMark.val().trim()) < 0){
+		alert("收到评论积分参数不合法，必须为大于或等于零的整数");
+		receiveCommentMark.focus();
+		return false;
+	}
+	var url = "modifySystemSetup";
+	$.ajax({
+        type:"post",
+        url:url,
+        data:JSON.stringify($("#systemSetup").serializeObject()),
+        dataType:"json",
+        contentType:"application/json",
+        success:function(data){
+            alert(data.msg);
+        },
+        error:function(){
+        	alert("网络连接失败，请重试");
+        }
+    });
+});
+
+//删除评论
+function deleteComment(commentId){
+	var url="deleteComment";
+	var data = {comment_id:commentId};
+	if(confirm("是否删除该评论，删除后不可恢复")){
+		jQuery.post(url,data,function(data){
+			if(data.errCode == "0"){
+				alert(data.msg);
+				$("#comment"+commentId).remove();
+				$("#total").text($("#total").text()-1);
+			}else{
+				alert(data.msg);
+			}
+		},'json').error(function(){
+			alert("网络连接失败，请重试");
+		});
+	}
+}
+//删除评论
+function deleteMessage(messageId){
+	var url="deleteMessage";
+	var data = {message_id:messageId};
+	if(confirm("是否删除该留言，删除后不可恢复")){
+		jQuery.post(url,data,function(data){
+			if(data.errCode == "0"){
+				alert(data.msg);
+				$("#message"+messageId).remove();
+				$("#total").text($("#total").text()-1);
+			}else{
+				alert(data.msg);
+			}
+		},'json').error(function(){
+			alert("网络连接失败，请重试");
+		});
+	}
+}
+//删除建议
+function deleteSuggest(suggestId){
+	var url="deleteSuggest";
+	var data = {suggest_id:suggestId};
+	if(confirm("是否删除该建议，删除后不可恢复")){
+		jQuery.post(url,data,function(data){
+			if(data.errCode == "0"){
+				alert(data.msg);
+				$("#suggest"+suggestId).remove();
+				$("#total").text($("#total").text()-1);
+			}else{
+				alert(data.msg);
+			}
+		},'json').error(function(){
+			alert("网络连接失败，请重试");
+		});
+	}
+}
+
+
+//将表单数据转换成json对象
+$.fn.serializeObject = function() {    
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function() {
+       if (o[this.name]) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+       } else {
+           o[this.name] = this.value || '';
+       }
+   });
+   return o; 
+};

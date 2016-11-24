@@ -1,5 +1,7 @@
 package cn.lcxjj.mapper;
 
+import java.util.List;
+
 import cn.lcxjj.pojo.Comment;
 
 public interface CommentMapper {
@@ -26,4 +28,8 @@ public interface CommentMapper {
      * @return
      */
     int deleteArticleComments(int article_id);
+    
+    int deleteCommentByCommentId(int CommentId);
+    
+    List<Comment> selectAll();
 }

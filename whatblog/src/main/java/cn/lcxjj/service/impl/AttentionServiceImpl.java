@@ -45,6 +45,14 @@ public class AttentionServiceImpl implements AttentionService {
 	public List<HostUser> selectHostUser() {
 		return attentionMapper.selectHostUser();
 	}
+
+	@Override
+	public int saveAttention(Attention attention) {
+		if(attention == null){
+			return -1;
+		}
+		return attentionMapper.insertSelective(attention);
+	}
 	
 	
 }

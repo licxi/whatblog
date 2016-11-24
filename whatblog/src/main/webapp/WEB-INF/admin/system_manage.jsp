@@ -46,7 +46,11 @@ td {
 					</div>
 				</div>
 			</div>
+			
+			<hr>
 			<div class="col-sm-offset-4" style="margin-bottom: 100px;">
+				<form action="" id="systemSetup">
+				<input type="hidden" name="id" value="${systemSetup.id }">
 				<div class="row">
 					<div class="wrapper wrapper-content animated fadeInRight"
 						style="padding-bottom: 10px;">
@@ -54,9 +58,9 @@ td {
 
 						<div class="form-group">
 							<div class="col-sm-5" style="padding-left: 0">
-								<input class="form-control" type="text" name="systemName" required
+								<input class="form-control" type="text" id="systemName" name="systemName" required
 									value="${systemSetup.systemName }" placeholder="输入网站名">
-							</div>
+							</div> 
 						</div>
 					</div>
 				</div>
@@ -67,7 +71,7 @@ td {
 
 						<div class="form-group">
 							<div class="col-sm-5" style="padding-left: 0">
-								<input class="form-control" type="text" name="daily" value="${systemSetup.daily }" required
+								<input class="form-control" type="text" name="daily" name="daily" value="${systemSetup.daily }" required
 									placeholder="每日一句">
 							</div>
 						</div>
@@ -81,8 +85,8 @@ td {
 
 						<div class="form-group">
 							<div class="col-sm-5" style="padding-left: 0">
-								<input class="form-control" type="text" name="writeArticleMark" required="required"
-									value="${systemSetup.writeArticleMark }" placeholder="用户发表文章时得到的积分" onkeydown="onlyNum()">
+								<input class="form-control" type="number" id="writeArticleMark" name="writeArticleMark" required="required"
+									value="${systemSetup.writeArticleMark }" placeholder="用户发表文章时得到的积分" onkeydown="onlyNum()" min="0">
 							</div>
 						</div>
 					</div>
@@ -94,8 +98,8 @@ td {
 
 						<div class="form-group">
 							<div class="col-sm-5" style="padding-left: 0">
-								<input class="form-control" type="text" name="writeCommentMark" required="required"
-									value="${systemSetup.writeCommentMark }" placeholder="用户发表评论时获得的积分" onkeydown="onlyNum()">
+								<input class="form-control" type="number" id="writeCommentMark" name="writeCommentMark" required="required"
+									value="${systemSetup.writeCommentMark }" placeholder="用户发表评论时获得的积分" onkeydown="onlyNum()" min="0">
 							</div>
 						</div>
 					</div>
@@ -107,8 +111,9 @@ td {
 
 						<div class="form-group">
 							<div class="col-sm-5" style="padding-left: 0">
-								<input class="form-control" type="text" name="receiveCommentMark" required="required"
-									value="${systemSetup.receiveCommentMark }" placeholder="用户的文章收到评论时获得的积分" onkeydown="onlyNum()">
+								<input class="form-control" type="number" id="receiveCommentMark" name="receiveCommentMark" required="required"
+									value="${systemSetup.receiveCommentMark }" placeholder="用户的文章收到评论时获得的积分" 
+									onkeydown="onlyNum()" min="0">
 							</div>
 						</div>
 					</div>
@@ -118,11 +123,12 @@ td {
 						style="padding-bottom: 10px;">
 						<div class="form-group">
 							<div class="col-sm-5" style="padding-left: 0">
-								<input class="form-control btn btn-primary" type="button" value="修改">
+								<input class="form-control btn btn-primary" type="button" value="修改" id="submitModifySystemSetup">
 							</div>
 						</div>
 					</div>
 				</div>
+				</form>
 			</div>
 		</div>
 
@@ -141,15 +147,15 @@ td {
 	<script type="text/javascript">
 		$('#bg_img').fileinput({
 			language : 'zh',
-			uploadUrl : "",/* 文件上传的的地址 */
+			uploadUrl : "modifyBackgroud",/* 文件上传的的地址 */
 			maxFileCount : 1,/* 设置上传的文件的数量 */
 			allowedFileExtensions : [ 'jpg', 'jpeg', 'png' ],/* 允许上传的文件格式 */
 		});
 		$("#bg_img").on("fileuploaded",
 				function(event, data, previewId, index) {
-					if (data.response.info == "ok") {
+					if (data.response.errCode == "0") {
 						alert("修改成功!")
-						$("#bg").attr("src", "IMG/BG.png?" + Math.random());
+						$("#bg").attr("src", data.response.url+"?" + Math.random());
 					} else {
 						alert("上传失败！请重试");
 					}

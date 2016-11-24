@@ -40,10 +40,17 @@ public class SystemSetupServiceImpl implements SystemSetupService {
 	public int getReceiveCommentMark() {
 		return selectByPrimaryKey(1).getReceiveCommentMark();
 	}
+	
+	
 
 	@Override
 	public SystemSetup selectSystemSetup() {
 		return selectByPrimaryKey(1);
+	}
+
+	@Override
+	public String getDaily() {
+		return selectByPrimaryKey(1).getDaily();
 	}
 
 	

@@ -26,10 +26,18 @@ public interface MessageService {
 	 */
     int deleteByPrimaryKey(String userName,Integer id);
     
+    int deleteByMessageId(Integer messageId);
+    
     /**
      * 插入一条留言
      * @param record
      * @return
      */
     int insertSelective(Message message);
+    
+    /**
+     * 获取全部留言内容
+     * @return
+     */
+    List<Message> selectAll();
 }

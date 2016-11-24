@@ -9,9 +9,8 @@
 			jdbcType="VARCHAR" />
 		<result column="time" property="time" jdbcType="TIMESTAMP" />
 	</resultMap>
-	<sql id="Base_Column_List">
-		id, user_name, content, from_user_name, time
-	</sql>
+	
+	
 	
 	<resultMap id="messageDetailMap" type="cn.lcxjj.pojo.Message"
 		extends="BaseResultMap">
@@ -22,6 +21,16 @@
 			javaType="java.lang.String" select="getNickname" ofType="java.lang.String">
 		</collection>
 	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_name, content, from_user_name, time
+	</sql>
+	
+	<select id="selectAll" resultMap="messageDetailMap">
+		select
+		<include refid="Base_Column_List"/>
+		from message
+		order by time desc
+	</select>
 
 	<select id="getMessages" parameterType="java.lang.String"
 		resultMap="messageDetailMap">

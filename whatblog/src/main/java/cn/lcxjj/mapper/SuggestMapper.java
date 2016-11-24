@@ -1,5 +1,7 @@
 package cn.lcxjj.mapper;
 
+import java.util.List;
+
 import cn.lcxjj.pojo.Suggest;
 
 public interface SuggestMapper {
@@ -20,4 +22,6 @@ public interface SuggestMapper {
     int updateByPrimaryKeySelective(Suggest suggest);
 
     int updateByPrimaryKey(Suggest suggest);
+    
+    List<Suggest> selectAll();
 }

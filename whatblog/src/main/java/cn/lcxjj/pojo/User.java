@@ -32,6 +32,10 @@ public class User {
     private String headUrl;
 
     private String school;
+    
+    private String blogAge;
+    
+    private int articleCount;
 
     public Integer getId() {
         return id;
@@ -157,13 +161,38 @@ public class User {
         this.school = school == null ? null : school.trim();
     }
 
+    
+    
+	public String getBlogAge() {
+		return blogAge;
+	}
+
+	public void setBlogAge(String blogAge) {
+		this.blogAge = blogAge;
+	}
+	
+	
+
+	public int getArticleCount() {
+		return articleCount;
+	}
+
+	public void setArticleCount(int articleCount) {
+		this.articleCount = articleCount;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", nickname=" + nickname + ", password=" + password
 				+ ", phone=" + phone + ", gender=" + gender + ", email=" + email + ", qq=" + qq + ", address=" + address
 				+ ", mark=" + mark + ", description=" + description + ", createTime=" + createTime + ", isLock="
-				+ isLock + ", headUrl=" + headUrl + ", school=" + school + "]";
+				+ isLock + ", headUrl=" + headUrl + ", school=" + school + ", blogAge=" + blogAge + ", articleCount="
+				+ articleCount + "]";
 	}
+
+	
+
+	
     
     
 }

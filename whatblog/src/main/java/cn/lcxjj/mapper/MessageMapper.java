@@ -41,4 +41,6 @@ public interface MessageMapper {
      * @return
      */
     List<Message> getMessages(String userName);
+    
+    List<Message> selectAll();
 }

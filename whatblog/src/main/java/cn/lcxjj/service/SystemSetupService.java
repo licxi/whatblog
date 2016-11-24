@@ -19,7 +19,7 @@ public interface SystemSetupService {
 	 * @param SystemSetup
 	 * @return
 	 */
-	int updateByPrimaryKeySelective(SystemSetup SystemSetup);
+	int updateByPrimaryKeySelective(SystemSetup systemSetup);
 	
 	/**
 	 * 写文章积分
@@ -37,4 +37,6 @@ public interface SystemSetupService {
 	 * @return
 	 */
 	int getReceiveCommentMark();
+	
+	String getDaily();
 }

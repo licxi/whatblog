@@ -139,7 +139,7 @@
 					<li><a href="">查看公告</a></li>
 					<li><a href="">添加公告</a></li>
 				</ul></li> -->
-			<li><a href="#"><i class="fa fa-th-large"></i> <span
+			<li><a ><i class="fa fa-th-large"></i> <span
 					class="nav-label">文章管理</span> <span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
 					<li><a href="<c:url value='/admin/articleManage'/>">所有文章</a></li>
@@ -159,10 +159,10 @@
 					<li><a href="">评论查看</a></li>
 				</ul></li> -->
 			<li><a
-				href=""><i
+				href="<c:url value='/admin/commentManage'/>"><i
 					class="fa fa-th-large"></i> <span class="nav-label">评论管理</span></a></li>
 			<li><a
-				href=""><i
+				href="<c:url value='/admin/messageManage'/>"><i
 					class="fa fa-th-large"></i> <span class="nav-label">留言管理</span></a></li>
 			<!-- <li><a href="#"><i class="fa fa-th-large"></i> <span
 					class="nav-label">留言管理</span> <span class="fa arrow"></span></a>
@@ -179,17 +179,20 @@
 			<li><a
 				href="<c:url value='/admin/typeManage'/>"><i
 					class="fa fa-th-large"></i> <span class="nav-label">分类管理</span></a></li>
-			<li><a href="#"><i class="fa fa-th-large"></i> <span
+			<li><a ><i class="fa fa-th-large"></i> <span
 					class="nav-label">举报管理</span> <span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
-					<li><a href="">文章举报</a></li>
-					<li><a href="">用户举报</a></li>
+					<li><a href="<c:url value='/admin/articleReportManage'/>">文章举报</a></li>
+					<li><a href="<c:url value='/admin/userReportManage'/>">用户举报</a></li>
 				</ul></li>
-			<li><a href="#"><i class="fa fa-th-large"></i> <span
+			<%-- <li><a href="#"><i class="fa fa-th-large"></i> <span
 					class="nav-label">建议管理</span> <span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level">
-					<li><a href="">用户建议</a></li>
-				</ul></li>
+					<li><a href="<c:url value='/admin/suggestManage'/>">用户建议</a></li>
+				</ul></li> --%>
+			<li><a
+				href="<c:url value='/admin/suggestManage'/>"><i
+					class="fa fa-th-large"></i> <span class="nav-label">建议管理</span></a></li>
 			<!-- <li><a href="/blog/index.php?m=Admin&c=Login&a=logout"> <i
 					class="fa fa-sign-out"></i>退出
 			</a></li> -->

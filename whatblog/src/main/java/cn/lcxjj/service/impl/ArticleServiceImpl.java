@@ -173,6 +173,11 @@ public class ArticleServiceImpl implements ArticleService {
 		return result != 0 ? true : false;
 	}
 
+	@Override
+	public List<Article> selectNewArticle() {
+		return articleMapper.selectNewArticle();
+	}
+
 	/*
 	 * @Override public int modifyArticle(Article article) { return
 	 * articleMapper.updateByPrimaryKeySelective(article); }

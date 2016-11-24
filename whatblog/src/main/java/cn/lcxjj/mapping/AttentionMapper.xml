@@ -40,6 +40,9 @@
 		<collection property="nickname" column="user_name"
 			javaType="java.lang.String" select="getNickname" ofType="java.lang.String">
 		</collection>
+		<collection property="headUrl" column="user_name"
+			javaType="java.lang.String" select="getHeadUrl" ofType="java.lang.String">
+		</collection>
 	</resultMap>
 	
 	<!-- 获取热门博主 -->

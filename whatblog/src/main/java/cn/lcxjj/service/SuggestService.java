@@ -1,5 +1,7 @@
 package cn.lcxjj.service;
 
+import java.util.List;
+
 import cn.lcxjj.pojo.Suggest;
 
 public interface SuggestService {
@@ -16,5 +18,13 @@ public interface SuggestService {
 	 * @return
 	 */
 	int suggestCount();
+	
+	/**
+	 * 查找所有的建议，然后使用PageHelper来分页
+	 * @return
+	 */
+	List<Suggest> selectAll();
+	
+	int deleteBySuggestId(int suggestId);
 
 }

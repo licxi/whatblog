@@ -24,6 +24,9 @@
 	</div>
 	<div class="row">
 		<div class="col-md-7 " style="margin-bottom: 5px;">
+			<c:if test="${article.articleSupport == 1}">
+				<span class="label label-danger" style="font-size: 12px;">被禁</span>
+			</c:if>
 			<span class="label label-success" style="font-size: 12px;">分类:${article.typeName }</span>
 			<span class="label label-primary" style="font-size: 12px;">评论:${article.commentsCount }</span>
 			<span class="label label-info" style="font-size: 12px;">查看:${article.articleClick }</span>

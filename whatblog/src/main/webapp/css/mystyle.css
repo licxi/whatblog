@@ -1330,13 +1330,14 @@ button.dim:active:before {
 
 /* TOOGLE SWICH */
 
-.onoffswitch {
+/*禁止选择*/
+/* .onoffswitch {
 	position: relative;
 	width: 64px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-}
+} */
 
 .onoffswitch-checkbox {
 	display: none;
@@ -2027,14 +2028,14 @@ table.dataTable thead .sorting:after {
 
 /* PEACE */
 
-.pace {
+/* .pace {
 	-webkit-pointer-events: none;
 	pointer-events: none;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 }
-
+ */
 .pace-inactive {
 	display: none;
 }
@@ -2283,13 +2284,13 @@ table.dataTable thead .sorting:after {
 
 /* SWITCHES */
 
-.onoffswitch {
+/* .onoffswitch {
 	position: relative;
 	width: 54px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-}
+} */
 
 .onoffswitch-checkbox {
 	display: none;

@@ -9,9 +9,35 @@
     <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
   </resultMap>
+  
+  <!-- 获取用户昵称，和头像-->
+	<resultMap type="cn.lcxjj.pojo.Comment" id="CommentDetailMap" extends="BaseResultMap">
+		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+		<collection property="toNickname" column="to_user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+	</resultMap>
+  
   <sql id="Base_Column_List" >
     id, user_name, content, time, to_user_name, article_id
   </sql>
+  
+  <select id="selectAll" resultMap="CommentDetailMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from comment
+  	order by time
+  </select>
+  
+  <delete id="deleteCommentByCommentId" parameterType="java.lang.Integer">
+  	delete from comment where id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="getNickname" parameterType="java.lang.String" resultType="java.lang.String">
+		select nickname from user where user_name = #{user_name,jdbcType=VARCHAR}
+	</select>
   
   
   <!-- 删除文章的所有评论 -->

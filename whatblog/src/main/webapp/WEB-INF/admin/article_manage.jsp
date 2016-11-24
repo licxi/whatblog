@@ -137,15 +137,15 @@ td {
 				<c:if test="${pages.pages > 1 }">
 					<nav style="text-align: center;">
 						<ul class="pagination">
-							<li><a href="/whatblog/admin/aritcleManage?page=1">首页</a></li>
+							<li><a href="/whatblog/admin/${url }?page=1">首页</a></li>
 							<c:forEach var="page" varStatus="status" begin="1"
 								end="${pages.pages }">
 								<li
 									<c:if test="${pages.pageNum == status.index }">class="active"</c:if>><a
-									href="/whatblog/admin/aritcleManage?page=${status.index }">${status.index }</a></li>
+									href="/whatblog/admin/${url }?page=${status.index }">${status.index }</a></li>
 							</c:forEach>
 							<li><a
-								href="/whatblog/admin/aritcleManage?page=${pages.lastPage }">尾页</a></li>
+								href="/whatblog/admin/${url }?page=${pages.lastPage }">尾页</a></li>
 
 						</ul>
 					</nav>
@@ -159,7 +159,7 @@ td {
 	</div>
 
 
-	<a href="javascript:;" class="gotop1" style="display: block;"></a>
+	<a href="javascript:;" class="gotop" style="display: block;"></a>
 
 	<!-- 引入js文件 -->
 	<c:import url="../public/admin_common_js.jsp"></c:import>
@@ -169,15 +169,15 @@ td {
 		//返回顶部按钮
 		$(function() {
 			$(window).scroll(function() {
-				if ($(window).scrollTop() > 300) {
-					$(".gotop1").fadeIn();
+				if ($(window).scrollTop() > 100) {
+					$(".gotop").fadeIn();
 				} else {
-					$(".gotop1").hide();
+					$(".gotop").hide();
 				}
 			});
-			$(".gotop1").click(function() {
+			$(".gotop").click(function() {
 				$('html,body').animate({
-					'scrollTop1' : 0
+					'scrollTop' : 0
 				}, 500);
 			});
 		});

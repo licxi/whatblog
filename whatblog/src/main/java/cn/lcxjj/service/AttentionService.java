@@ -50,4 +50,6 @@ public interface AttentionService {
      * @return
      */
     List<HostUser> selectHostUser();
+    
+    int saveAttention(Attention attention);
 }

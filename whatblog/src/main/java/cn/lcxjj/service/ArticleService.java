@@ -89,6 +89,7 @@ public interface ArticleService {
      * articleIsLock  文章是否被禁，false未锁，true被锁
      * articleUp  false 未置顶 ，true 置顶
      * hostArticle false 不查找热门文章，true 查找热门文章
+     * search 搜索条件，可以为null
      * 全部为false时查找全部
      * @param map
      * @return
@@ -118,6 +119,12 @@ public interface ArticleService {
      * @return
      */
     boolean modifyArticleLock(Integer articleId);
+    
+    /**
+     * 获取最新文章
+     * @return
+     */
+    List<Article> selectNewArticle();
 
 
 }

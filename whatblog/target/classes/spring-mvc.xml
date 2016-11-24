@@ -32,6 +32,7 @@
 			</list>
 		</property>
 	</bean>
+	
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -76,6 +77,7 @@
 			<mvc:exclude-mapping path="/upload/**"/>
 			<mvc:exclude-mapping path="/admin/**"/>
 			<mvc:exclude-mapping path="/fonts/**"/>
+			<mvc:exclude-mapping path="/show/**"/>
 			<bean class="cn.lcxjj.interceptor.IsLoginInterceptor"></bean>
 		</mvc:interceptor>
 		<!-- 拦截后台相关操作 -->

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcxjj.mapper.UserReportMapper" >
+  <resultMap id="BaseResultMap" type="cn.lcxjj.pojo.UserReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="CHAR" />
+    <result column="report_content" property="reportContent" jdbcType="VARCHAR" />
+    <result column="reported_user_name" property="reportedUserName" jdbcType="CHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="process_result" property="processResult" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="UserReportDetailMap" type="cn.lcxjj.pojo.UserReport" extends="BaseResultMap">
+  	<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+  	ofType=""/>
+  	<collection property="reportedNickname" column="reported_user_name" javaType="java.lang.String" select="getNickname"
+  	ofType=""/>
+  
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_name, report_content, reported_user_name, time, process_result
+  </sql>
+  
+  <select id="getNickname" parameterType="java.lang.String" resultType="java.lang.String">
+		select nickname from user where user_name = #{user_name,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAll" resultMap="UserReportDetailMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from user_report
+  	order by time desc
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.lcxjj.pojo.UserReport" >
+    insert into user_report (id, user_name, report_content, 
+      reported_user_name, time, process_result
+      )
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{reportContent,jdbcType=VARCHAR}, 
+      #{reportedUserName,jdbcType=CHAR}, #{time,jdbcType=TIMESTAMP}, #{processResult,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.lcxjj.pojo.UserReport" >
+    insert into user_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="reportContent != null" >
+        report_content,
+      </if>
+      <if test="reportedUserName != null" >
+        reported_user_name,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="processResult != null" >
+        process_result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=CHAR},
+      </if>
+      <if test="reportContent != null" >
+        #{reportContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reportedUserName != null" >
+        #{reportedUserName,jdbcType=CHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processResult != null" >
+        #{processResult,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcxjj.pojo.UserReport" >
+    update user_report
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=CHAR},
+      </if>
+      <if test="reportContent != null" >
+        report_content = #{reportContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reportedUserName != null" >
+        reported_user_name = #{reportedUserName,jdbcType=CHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processResult != null" >
+        process_result = #{processResult,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.lcxjj.pojo.UserReport" >
+    update user_report
+    set user_name = #{userName,jdbcType=CHAR},
+      report_content = #{reportContent,jdbcType=VARCHAR},
+      reported_user_name = #{reportedUserName,jdbcType=CHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      process_result = #{processResult,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

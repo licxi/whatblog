@@ -10,6 +10,51 @@ body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, button, i
 	-ms-transition: all 0.30s ease-in-out;
 }
 
+.blog_rank {
+	display: block;
+	margin: 5px;
+	padding: 0 0 5px 0;
+	background: url(../images/line_1.gif) repeat-x bottom;
+}
+
+.blog_rank li {
+	color: #666;
+	margin: 8px 0px;
+	list-style: none;
+}
+
+.host-article li {
+	color: #666;
+	margin: 2px 4px;
+	list-style: none;
+}
+
+.blog_rank li span {
+	padding-left: 6px;
+	position: relative;
+}
+
+.blog_rank li a :HOVER {
+	text-decoration: none;
+}
+
+.articleShowImg {
+	float: left;
+	width: 20%;
+}
+
+.showImg {
+	width: 130px;
+	height: 100px;
+	margin-top: 25px;
+	margin-left: 25px;
+}
+
+.article-detail{
+	margin-bottom: 10px;
+	margin-left: -15px;;
+}
+
 .myshadow{
 	box-shadow: 5px 5px 5px #888;
 }
@@ -103,6 +148,11 @@ a {
 	-o-transition: all 0.30s ease-in-out;
 	-ms-transition: all 0.30s ease-in-out;
 }
+
+/* a:link { text-decoration: none;color: blue}
+　　 a:active { text-decoration:blink}
+　　 a:hover { text-decoration:underline;color: red} 
+　　 a:visited { text-decoration: none;color: green} */
 li {
 	display: list-item;
 	list-style: none;
@@ -454,8 +504,14 @@ body, input, button, textarea, select {
 	color: #444;
 }
 .news-info dl dt a:hover {
-	color: #555;
+	color: #337ab7;
+	text-decoration:underline;
 }
+
+.news-info dl dt a:link { text-decoration: none;color: blue}
+.news-info dl dt a:active { text-decoration:blink}
+.news-info dl dt a:visited { text-decoration: none;}
+
 .news-info dd, .news-info span {
 	cursor: default;
 }

@@ -65,16 +65,25 @@ public interface ArticleMapper {
     Article getArticleAndComment(int article_id);
     
     /**
-     * 获取十条系统热门文章
+     * 获取系统热门文章,
+     * map 参数 start 开始位置，size 获取的数量，但可以为空，为空时，查询全部
      * @return
      */
     List<Article> selectHostArticle(Map<String, Integer> map);
+    
+    
+    /**
+     * 获取最新文章
+     * @return
+     */
+    List<Article> selectNewArticle();
     
     /**
      * map的value值功能介绍
      * articleIsLock  文章是否被禁，false未锁，true被锁
      * articleUp  false 未置顶 ，true 置顶
      * hostArticle false 不查找热门文章，true 查找热门文章
+     * search String  为null不查找
      * @param map
      * @return
      */

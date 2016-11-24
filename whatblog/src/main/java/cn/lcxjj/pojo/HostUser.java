@@ -3,6 +3,7 @@ package cn.lcxjj.pojo;
 public class HostUser {
 	private String userName;
 	private String nickname;
+	private String headUrl;
 	private Integer attentionCount;
 	public String getUserName() {
 		return userName;
@@ -16,6 +17,14 @@ public class HostUser {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	
+	
+	public String getHeadUrl() {
+		return headUrl;
+	}
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+	}
 	public Integer getAttentionCount() {
 		return attentionCount;
 	}
@@ -24,8 +33,11 @@ public class HostUser {
 	}
 	@Override
 	public String toString() {
-		return "HostUser [userName=" + userName + ", nickname=" + nickname + ", attentionCount=" + attentionCount + "]";
+		return "HostUser [userName=" + userName + ", nickname=" + nickname + ", headUrl=" + headUrl
+				+ ", attentionCount=" + attentionCount + "]";
 	}
+	
+	
 	
 	
 }

@@ -43,4 +43,14 @@ public class MessageServiceImpl implements MessageService {
 		return messageMapper.insertSelective(message);
 	}
 
+	@Override
+	public List<Message> selectAll() {
+		return messageMapper.selectAll();
+	}
+
+	@Override
+	public int deleteByMessageId(Integer messageId) {
+		return messageMapper.deleteByPrimaryKey(messageId);
+	}
+
 }

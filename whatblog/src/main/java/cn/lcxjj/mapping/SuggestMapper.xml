@@ -7,6 +7,12 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <resultMap id="withNicknameMap" type="cn.lcxjj.pojo.Suggest" extends="BaseResultMap">
+  	<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+			ofType="java.lang.String">
+		</collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, content, time
   </sql>
@@ -14,6 +20,18 @@
   <select id="suggestCount" resultType="java.lang.Integer">
   	select count(*) from suggest
   </select>
+  
+  <select id="selectAll" resultMap="withNicknameMap">
+  	select
+  	<include refid="Base_Column_List"></include>
+  	from suggest
+  	order by time desc
+  </select>
+  
+  
+  <select id="getNickname" parameterType="java.lang.String" resultType="java.lang.String">
+		select nickname from user where user_name = #{user_name,jdbcType=VARCHAR}
+	</select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

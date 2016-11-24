@@ -4,17 +4,17 @@
 <header>
 			<div class="hidden-xs header">
 				<!--超小屏幕不显示-->
-				<h1 class="logo">
-					<a href="" title="WhatBlog"></a>
-				</h1>
+				<!-- <h1 class="logo">
+					<a href="" title="WhatBlog" style="height: 80px"></a>
+				</h1> -->
 				<ul class="nav hidden-xs-nav">
 					<li class="active"><a href=""><span
 							class="glyphicon glyphicon-home"></span>网站首页</a></li>
-					<li><a href=""><span class="glyphicon glyphicon-erase"></span>网站前端</a></li>
-					<li><a href=""><span class="glyphicon glyphicon-inbox"></span>后端技术</a></li>
-					<li><a href=""><span class="glyphicon glyphicon-globe"></span>管理系统</a></li>
-					<li><a href=""><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
-					<li><a href=""><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
+					<c:if test="${types != null && types.size() != 0 }">
+					<c:forEach items="${types }" var="type">
+					<li><a href=""><span class="glyphicon glyphicon-erase"></span>${type.typeName }</a></li>
+					</c:forEach>
+					</c:if>
 				</ul>
 				<%-- <div class="feeds">
 					<a class="feed feed-xlweibo" href="" target="_blank"><i></i>新浪微博</a>

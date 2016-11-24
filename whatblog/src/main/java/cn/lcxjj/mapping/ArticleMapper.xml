@@ -90,7 +90,6 @@
 		ofType="cn.lcxjj.pojo.Comment"></collection> <!-- 获取所有评论 -->
 		<collection property="typeName" column="type_id" javaType="java.lang.String" select="selectTypeName"
 		ofType="java.lang.String"></collection> <!-- 获取分类 -->
-		
 	</resultMap>
 	
 	<select id="getArticleAndComment" parameterType="java.lang.Integer" resultMap="articleComments">
@@ -181,10 +180,12 @@
 		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
 			ofType="java.lang.String">
 		</collection>
+		<collection property="commentsCount" column="id" javaType="java.lang.Integer" select="commentCount"
+		ofType="java.lang.Integer"></collection> <!-- 获取文章评论数，包括回复评论的数量 -->
 		
 	</resultMap>
   
-  <!-- 获取十条热门文章(根据点击数) -->
+  <!-- 获取热门文章(根据点击数) -->
   <select id="selectHostArticle" resultMap="hostArticleDetailMap" parameterType="map">
     select 
     <include refid="Base_Column_List" />
@@ -195,7 +196,13 @@
     </if>
   </select>
   
-  
+  <!-- 获取最新文章) -->
+  <select id="selectNewArticle" resultMap="hostArticleDetailMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    order by create_time desc
+  </select>
   
   
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
