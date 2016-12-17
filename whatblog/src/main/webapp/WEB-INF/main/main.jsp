@@ -179,7 +179,12 @@
 												<a href="<c:url value='/show/article/${article.id }'/>" target="_blank"> ${article.articleTitle } </a>
 											</dt>
 											<dd>
-												<span class="name"><a href="<c:url value='/show/blog/${article.userName}'/>" target="_black" title=""
+												<span class="name"><a <c:if test="${user_name != article.userName }">
+										href="<c:url value='/show/blog/${article.userName}'/>" 
+										</c:if>
+										<c:if test="${user_name == article.userName }">
+										href="<c:url value='/${user_name }/home'/>" 
+										</c:if> target="_black" title=""
 													rel="author">${article.nickname }</a></span> <span class="identity"></span> 
 													<span><fmt:formatDate value="${article.createTime }" pattern="yyyy-MM-dd"/>
 													</span>

@@ -63,7 +63,12 @@ body {
 						<h2>${article.articleTitle }</h2>
 						<ul>
 							<li><a
-								href="<c:url value='/show/blog/${article.userName }'/>"> <strong>${article.nickname }</strong></a></li>
+								<c:if test="${user_name != article.userName }">
+										href="<c:url value='/show/blog/${article.userName}'/>" 
+										</c:if>
+										<c:if test="${user_name == article.userName }">
+										href="<c:url value='/${user_name }/home'/>" 
+										</c:if> target="_blank"> <strong>${article.nickname }</strong></a></li>
 							<li>发布于<fmt:formatDate value="${article.createTime }" />
 							</li>
 							<li>分类：<a href="<c:url value='/search/article?t=${article.typeId }'/>" title="" target="_blank">${article.typeName }</a></li>

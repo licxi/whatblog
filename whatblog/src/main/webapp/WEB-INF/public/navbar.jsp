@@ -20,8 +20,8 @@
   </div>
   <div class="collapse navbar-collapse" id="example-navbar-collapse">
      <ul class="nav navbar-nav">
-     <li><a href="#">item</a></li>
-     <li><a href="#">item</a></li>
+     <!-- <li><a href="#">item</a></li>
+     <li><a href="#">item</a></li> -->
    	 </ul>
     <ul class="nav navbar-nav navbar-right" style="padding-right: 50px;">
       	<!-- <li class="dropdown">
