@@ -35,4 +35,17 @@ public class CommentServiceImpl implements CommentService {
 		return commentMapper.selectAll();
 	}
 
+	@Override
+	public int saveComment(Comment comment) {
+		if(comment == null){
+			return 0;
+		}
+		return commentMapper.insertSelective(comment);
+	}
+
+	@Override
+	public Comment selectOne(int commentId) {
+		return commentMapper.selectByPrimaryKey(commentId);
+	}
+
 }

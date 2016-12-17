@@ -16,6 +16,14 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css" rel="stylesheet'/>"
 	rel="stylesheet">
+<style type="text/css">
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
+</style>
 </head>
 <body>
 	<c:import url="../public/user_sidebar.jsp"></c:import>
@@ -35,8 +43,8 @@
 				<div class="ibox-content">
 					<div style="text-align: center; padding-top: 0px;">
 						<form class="form-horizontal" role="form" id="form" method="post"
-							action="<c:url value='/${userName }/saveArticle'/>"
-							onsubmit="return checkSubmit()">
+							<%-- action="<c:url value='/${userName }/saveArticle'/>"
+							onsubmit="return checkSubmit()" --%>>
 							<input type="hidden" value="${userName }" name="userName" /> <input
 								type="hidden" value="${id }" name="id">
 							<div class="form-group">
@@ -151,7 +159,7 @@
 								<div class="">
 									<a class="btn btn-default"
 										href="<c:url value='/${user_name}/articleManage'/>">取消</a>
-									<button type="submit" id="submit" class="btn btn-info">提交</button>
+									<button type="button" id="submit" class="btn btn-info" onclick="checkSubmit()">提交</button>
 								</div>
 							</div>
 						</form>

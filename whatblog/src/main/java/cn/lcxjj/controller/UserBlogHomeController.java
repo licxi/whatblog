@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import cn.lcxjj.pojo.Article;
 import cn.lcxjj.pojo.Attention;
@@ -37,6 +41,7 @@ import cn.lcxjj.service.SuggestService;
 import cn.lcxjj.service.SystemSetupService;
 import cn.lcxjj.service.TypeService;
 import cn.lcxjj.service.UserService;
+import cn.lcxjj.util.JSONResult;
 
 @Controller
 @RequestMapping("/{userName}")
@@ -140,8 +145,9 @@ public class UserBlogHomeController {
 		return "user_blog/write_article";
 	}
 	
-	@RequestMapping("modifyArticle/{id}")
-	public String modifyArticle(@PathVariable String userName, ModelMap map,HttpSession session,@PathVariable int id) {
+	@RequestMapping("modifyArticle")
+	public String modifyArticle(@PathVariable String userName, ModelMap map,HttpSession session,
+			@RequestParam(value="id",required=true) int id) {
 		String loginUserName = (String) session.getAttribute("user_name");
 		if (loginUserName == null) {
 			return "error";
@@ -158,8 +164,9 @@ public class UserBlogHomeController {
 		return "user_blog/write_article";
 	}
 
+	@ResponseBody
 	@RequestMapping("saveArticle")
-	public String saveArticle(Article article) {
+	public Object saveArticle(@RequestBody Article article) {
 		// 保存
 		int result = articleService.saveArticle(article);
 		if (result > 0) {
@@ -167,9 +174,11 @@ public class UserBlogHomeController {
 				//当文章第一发表时，给用户增加积分，修改文章不增加
 				userService.addMark(article.getUserName(), systemSetupService.getWriteArticleMark());
 			}
-			return "redirect:articleManage";
+			//return "redirect:articleManage";
+			return new JSONResult<>("0", "保存成功！");
 		} else {
-			return "writeArticle";
+			//return "writeArticle";
+			return new JSONResult<>("-1", "保存失败！");
 		}
 	}
 
@@ -334,9 +343,16 @@ public class UserBlogHomeController {
 	}
 	
 	@RequestMapping("messageManage")
-	public String messageManage(@PathVariable String userName,ModelMap map){
+	public String messageManage(@PathVariable String userName,ModelMap map,
+			@RequestParam(value="page",required=false) Integer page){
+		if(userName == null){
+			return "error";
+		}
+		page = page == null?1:page;
+		PageHelper.startPage(page, 20);
 		List<Message> messages = messageService.getMessages(userName);
-		map.addAttribute("messages", messages);
+		PageInfo<Message> pages = new PageInfo<Message>(messages);
+		map.put("pages", pages);
 		return "user_blog/message_manage";
 	}
 	
@@ -391,7 +407,10 @@ public class UserBlogHomeController {
 	
 	
 	@RequestMapping("attentionManage")
-	public String attentionManage(@PathVariable String userName, HttpSession session,ModelMap map){
+	public String attentionManage(@PathVariable String userName,
+			@RequestParam(value="t",required=false) Integer t, 
+			HttpSession session,ModelMap map
+			){
 		String loginUserName = (String) session.getAttribute("user_name");
 		if (loginUserName == null) {
 			return "error";
@@ -403,6 +422,9 @@ public class UserBlogHomeController {
 		List<Attention> yourAttentions = attentionService.selectByUserName(userName);
 		map.addAttribute("attentionsYou", attentionsYou); //关注用户的
 		map.addAttribute("yourAttentions", yourAttentions); //用户关注的
+		t = t==null?1:t;
+		String type = t == 1?"attentionYou":"yourAttention";
+		map.addAttribute("type", type);
 		return "user_blog/attention_manage";
 	}
 	

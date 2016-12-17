@@ -1,6 +1,20 @@
 /**
  * 
  */
+var attentionId = $("#attentionId");
+var attentionUser = $("#attentionUser");
+var noAttentionUser = $("#noAttentionUser");
+window.onload=isAttention;
+function isAttention(){
+	if(attentionId.val() <= 0 ){
+		attentionUser.css("display","inline-block");
+		noAttentionUser.css("display","none");
+	}else{
+		attentionUser.css("display","none");
+		noAttentionUser.css("display","inline-block");
+	}
+}
+
 $(function() {
 	$(window).scroll(function() {
 		if ($(window).scrollTop() > 100) {
@@ -76,15 +90,17 @@ function submit() {
 	});
 }
 //关注用户
-function attentionUser(userName){
+function doAttentionUser(userName){
 	var url = "/whatblog/main/attentionUser";
-	var attention = $("#attention");
 	jQuery.post(url,{
 		attentionUserName:userName.trim()
 	},function(data){
 		if(data.errCode=="0"){
 			alert(data.msg);
-			attention.text("已关注");
+			//attention.text("已关注");
+			attentionId.val(data.data);
+			attentionUser.css("display","none");
+			noAttentionUser.css("display","inline-block");
 		}else{
 			alert(data.msg);
 		}
@@ -92,3 +108,21 @@ function attentionUser(userName){
 		alert("网络连接失败，请重试！");
 	});
 }
+function notAttentionUser(){
+	var url = "/whatblog/main/notAttentionUser";
+	jQuery.post(url,{
+		attentionId:attentionId.val()
+	},function(data){
+		if(data.errCode == "0"){
+			alert(data.msg);
+			attentionUser.css("display","inline-block");
+			noAttentionUser.css("display","none");
+		}else{
+			alert(data.msg);
+		}
+	},'json').error(function(){
+		alert("网络连接失败，请重试！");
+	});
+}
+
+

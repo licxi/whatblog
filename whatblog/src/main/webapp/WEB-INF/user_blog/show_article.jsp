@@ -29,6 +29,12 @@
 .container {
 	width: 100%;
 }
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
 </style>
 </head>
 <body>
@@ -41,7 +47,7 @@
 				<ul class="myul">
 					<li class="myli">发布于 ：<fmt:formatDate
 							value="${article.createTime }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></li>
-					<li class="myli">分类：<a class="mya" href="" title=""
+					<li class="myli">分类：<a class="mya" href="<c:url value='/search/article?t=${article.typeId }'/>" title=""
 						target="_blank">${article.typeName }</a></li>
 					<li class="myli"><strong>${article.articleClick }</strong> 查看
 					</li>
@@ -50,7 +56,7 @@
 			</div>
 			<div class="col-sm-offset-10">
 				<a
-					href="<c:url value='/${user_name }/modifyArticle/${article.id }'/>"
+					href="<c:url value='/${user_name }/modifyArticle?id=${article.id }'/>"
 					class="btn btn-primary ">修改</a>
 				<button class="btn btn-danger navbar-right"
 					onclick="deleteArticleInShowArticle(${article.id})">删除</button>
@@ -76,50 +82,99 @@
 					<strong>评论</strong>
 				</h2>
 			</div>
-			<c:forEach items="${article.comments }" var="comments">
-				<div class="feed-element myshadow ">
-					<div style="margin: 10px 10px 10px 10px;">
-						<a href="#" class="pull-left"><img alt="image"
-							class="img-circle" src="${comments.headUrl }"></a>
-						<div class="media-body">
-							<button class="btn btn-danger pull-right"
-								style="font-size: 12px;">删除</button>
-							<strong style="font-size: 15px;">${comments.nickname }</strong><br>
-							<small class="text-muted"><fmt:formatDate
-									value="${comments.time }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></small>
-							<div class="well" style="font-size: 14px; margin-right: 50px;">${comments.content }</div>
-							<div class="pull-right">
-								</a>
-							</div>
-						</div>
-					</div>
-					<c:if test="${comments.comments != null }">
-						<c:forEach items="${comments.comments }" var="comment">
-							<div class="feed-element"
-								style="margin-left: 50px; margin-right: 100px">
-								<a href="#" class="pull-left"><img alt="image"
-									class="img-circle" src="${comments.headUrl }"></a>
-								<div class="media-body ">
-									<small class="pull-right" style="font-size: 12px;"></small> <strong
-										style="font-size: 15px;">${comments.nickname }</strong><br>
-									<small class="text-muted"><fmt:formatDate
+			<div id="allComments">
+					<c:forEach items="${article.comments }" var="comments">
+						<div class="feed-element myshadow ">
+							<div style="margin: 10px 10px 10px 10px;">
+								<a href="#" class="pull-left" style="margin-right: 10px;"><img
+									alt="image" class="img-circle" src="${comments.headUrl }"></a>
+								<div class="media-body">
+									<c:if test="${user_name != null }">
+									<input type="hidden" value="${comments.articleId }" id="articleId">
+									<input type="hidden" value="${comments.userName }" id="toUserName">
+									<input type="hidden" value="${comments.id }" id="toCommentId">
+									<button class="btn btn-info pull-right" style="font-size: 12px;" 
+										<%-- onclick="comment(${article.id},'${comments.userName }',${comments.id })" --%>>回复</button>
+									</c:if>
+									<strong style="font-size: 15px;"><a
+										href="<c:url value='/show/blog/${comments.userName}'/>"
+										target="_blank">${comments.nickname }</a></strong><br> <small
+										class="text-muted"><fmt:formatDate
 											value="${comments.time }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></small>
-									<div class="well" style="font-size: 14px;">${comments.content }</div>
+									<div class="well" style="font-size: 14px; margin-right: 50px;">${comments.content }</div>
 									<div class="pull-right">
 										</a>
 									</div>
 								</div>
 							</div>
-						</c:forEach>
-					</c:if>
+							<div id="cComment${comments.id }">
+							<c:if test="${comments.comments != null }">
+								<c:forEach items="${comments.comments }" var="comment">
+									<div class="feed-element" 
+										style="margin-left: 50px; margin-right: 100px">
+										<a href="#" class="pull-left"><img alt="image"
+											class="img-circle" src="${comment.headUrl }"></a>
+										<div class="media-body ">
+											<small class="pull-right" style="font-size: 12px;"></small> <strong
+												style="font-size: 15px;"><a
+												href="<c:url value='/show/blog/${comment.userName}'/>"
+												target="_blank">${comment.nickname }</a></strong><br> <small
+												class="text-muted"><fmt:formatDate
+													value="${comment.time }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></small>
+											<div class="well" style="font-size: 14px;">${comment.content }</div>
+											<div class="pull-right">
+												</a>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+							</c:if>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
-			</c:forEach>
 		</c:if>
 		<c:if
 			test="${article.comments == null || article.comments.size() == 0}">
 		文章还没有评论
 	</c:if>
 	</div>
+	
+	
+	<div class="modal fade bs-example-modal-sm" id="reply_comment"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">回复评论</h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post" id="report_article_form">
+						<input type="hidden" name="userName" value="${user_name }">
+						<input type="hidden" name="articleId" value="${article.id}">
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon1"> <span>
+									回复内容</span>
+							</span> <input id="replyCommentContent" name="replyCommentContent"
+								class="form-control" type="text" placeholder="说说你的看法吧" />
+						</div>
+						<br />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" onclick="submitReplyComment()"
+						class="btn btn-primary">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	<div>
 		<a href="javascript:;" class="gotop" style="display: block;"></a>
 	</div>
@@ -145,6 +200,7 @@
 
 	<!-- 留言 -->
 	<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/js/comment.js' />"></script>
 	<script>
 		var s_url = window.location.pathname;
 		var now_url = '';

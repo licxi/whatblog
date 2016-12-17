@@ -12,15 +12,15 @@ public interface CommentMapper {
 	int commentsCount();
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Comment record);
+    int insert(Comment comment);
 
-    int insertSelective(Comment record);
+    int insertSelective(Comment comment);
 
     Comment selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Comment record);
+    int updateByPrimaryKeySelective(Comment comment);
 
-    int updateByPrimaryKey(Comment record);
+    int updateByPrimaryKey(Comment comment);
     
     /**
      * 删除文章的所有评论 

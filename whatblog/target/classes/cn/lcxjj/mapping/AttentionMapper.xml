@@ -45,6 +45,12 @@
 		</collection>
 	</resultMap>
 	
+	<select id="isAttentioned" parameterType="map" resultType="java.lang.Integer">
+		select id from attention 
+		where user_name=#{user_name,jdbcType=CHAR} 
+		and attention_user_name=#{attention_user_name,jdbcType=CHAR}
+	</select>
+	
 	<!-- 获取热门博主 -->
 	<select id="selectHostUser" resultMap="attentionCountMap">
 		SELECT `attention_user_name` as user_name, count('user_name') as attention_count
@@ -55,7 +61,8 @@
 	</select>
 	
 	<delete id="cancelAttention" parameterType="map">
-		delete attention where 
+		delete attention where user_name=#{user_name,jdbcType=CHAR} 
+		and attention_user_name=#{attention_user_name,jdbcType=CHAR} 
 	</delete>
 	
 	<!-- 获取用户昵称 -->
@@ -118,6 +125,9 @@
 		#{attentionTime,jdbcType=TIMESTAMP})
 	</insert>
 	<insert id="insertSelective" parameterType="cn.lcxjj.pojo.Attention">
+		<selectKey resultType="Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
 		insert into attention
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">

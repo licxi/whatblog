@@ -1,6 +1,10 @@
 package cn.lcxjj.service.impl;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +55,23 @@ public class AttentionServiceImpl implements AttentionService {
 		if(attention == null){
 			return -1;
 		}
-		return attentionMapper.insertSelective(attention);
+		int result = isAttentioned(attention.getUserName(),attention.getAttentionUserName());
+		return result > 0 ?-1:attentionMapper.insertSelective(attention);
+	}
+
+	@Override
+	public int isAttentioned(String user_name, String attention_user_name) {
+		if(user_name == null || attention_user_name == null){
+			return 0;
+		}
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("user_name", user_name);
+		map.put("attention_user_name", attention_user_name);
+		Object result = attentionMapper.isAttentioned(map);
+		if(result == null){
+			return 0;
+		}
+		return (Integer) result;
 	}
 	
 	

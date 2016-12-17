@@ -13,7 +13,16 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css" rel="stylesheet'/>"
 	rel="stylesheet">
+<style type="text/css">
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
+</style>
 </head>
+
 <body>
 	<c:import url="../public/user_sidebar.jsp"></c:import>
 	<div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom: 10px;">
@@ -152,7 +161,7 @@
 						<div class="form-group">
 
 							<div class="col-sm-6" style="margin-left: 38%;">
-								<button type="button" id="modify" class="btn btn-default">修改</button>
+								<button type="button" id="modify" class="btn btn-info">修改</button>
 								<!-- <a type="button" id="cancel" class="btn btn-default" href="userInfo"
 									style="display: none">取消</a> -->
 									<button type="reset" id="cancel" class="btn btn-default" href="userInfo"

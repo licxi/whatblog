@@ -14,6 +14,14 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css" rel="stylesheet'/>"
 	rel="stylesheet">
+<style type="text/css">
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
+</style>
 </head>
 <body>
 	<c:import url="../public/user_sidebar.jsp"></c:import>
@@ -44,7 +52,7 @@
 										</div>
 										<div class="col-sm-8">
 											<h3>
-												<strong>${attention.nickname }</strong>
+												<strong><a href="<c:url value='/show/blog/${attention.userName}'/>" target="_blank">${attention.nickname }</a></strong>
 											</h3>
 											<p>
 												<i class="fa fa-map-marker"></i>关注时间：
@@ -86,7 +94,7 @@
 										</div>
 										<div class="col-sm-8">
 											<h3>
-												<strong>${attention.attentionNickname }</strong>
+												<strong><a href="<c:url value='/show/blog/${attention.attentionUserName}'/>" target="_blank">${attention.attentionNickname }</a></strong>
 											</h3>
 											<p>
 												<i class="fa fa-map-marker"></i>关注时间：
@@ -154,6 +162,12 @@
 				$("#side-menu a").eq(i).parent().removeClass("active");
 			}
 		}
+		//var type= s_url.substring(s_url.lastIndexOf('/')+1,s_url.length);
+		$(function() {
+			
+			//$('#myTab a:first').tab('show')
+			$("#myTab a[href=#${type}]").tab('show')
+		});
 	</script>
 	<!-- 返回顶部 -->
 	<script>
@@ -173,10 +187,5 @@
 			});
 		});
 	</script>
-	<script>
-			$(function() {
-				$('#myTab a:first').tab('show')
-			});
-		</script>
 </body>
 </html>

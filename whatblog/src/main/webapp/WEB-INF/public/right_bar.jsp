@@ -16,9 +16,9 @@
 		<h2 class="title">
 			<strong>搜索</strong>
 		</h2>
-		<form class="navbar-form" action="" method="post">
+		<form class="navbar-form" action="<c:url value='/search/article'/>" method="get">
 			<div class="input-group">
-				<input type="text" class="form-control" size="35"
+				<input type="text" class="form-control" size="35" name="wd"
 					placeholder="请输入关键字"> <span class="input-group-btn">
 					<button class="btn btn-default btn-search" type="submit">搜索</button>
 				</span>
@@ -32,7 +32,7 @@
 		<ul>
 			<c:if test="${hostArticles != null && hostArticle.size() != 0}">
 				<c:forEach items="${hostArticles }" var="hostArticle">
-					<li><a target="_blank" href=""> <span class="thumb"><img
+					<li><a target="_blank" href="<c:url value='/show/article/${hostArticle.id }'/>"> <span class="thumb"><img
 								src="${hostArticle.showImage }" alt=""></span> <span class="text">${hostArticle.articleTitle }</span>
 							<span class="text-muted">阅读(${hostArticle.articleClick })</span>
 					</a></li>

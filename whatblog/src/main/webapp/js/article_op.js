@@ -17,8 +17,8 @@ function dArticle(id) {
 }
 // 在浏览文章时删除该文章，然后跳转到 管理文章页面
 function deleteArticleInShowArticle(id) {
-	var url = "deleteArticle";
-	var callbackurl = "articleManage"
+	var url = "../deleteArticle";
+	var callbackurl = "../articleManage"
 	if (confirm("删除后不可恢复！确定删除该文章吗？")) {
 		jQuery.post(url, {
 			"article_id" : id

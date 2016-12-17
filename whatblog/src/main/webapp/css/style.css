@@ -9,6 +9,12 @@ body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, button, i
 	-o-transition: all 0.30s ease-in-out;
 	-ms-transition: all 0.30s ease-in-out;
 }
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
 
 .blog_rank {
 	display: block;
@@ -162,7 +168,7 @@ body, input, button, textarea, select {
 	font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
 }
 .container {
-	max-width: 1280px;
+	max-width: 100%;
 	background-color: #fff;
 	margin: 0 auto;
 	text-align: left;
@@ -179,7 +185,7 @@ body, input, button, textarea, select {
 }
  @media (min-width: 1366px) {
 .container {
-	width: 1280px;
+	width: 94%;
 }
 }
 /*导航样式开始*/
@@ -508,7 +514,7 @@ body, input, button, textarea, select {
 	text-decoration:underline;
 }
 
-.news-info dl dt a:link { text-decoration: none;color: blue}
+.news-info dl dt a:link { text-decoration: none;/* color: blue */}
 .news-info dl dt a:active { text-decoration:blink}
 .news-info dl dt a:visited { text-decoration: none;}
 

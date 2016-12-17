@@ -26,7 +26,7 @@ body{
 </style>
 </head>
 <body onkeydown="login()">
-	<h1>欢迎使用WhatBlog</h1>
+	<h1>欢迎使用${systemName }</h1>
 
 	<div class="login" style="margin-top: 50px;">
 
@@ -58,6 +58,7 @@ body{
 							<input type="hidden" name="did" value="0" /> <input type="hidden"
 								name="to" value="log" />
 							<div class="uinArea" id="uinArea">
+								
 								<label class="input-tips" for="u">帐号：</label>
 								<div class="inputOuter" id="uArea">
 

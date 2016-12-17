@@ -37,4 +37,9 @@ public class AttentionTest {
 		System.out.println("关注自己的："+attentionService.countUser("417708459"));
 	}
 	
+	@Test
+	public void isAttention(){
+		System.out.println(attentionService.isAttentioned("qazwsxedc", "licxi"));
+	}
+	
 }

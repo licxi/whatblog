@@ -78,6 +78,8 @@
 			<mvc:exclude-mapping path="/admin/**"/>
 			<mvc:exclude-mapping path="/fonts/**"/>
 			<mvc:exclude-mapping path="/show/**"/>
+			<mvc:exclude-mapping path="/search/**"/>
+			<mvc:exclude-mapping path="/comment/**"/>
 			<bean class="cn.lcxjj.interceptor.IsLoginInterceptor"></bean>
 		</mvc:interceptor>
 		<!-- 拦截后台相关操作 -->

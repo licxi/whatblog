@@ -1,29 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>博客标题</title>
+<title>${article.articleTitle }</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="<c:url value='/css/style.css'/>" type="text/css"
-	rel="stylesheet">
 <link href="<c:url value='/css/bootstrap.min.css'/>" type="text/css"
 	rel="stylesheet">
-<!--<link href="<c:url value='/css/fileinput.css'/>" type="text/css"
-	rel="stylesheet">-->
-<!--[if lt IE 9]>
-    <script src="js/html5shiv.min.js" type="text/javascript"></script>
-    <script src="js/respond.min.js" type="text/javascript"></script>
-    <script src="js/selectivizr-min.js" type="text/javascript"></script>
-<![endif]-->
+<link href="<c:url value='/css/style.css'/>" type="text/css"
+	rel="stylesheet">
 <link rel="apple-touch-icon-precomposed"
 	href="<c:url value='/img/icon.jpg'/>">
+<!-- 引入代码高亮 -->
+<link type="text/css" href="<c:url value='/css/shThemeMidnight.css'/>"
+	rel="stylesheet" />
+<script type="text/javascript" src="<c:url value='/js/shCore.min.js'/>"></script>
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
 <meta name="Keywords" content="whatblog WhatBlg">
 <meta name="description" content="">
+<style type="text/css">
+.ibox {
+	clear: both;
+	margin-bottom: 25px;
+	margin-top: 0;
+	padding: 0;
+}
+
+body {
+	overflow: auto !important;
+}
+
+.modal {
+	overflow: auto !important;
+}
+</style>
 <script type="text/javascript">
 	//判断浏览器是否支持HTML5
 	window.onload = function() {
@@ -33,129 +49,158 @@
 		}
 	}
 </script>
-<style type="text/css">
-.uditor{
-	margin: 0;
-	padding: 0;
-	transition: all 0.00s ;
-	-webkit-transition: all 0.00s ;
-	-moz-transition: all 0.30s ease-in-out;
-	-o-transition: all 0.30s ease-in-out;
-	-ms-transition: all 0.30s ease-in-out;
-}
-</style>
 </head>
 <body>
 	<c:import url="../public/navbar.jsp"></c:import>
-	<section class="container user-select">
+	<section class="container">
 		<c:import url="../public/header.jsp"></c:import>
 		<!--/超小屏幕可见-->
 		<div class="content-wrap">
 			<!--内容-->
 			<div class="content">
-				<header class="news_header">
-					<h2>这是博客查看测试</h2>
-					<ul>
-						<li>admin 发布于 2015-06-29</li>
-						<li>栏目：<a
-							href=""
-							title="" target="_blank">网站前端</a></li>
-						<li>来源：<a
-							href=""
-							title="" target="_blank">互联网</a></li>
-						<li>共 <strong>2345</strong> 人围观
-						</li>
-						<li><strong>123</strong> 个不明物体</li>
-					</ul>
-				</header>
+				<div class="col-sm-9">
+					<header class="news_header">
+						<h2>${article.articleTitle }</h2>
+						<ul>
+							<li><a
+								href="<c:url value='/show/blog/${article.userName }'/>"> <strong>${article.nickname }</strong></a></li>
+							<li>发布于<fmt:formatDate value="${article.createTime }" />
+							</li>
+							<li>分类：<a href="<c:url value='/search/article?t=${article.typeId }'/>" title="" target="_blank">${article.typeName }</a></li>
+							<li>共 <strong>${article.articleClick }</strong> 查看
+							</li>
+							<li>共 <strong>${article.commentsCount }</strong> 条评论
+							</li>
+						</ul>
+					</header>
+				</div>
+				<c:if test="${adminAccount != null}">
+					<div class="col-sm-3" style="text-align: right;">
+						<button class="btn btn-danger"
+							onclick="articleLock(${article.id})" id="articleLock">
+							<c:if test="${article.articleSupport ==0 }">锁定</c:if>
+							<c:if test="${article.articleSupport ==1 }">解锁</c:if>
+
+						</button>
+						<button class="btn btn-danger"
+							onclick="deleteArticle(${article.id})">删除</button>
+					</div>
+				</c:if>
+
+				<c:if test="${adminAccount == null && user_name != null}">
+					<div class="col-sm-3" style="text-align: right;">
+						<button class="btn btn-danger" data-toggle="modal"
+							data-target="#report_article">举报</button>
+					</div>
+				</c:if>
+				<div class="ibox">${article.articleContent }</div>
+
 				<div class="reprint">
-					转载请说明出处：<a
+					转载请说明出处
+					<!-- ：<a
 						href=""
 						title="" target="_blank">WhatBlog</a> » <a
 						href=""
-						title="" target="_blank">欢迎来到WhatBlog</a>
+						title="" target="_blank">欢迎来到WhatBlog</a> -->
 				</div>
-				<div class="zambia">
+				<!-- <div class="zambia">
 					<a href="javascript:;" name="zambia" rel=""><span
 						class="glyphicon glyphicon-thumbs-up"></span> 赞（0）</a>
-				</div>
+				</div> -->
 				<div class="content-block comment">
 					<h2 class="title">
 						<strong>评论</strong>
 					</h2>
-					<form
-						action=""
-						method="post" class="form-inline" id="comment-form">
-						<!-- <div class="comment-title">
-							<div class="form-group">
-								<label for="commentName">昵称：</label> <input type="text"
-									name="commentName" class="form-control" id="commentName"
-									placeholder="刘岑溪">
-							</div>
-							<div class="form-group">
-								<label for="commentEmail">邮箱：</label> <input type="email"
-									name="commentEmail" class="form-control" id="commentEmail"
-									placeholder="417708459@qq.com">
-							</div>
-						</div> -->
+					<form action="" method="post" class="form-inline" id="comment-form">
 						<div class="comment-form">
-							<textarea placeholder="你的评论可以一针见血" name="commentContent"></textarea>
+							<textarea placeholder="说说你的看法吧" name="commentContent"
+								id="commentContent"></textarea>
 							<div class="comment-form-footer">
-								<div class="comment-form-text">
-									请先 <a href="javascript:;">登录</a> 或 <a href="javascript:;">注册</a>
-								</div>
+								<c:if test="${user_name == null }">
+									<div class="comment-form-text">
+										<c:url value="/show/article/${article.id }" var="fromurl" />
+										<c:url value="/user/toLogin" var="login">
+											<c:param name="fromurl" value="${fromurl }" />
+										</c:url>
+										请先 <a href="${login }">登录</a> 或 <a
+											href="<c:url value='/user/toReg'/>">注册</a>
+									</div>
+								</c:if>
 								<div class="comment-form-btn">
-									<button type="submit" class="btn btn-default btn-comment">提交评论</button>
+									<input type="hidden" value="${article.id }" id="articleId">
+									<button type="button" class="btn btn-default btn-comment" id="submitButton"
+										<c:if test="${user_name == null }">disabled="true"</c:if>
+										<%-- onclick="comment(${article.id})" --%>>提交评论</button>
 								</div>
 							</div>
 						</div>
 					</form>
 				</div>
-					<div class="feed-element">
-						<a href="#" class="pull-left"><img alt="image" class="img-circle" src="<c:url value='/img/logo.png'/>"></a>
-							<div class="media-body ">
-								<small class="pull-right" style ="font-size:12px;">1楼</small>
-									<strong style = "font-size:15px;">刘岑溪</strong><br>
-									<small class="text-muted">2016</small>
-									<div class="well" style = "font-size:14px;">你是个什么鬼
+				<div id="allComments">
+					<c:forEach items="${article.comments }" var="comments">
+						<div class="feed-element myshadow ">
+							<div style="margin: 10px 10px 10px 10px;">
+								<a href="#" class="pull-left" style="margin-right: 10px;"><img
+									alt="image" class="img-circle" src="${comments.headUrl }"></a>
+								<div class="media-body">
+									<c:if test="${user_name != null }">
+									<input type="hidden" value="${comments.articleId }" id="articleId">
+									<input type="hidden" value="${comments.userName }" id="toUserName">
+									<input type="hidden" value="${comments.id }" id="toCommentId">
+									<button class="btn btn-info pull-right" style="font-size: 12px;" 
+										<%-- onclick="comment(${article.id},'${comments.userName }',${comments.id })" --%>>回复</button>
+									</c:if>
+									<strong style="font-size: 15px;"><a
+										href="<c:url value='/show/blog/${comments.userName}'/>"
+										target="_blank">${comments.nickname }</a></strong><br> <small
+										class="text-muted"><fmt:formatDate
+											value="${comments.time }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></small>
+									<div class="well" style="font-size: 14px; margin-right: 50px;">${comments.content }</div>
+									<div class="pull-right">
+										</a>
 									</div>
-								<div class="pull-right">游客</a>
+								</div>
+							</div>
+							<div id="cComment${comments.id }">
+							<c:if test="${comments.comments != null }">
+								<c:forEach items="${comments.comments }" var="comment">
+									<div class="feed-element" 
+										style="margin-left: 50px; margin-right: 100px">
+										<a href="#" class="pull-left"><img alt="image"
+											class="img-circle" src="${comment.headUrl }"></a>
+										<div class="media-body ">
+											<small class="pull-right" style="font-size: 12px;"></small> <strong
+												style="font-size: 15px;"><a
+												href="<c:url value='/show/blog/${comment.userName}'/>"
+												target="_blank">${comment.nickname }</a></strong><br> <small
+												class="text-muted"><fmt:formatDate
+													value="${comment.time }" pattern="yyyy年MM月dd日  HH:mm:ss"></fmt:formatDate></small>
+											<div class="well" style="font-size: 14px;">${comment.content }</div>
+											<div class="pull-right">
+												</a>
+											</div>
+										</div>
 									</div>
-									</div>
-					</div><hr />
-					<div class="feed-element">
-						<a href="#" class="pull-left"><img alt="image" class="img-circle" src="<c:url value='/img/logo.png'/>"></a>
-							<div class="media-body ">
-								<small class="pull-right" style ="font-size:12px;">1楼</small>
-									<strong style = "font-size:15px;">刘岑溪</strong><br>
-									<small class="text-muted">2016</small>
-									<div class="well" style = "font-size:14px;">你是个什么鬼
-									</div>
-								<div class="pull-right">游客</a>
-									</div>
-									</div>
-					</div><hr>
-					<div class="feed-element">
-						<a href="#" class="pull-left"><img alt="image" class="img-circle" src="<c:url value='/img/logo.png'/>"></a>
-							<div class="media-body ">
-								<small class="pull-right" style ="font-size:12px;">1楼</small>
-									<strong style = "font-size:15px;">刘岑溪</strong><br>
-									<small class="text-muted">2016</small>
-									<div class="well" style = "font-size:14px;">你是个什么鬼
-									</div>
-								<div class="pull-right">游客</a>
-									</div>
-									</div>
-					</div>
+								</c:forEach>
+								
+							</c:if>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 				<div class="content-block related-content visible-lg visible-md">
 					<h2 class="title">
 						<strong>相关推荐</strong>
 					</h2>
 					<div class="list-group">
-						<a href="" class="list-group-item">欢迎来到WhatBlog</a> <a href=""
-							class="list-group-item">欢迎来到WhatBlog</a> <a href=""
-							class="list-group-item"> 欢迎来到WhatBlog</a> <a href=""
-							class="list-group-item">欢迎来到WhatBlog</a>
+						<c:if test="${likeArticles !=null && likeArticles.size() != 0 }">
+
+							<c:forEach items="${likeArticles }" var="article">
+								<a href="<c:url value='/show/article/${article.id}'/>"
+									class="list-group-item">${article.articleTitle }</a>
+							</c:forEach>
+						</c:if>
+
 					</div>
 				</div>
 			</div>
@@ -167,15 +212,105 @@
 		<!--/右侧>992px显示-->
 		<c:import url="../public/footer.jsp"></c:import>
 	</section>
+
+	<!-- 举报文章 -->
+	<div class="modal fade bs-example-modal-sm" id="report_article"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">举报文章</h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post" id="report_article_form">
+						<input type="hidden" name="userName" value="${user_name }">
+						<input type="hidden" name="reportedUserName"
+							value="${article.userName}"> <input type="hidden"
+							name="reportedArticleId" value="${article.id}">
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon1"> <span>
+									举&nbsp;&nbsp;&nbsp;报&nbsp;&nbsp;&nbsp;&nbsp;理&nbsp;&nbsp;&nbsp;由
+							</span>
+							</span> <input id="reportContent" name="reportContent"
+								class="form-control" type="text" placeholder="你举报这篇文章的理由(必填)" />
+						</div>
+						<br />
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon1"> <span>
+									被侵权文章URL </span>
+							</span> <input id="originalArticleUrl" name="originalArticleUrl"
+								class="form-control" type="text" placeholder="必须以http或https开头(可以不填)" />
+						</div>
+						<br />
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon1"> <span>
+									被侵权文章标题 </span>
+							</span> <input id="originalArticleTitle" name="originalArticleTitle"
+								class="form-control" type="text" placeholder="(可以不填)"/>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+					<button type="button" onClick="submitReportArticle()"
+						class="btn btn-primary">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-sm" id="reply_comment"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">回复评论</h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post" id="report_article_form">
+						<input type="hidden" name="userName" value="${user_name }">
+						<input type="hidden" name="articleId" value="${article.id}">
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon1"> <span>
+									回复内容</span>
+							</span> <input id="replyCommentContent" name="replyCommentContent"
+								class="form-control" type="text" placeholder="说说你的看法吧" />
+						</div>
+						<br />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" onclick="submitReplyComment()"
+						class="btn btn-primary">提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<div>
 		<a href="javascript:;" class="gotop" style="display: block;"></a>
 	</div>
 	<!--/返回顶部-->
 	<script type="text/javascript" src="<c:url value='/js/jquery.min.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/js/ajaxfileupload.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/ueditor/ueditor.config.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/ueditor/ueditor.all.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/js/bootstrap.min.js' />"></script>
+	<script type="text/javascript"
+		src="<c:url value='/js/ajaxfileupload.js'/>"></script>
+	<script type="text/javascript"
+		src="<c:url value='/ueditor/ueditor.config.js'/>"></script>
+	<script type="text/javascript"
+		src="<c:url value='/ueditor/ueditor.all.js'/>"></script>
+	<script type="text/javascript"
+		src="<c:url value='/js/bootstrap.min.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/js/comment.js' />"></script>
 	<!--	
 	<script src="<c:url value='/js/fileinput.js'/>" type="text/javascript"></script>
 	<script src="<c:url value='/js/fileinput_locale_zh.js'/>" type="text/javascript"></script>
@@ -247,7 +382,7 @@
 						element.css({ //如果当前元素element未滚动到浏览器上边缘，则使用默认样式 
 							position : pos,
 							top : top
-						}).removeClass("shadow");//移除阴影样式.shadow 
+						});
 					}
 				});
 			};
@@ -259,81 +394,108 @@
 		$(function() {
 			$("#search").smartFloat();
 		});
-	</script>
-	<script type="text/javascript">
-		var ue = UE.getEditor('container1',{
-			 toolbars: [
-			            ['source', //源代码
-			             'undo', 'redo', 'bold','indent', //首行缩进
-			             'snapscreen', //截图
-			             'italic', //斜体
-			             'underline', //下划线
-			             'strikethrough', //删除线
-			             'subscript', //下标
-			             'fontborder', //字符边框
-			             'superscript', //上标
-			             'formatmatch', //格式刷
-			             'selectall', //全选
-			             'fontborder',//字符边框
-			             'superscript', //上标
-			             'formatmatch', //格式刷
-			             'blockquote', //引用
-			             'pasteplain', //纯文本粘贴模式
-			             'selectall', //全选
-			             'preview', //预览
-			             'horizontal', //分隔线
-			             'removeformat', //清除格式
-			             'time', //时间
-			             'date', //日期
-			             'unlink', //取消链接
-			             'inserttitle', //插入标题
-			             'deletetable', //删除表格
-			             'cleardoc', //清空文档
-			             'insertparagraphbeforetable', //"表格前插入行"
-			             'insertcode', //代码语言
-			             'fontfamily', //字体
-			             'fontsize', //字号
-			             'paragraph', //段落格式
-			             'simpleupload', //单图上传
-			             'insertimage', //多图上传
-			             'link', //超链接
-			             'emotion', //表情
-			             'searchreplace', //查询替换
-			             'justifyleft', //居左对齐
-			             'justifyright', //居右对齐
-			             'justifycenter', //居中对齐
-			             'justifyjustify', //两端对齐
-			             'forecolor', //字体颜色
-			             'insertorderedlist', //有序列表
-			             'insertunorderedlist', //无序列表
-			             'fullscreen', //全屏
-			             'rowspacingtop', //段前距
-			             'rowspacingbottom', //段后距
-			             'pagebreak', //分页
-			             'insertframe', //插入Iframe
-			             'imagenone', //默认
-			             'imageleft', //左浮动
-			             'imageright', //右浮动
-			             'imagecenter', //居中
-			             'wordimage', //图片转存
-			             'lineheight', //行间距
-			             'edittip ', //编辑提示
-			             'customstyle', //自定义标题
-			             'autotypeset', //自动排版
-			             'touppercase', //字母大写
-			             'tolowercase', //字母小写
-			             'inserttable', //插入表格
-			             'drafts', // 从草稿箱加载
-			             'charts', // 图表
-			             'help' //帮助
-			        ]],
-			        autoHeightEnabled: true,
-			        autoFloatEnabled: true,
-			        allowDivTransToP: false,
-			        initialFrameHeight:500, /* 设置高度 */
-			        initialFrameWidth:'100%'/* 设置宽度 */ //占屏幕的一半
-		});
+		function articleLock(id){
+			var articleLock = $("#articleLock");
+			var url = "/whatblog/admin/modifyArticleLock";
+			var temp = articleLock.text().trim();
+			if(confirm("是否将文章"+temp))　{
+				jQuery.post(url,{
+					'article_id':id
+				},function(data){
+					if(data.errCode == "0"){
+						if(temp == "锁定" ){
+							alert(data.msg);
+							articleLock.text("解锁");
+							/* articleLock.removeClass("label-danger");
+							articleLock.addClass("label-info"); */
+						}else if(temp == "解锁" ){
+							alert(data.msg);
+							articleLock.text("锁定");
+							/* articleLock.removeClass("label-info");
+							articleLock.addClass("label-danger"); */
+						}
+					}else{
+						alert(data.msg);
+					}
+				},'json').error(function(){
+					alert("网络连接错误，请稍后再试");
+				});
+			}
+		}
+
+		// 删除文章
+		function deleteArticle(id){
+			var url = "/whatblog/admin/deleteArticle";
+			if(confirm("是否将文章删除?该操作不可恢复!"))　{
+				jQuery.post(url,{
+					'article_id':id
+				},function(data){
+					if(data.errCode == "0"){
+						alert(data.msg);
+						window.opener=null;
+						window.open('','_self');
+						window.close();
+					}else{
+						alert(data.msg);
+					}
+				},'json').error(function(){
+					alert("网络连接错误，请稍后再试");
+				});
+			}
+		}
 		
+		//将表单数据转换成json对象
+		$.fn.serializeObject = function() {    
+		   var o = {};    
+		   var a = this.serializeArray();
+		   $.each(a, function() {
+		       if (o[this.name]) {
+		           if (!o[this.name].push) {
+		               o[this.name] = [o[this.name]];
+		           }
+		           o[this.name].push(this.value || '');
+		       } else {
+		           o[this.name] = this.value || '';
+		       }    
+		   });
+		   return o; 
+		};
+		
+		function IsURL(str_url){
+	        var strRegex = /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+	        if (strRegex.test(str_url)){
+	            return (true);
+	        }else{
+	            return (false);
+	        }
+	}
+		
+		function submitReportArticle(){
+			var reportContent = $("#reportContent");
+			var originalArticleUrl = $("#originalArticleUrl");
+			var originalArticleTitle = $("#originalArticleTitle");
+			if(reportContent.val().trim() == ""){
+				alert("举报内容不能为空！");
+				reportContent.focus();
+				return false;
+			}
+			if(!IsURL(originalArticleUrl.val().trim())&&originalArticleUrl.val().trim()!=""){
+				alert("请输入正确的网址");
+				originalArticleUrl.focus();
+				return false;
+			}
+			$.ajax({
+                type:"post",
+                url:"/whatblog/main/reportArticle",
+                data:JSON.stringify($("#report_article_form").serializeObject()),
+                dataType:"json",
+                contentType:"application/json",
+                success:function(data){
+                    alert(data.msg);
+                    $("#report_article").modal('hide');
+                }
+            });
+		}
 	</script>
 </body>
 </html>

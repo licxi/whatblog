@@ -18,6 +18,12 @@ th {
 td {
 	text-align: center;
 }
+ body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+} 
 </style>
 
 </head>

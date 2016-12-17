@@ -20,8 +20,17 @@ td {
 	text-align: center;
 }
 </style>
-
+<style type="text/css">
+/* 解决弹出模态框时页面抖动问题 */
+ body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+} 
+</style>
 </head>
+
 <body>
 
 	<div id="wrapper">
@@ -71,7 +80,7 @@ td {
 							<tbody>
 								<c:forEach items="${articles }" var="article">
 									<tr class="gradeU" id="article${article.id }">
-										<td>${article.articleTitle }</td>
+										<td><a href="<c:url value='/show/article/${article.id }'/>" target="_blank">${article.articleTitle }</a></td>
 										<td>${article.nickname }</td>
 										<td>${article.typeName }</td>
 										<td><fmt:formatDate value="${article.createTime }"

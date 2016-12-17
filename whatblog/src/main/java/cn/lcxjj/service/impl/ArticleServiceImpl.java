@@ -36,6 +36,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public int saveArticle(Article article) {
+		if(article.getArticleSummary().length()>100){
+			article.setArticleSummary(article.getArticleSummary().substring(0,100));
+		}
 		if (article.getId() == null) {
 			return articleMapper.insertSelective(article); // 新增文章
 		} else {
@@ -49,10 +52,18 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> getUserAllArticle(String userName) {
 		return articleMapper.getUserAllArticle(userName);
 	}
+	@Override
+	public List<Article> getUserAllArticleNoWithLockedArticle(String userName) {
+		return articleMapper.getUserAllArticleNoWithLockedArticle(userName);
+	}
 
+	
 	@Override
 	public Article getArticleAndComment(int article_id) {
 		Article article = articleMapper.getArticleAndComment(article_id);
+		if(article == null){
+			return null;
+		}
 		List<Comment> comments = article.getComments();
 		List<Comment> temps = new ArrayList<Comment>();
 		if (comments != null && comments.size() != 0) {
@@ -62,8 +73,8 @@ public class ArticleServiceImpl implements ArticleService {
 					List<Comment> subtemps = new ArrayList<Comment>();
 					for (int j = 0; j < comments.size(); j++) {
 						Comment c = comments.get(j);
-						if (c.getToUserName() != null) {
-							if (c.getToUserName().equals(c1.getUserName())) {
+						if (c.getToUserName() != null && c.getToCommentId() != null) {
+							if (c.getToUserName().equals(c1.getUserName()) && c.getToCommentId().equals(c1.getId())) {
 								if (c1.getComments() != null) {
 									subtemps.addAll(c1.getComments());
 								}
@@ -130,12 +141,13 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<Article> searchArticle(boolean articleIsLock, boolean articleUp, boolean hostArticle, String search) {
+	public List<Article> searchArticle(boolean articleIsLock, boolean articleUp, boolean hostArticle, String search,Byte typeId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("articleIsLock", articleIsLock);
 		map.put("articleUp", articleUp);
 		map.put("hostArticle", hostArticle);
 		map.put("search", search);
+		map.put("typeId", typeId);
 		return articleMapper.searchArticle(map);
 	}
 
@@ -176,6 +188,19 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Article> selectNewArticle() {
 		return articleMapper.selectNewArticle();
+	}
+
+	@Override
+	public int articleClick(int articleId) {
+		return articleMapper.articleClick(articleId);
+	}
+
+	@Override
+	public List<Article> SearchArticleNoWithLockedArticle(String search, Byte typeId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("typeId", typeId);
+		return articleMapper.SearchArticleNoWithLockedArticle(map);
 	}
 
 	/*

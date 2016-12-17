@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html class=" ">
 <head>
@@ -9,7 +9,7 @@
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>欢迎来到WhatBlog大家庭</title>
+<title>WhatBlog搜索</title>
 <link href="<c:url value='/css/bootstrap.min.css'/>" type="text/css"
 	rel="stylesheet">
 <link href="<c:url value='/css/style.css'/>" type="text/css"
@@ -83,146 +83,81 @@
 		<c:import url="../public/header.jsp"></c:import>
 		<!--/超小屏幕可见-->
 		<div class="content-wrap">
-			<!--内容-->
 			<div class="content">
-				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel">
-					<!--banner-->
-					<ol class="carousel-indicators">
-						<li data-target="#carousel-example-generic" data-slide-to="0"
-							class="active"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="1"
-							class=""></li>
-						<li data-target="#carousel-example-generic" data-slide-to="2"
-							class=""></li>
-					</ol>
-					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<a
-								href=""
-								target="_blank"><img src="img/1.jpg" alt=""></a>
-							<div class="carousel-caption">
-								欢迎来到WhatBlog</div>
-							<span class="carousel-bg"></span>
+				<div class="row"  style="margin-left: 5px;">
+					<ul class="nav nav-pills" role="tablist">
+						<li role="presentation"><a href="<c:url value='/search/article?wd=${wd }&t=${type }'/>">文章</a></li>
+						<li role="presentation"  class="active"><a href="<c:url value='/search/user?wd=${wd }'/>">博主</a></li>
+					</ul>
+				</div>
+				<hr>
+				<div class="row"  style="margin-left: 5px;">
+					<form action="user" method="get">
+						<div class="row">
+							<div class="col-lg-10">
+								<input class="form-control" type="text" name="wd"
+									value="${wd }">
+							</div>
+							<div class="col-lg-2">
+								<input class="btn btn-info" type="submit" value="搜索博主">
+							</div>
 						</div>
-						<div class="item">
-							<a href="" target="_blank"><img src="img/1.jpg" alt=""></a>
-							<div class="carousel-caption">
-								欢迎来到WhatBlog</div>
-							<span class="carousel-bg"></span>
+					</form>
+				</div>
+				<hr>
+				<!-- 搜索框结束 -->
+				<!-- 搜索结果开始 -->
+				<div class="row">
+					
+					<c:if test="${pages != null }">
+					<c:set var="users" value="${pages.list }"/>
+					<c:if test="${users !=null && users.size() != 0 }">
+					<c:forEach items="${users }" var="user">
+					<div class="col-sm-6" style="margin-bottom: 10px">
+						<div class="col-sm-4">
+							<img alt="" src="${user.headUrl }" class="img-circle" style="width: 100px;height: 100px;">
 						</div>
-						<div class="item">
-							<a href="" target="_blank"><img src="img/1.jpg" alt=""></a>
-							<div class="carousel-caption">
-								欢迎来到WhatBlog</div>
-							<span class="carousel-bg"></span>
+						<div class="col-sm-7" style="margin-top: 10px;">
+							<h4><a 
+							<c:if test="${user_name != user.userName }">
+								href="<c:url value='/show/blog/${user.userName}'/>" 
+							</c:if>
+							<c:if test="${user_name == user.userName }">
+								href="<c:url value='/${user_name }/home'/>" 
+							</c:if>
+							target="_blank">${user.nickname}</a></h4>
+							<h5 style="margin-top: 3px;">${user.description}</h5>
 						</div>
 					</div>
-					<a class="left carousel-control" href="#carousel-example-generic"
-						role="button" data-slide="prev"> <span
-						class="glyphicon glyphicon-chevron-left"></span> <span
-						class="sr-only">Previous</span>
-					</a> <a class="right carousel-control" href="#carousel-example-generic"
-						role="button" data-slide="next"> <span
-						class="glyphicon glyphicon-chevron-right"></span> <span
-						class="sr-only">Next</span>
-					</a>
+					</c:forEach>
+					</c:if>
+					<c:if test="${users == null || users.size() == 0 }">
+						非常抱歉，没有相关的用户
+					</c:if>
+					</c:if>
 				</div>
-
-
-				<!-- 热门博主开始 -->
-				<div class="content-block hidden-xs">
-					<h2 class="title">
-						<strong>热门博主</strong>
-					</h2>
-
-					<div class="row">
-						<c:if test="${hostUsers != null && hostUsers.size() != 0 }">
-							<c:forEach items="${hostUsers }" var="hostUser">
-								<div class="col-sm-2" style="margin: 0px 10px 10px 10px;">
-									<div class="avatar">
-										<a 
-										<c:if test="${user_name != hostUser.userName }">
-										href="<c:url value='/show/blog/${hostUser.userName}'/>" 
-										</c:if>
-										<c:if test="${user_name == hostUser.userName }">
-										href="<c:url value='/${user_name }/home'/>" 
-										</c:if>
-										target="_blank"
-											style="background: url('${hostUser.headUrl}') no-repeat; background-size: 100px 100px;">
-											<span>${hostUser.nickname }</span>
-										</a>
-									</div>
-								</div>
-							</c:forEach>
-						</c:if>
-					</div>
-				</div>
-				<!-- 热门博主结束 -->
-				<!-- 最新文章开始 -->
-				<div class="content-block new-content">
-					<h2 class="title">
-						<strong>最新文章</strong>
-					</h2>
-					<div class="row">
-						<c:set var="newArticles" value="${pages.list }"/>
-						<c:if test="${newArticles != null && newArticles.size() != 0 }">
-							<c:forEach items="${newArticles }" var="article">
-								<div class="news-list">
-									<div class="news-img col-xs-3 col-sm-3 col-md-3">
-										<a target="_blank" href=""><img src="${article.showImage }" alt="">
-										</a>
-									</div>
-									<div class="news-info col-xs-9 col-sm-9 col-md-9">
-										<dl>
-											<dt>
-												<a href="<c:url value='/show/article/${article.id }'/>" target="_blank"> ${article.articleTitle } </a>
-											</dt>
-											<dd>
-												<span class="name"><a href="<c:url value='/show/blog/${article.userName}'/>" target="_black" title=""
-													rel="author">${article.nickname }</a></span> <span class="identity"></span> 
-													<span><fmt:formatDate value="${article.createTime }" pattern="yyyy-MM-dd"/>
-													</span>
-											</dd>
-											<dd class="text">${article.articleSummary }</dd>
-										</dl>
-										<div class="news_bot col-sm-7 col-md-8">
-											<!-- <span class="tags visible-lg visible-md"> <a href="">本站</a>
-												<a href="">异清轩</a>
-											</span> --> <span class="look"> 共 <strong>${article.articleClick }</strong> 人查看， <strong>
-													${article.commentsCount }</strong> 条评论
-											</span>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</c:if>
-					</div>
-				</div>
-				<!-- 最新文章结束 -->
-				
-					<c:if test="${pages.pages > 1 }">
-					<nav style="text-align: center;">
-						<ul class="pagination">
-							<li><a href="/whatblog/admin/${url }?page=1">首页</a></li>
-							<c:forEach var="page" varStatus="status" begin="1"
-								end="${pages.pages }">
-								<li
-									<c:if test="${pages.pageNum == status.index }">class="active"</c:if>><a
-									href="/whatblog/admin/${url }?page=${status.index }">${status.index }</a></li>
-							</c:forEach>
-							<li><a
-								href="/whatblog/admin/${url }?page=${pages.lastPage }">尾页</a></li>
-
-						</ul>
-					</nav>
-
-				</c:if>
-
-
+				<!-- 搜索结果结束 -->
 			</div>
+
+
+
+			<c:if test="${pages.pages > 1 }">
+				<nav style="text-align: center;">
+					<ul class="pagination">
+						<li><a href="${url }&page=1">首页</a></li>
+						<c:forEach var="page" varStatus="status" begin="1"
+							end="${pages.pages }">
+							<li
+								<c:if test="${pages.pageNum == status.index }">class="active"</c:if>><a
+								href="${url }&page=${status.index }">${status.index }</a></li>
+						</c:forEach>
+						<li><a href="${url }&page=${pages.lastPage }">尾页</a></li>
+
+					</ul>
+				</nav>
+			</c:if>
+
 		</div>
-		
 		<c:import url="../public/right_bar.jsp"></c:import>
 		<!--/右侧>992px显示-->
 		<c:import url="../public/footer.jsp"></c:import>

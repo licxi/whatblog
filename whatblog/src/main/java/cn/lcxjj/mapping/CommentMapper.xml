@@ -6,6 +6,7 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="to_comment_id" property="toCommentId" jdbcType="INTEGER" />
     <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
   </resultMap>
@@ -15,13 +16,17 @@
 		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
 			ofType="java.lang.String">
 		</collection>
+		<collection property="headUrl" column="user_name" javaType="java.lang.String" select="getHeadUrl"
+			ofType="java.lang.String">
+		</collection>
 		<collection property="toNickname" column="to_user_name" javaType="java.lang.String" select="getNickname"
 			ofType="java.lang.String">
 		</collection>
 	</resultMap>
   
+  
   <sql id="Base_Column_List" >
-    id, user_name, content, time, to_user_name, article_id
+    id, user_name, content, time, to_comment_id,to_user_name, article_id
   </sql>
   
   <select id="selectAll" resultMap="CommentDetailMap">
@@ -37,8 +42,10 @@
   
   <select id="getNickname" parameterType="java.lang.String" resultType="java.lang.String">
 		select nickname from user where user_name = #{user_name,jdbcType=VARCHAR}
-	</select>
-  
+  </select>
+  <select id="getHeadUrl" parameterType="java.lang.String" resultType="java.lang.String">
+		select head_url from user where user_name = #{user_name,jdbcType=VARCHAR}
+  </select>
   
   <!-- 删除文章的所有评论 -->
   <delete id="deleteArticleComments" parameterType="java.lang.Integer">
@@ -50,25 +57,30 @@
   	select count(*) from comment
   </select>
   
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="CommentDetailMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from comment
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.lcxjj.pojo.Comment" >
     insert into comment (id, user_name, content, 
-      time, to_user_name, article_id
+      time, to_comment_id,to_user_name, article_id
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{time,jdbcType=TIMESTAMP}, #{toUserName,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER}
+      #{time,jdbcType=TIMESTAMP},#{toCommentId,jdbcType=INTEGER} ,#{toUserName,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.lcxjj.pojo.Comment" >
+  	<selectKey resultType="Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+	</selectKey>
     insert into comment
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -82,6 +94,9 @@
       </if>
       <if test="time != null" >
         time,
+      </if>
+       <if test="toCommentId != null">
+     	to_comment_id,
       </if>
       <if test="toUserName != null" >
         to_user_name,
@@ -103,6 +118,9 @@
       <if test="time != null" >
         #{time,jdbcType=TIMESTAMP},
       </if>
+      <if test="toCommentId != null">
+     	#{toCommentId,jdbcType=INTEGER},
+      </if>
       <if test="toUserName != null" >
         #{toUserName,jdbcType=VARCHAR},
       </if>
@@ -123,6 +141,9 @@
       <if test="time != null" >
         time = #{time,jdbcType=TIMESTAMP},
       </if>
+      <if test="toCommentId != null">
+     	to_comment_id = #{toCommentId,jdbcType=INTEGER},
+      </if>
       <if test="toUserName != null" >
         to_user_name = #{toUserName,jdbcType=VARCHAR},
       </if>
@@ -137,6 +158,7 @@
     set user_name = #{userName,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       time = #{time,jdbcType=TIMESTAMP},
+      to_comment_id = #{toCommentId,jdbcType=INTEGER},
       to_user_name = #{toUserName,jdbcType=VARCHAR},
       article_id = #{articleId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

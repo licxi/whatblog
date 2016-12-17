@@ -18,6 +18,12 @@ th {
 td {
 	text-align: center;	
 }
+ body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+} 
 
 .opra{
 padding:2px 6px;

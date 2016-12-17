@@ -141,6 +141,15 @@ function getParam(pname) {
     } 
 }  
 
+function getUrlParam(name){
+	var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+	var value = window.location.search.substr(1).match(reg);
+	if(value != null){
+		return unescape(value[2]);
+	}else{
+		return null;
+	}
+}
 
 var reMethod = "GET";
 var	pwdmin = 6;
@@ -169,12 +178,23 @@ $(document).ready(function() {
 			password.focus();
 			return false;
 		}
-		jQuery.post(loginUrl, {
-			username : username.val().trim(),
-			password : $.md5(password.val().trim())
-		}, function(data) {
+		var fromUrl = getUrlParam('fromurl');
+		if(fromUrl != null){
+			var param = {
+					username : username.val().trim(),
+					password : $.md5(password.val().trim()),
+					fromurl:fromUrl.trim()
+				};
+		}else{
+			var param = {
+					username : username.val().trim(),
+					password : $.md5(password.val().trim())
+				};
+		}
+		jQuery.post(loginUrl, param, function(data) {
 			if (data.code == 'ok') {
 				 //alert('登录成功！');
+				//alert(data.callback);
 				window.location.href = data.callback;
 			} else {
 				alert(data.msg);

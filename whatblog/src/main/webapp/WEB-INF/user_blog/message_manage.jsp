@@ -44,11 +44,14 @@
 										<a style="left: 10px;" class="fa"
 											onclick="reply(${message.fromUserName})">回复</a> <a
 											style="left: 50px;" class="fa" onclick="del(${message.id})">删除</a>
-										<a href="#"><i class="fa fa-paint-brush"></i>from
+										<a ><i class="fa fa-paint-brush"></i>from
 											${message.fromNickname }</a>
 									</div>
 								</li>
 							</c:forEach>
+						</c:if>
+						<c:if test="${messages == null || messages.size() == 0}">
+							您目前还没有收到留言！
 						</c:if>
 					</ul>
 				</div>

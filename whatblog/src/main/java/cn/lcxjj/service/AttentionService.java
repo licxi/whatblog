@@ -52,4 +52,12 @@ public interface AttentionService {
     List<HostUser> selectHostUser();
     
     int saveAttention(Attention attention);
+    
+    /**如果有关注，返回该关注的主键 ，否则返回
+     * 
+     * @param user_name
+     * @param attention_user_name
+     * @return 如果有关注，返回该关注的主键,如果没有关注，则返回0
+     */
+    int isAttentioned(String user_name,String attention_user_name);
 }

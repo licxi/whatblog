@@ -32,6 +32,12 @@ padding:2px 6px;
 	padding-left: 15px;
 	padding-top: 5px;
 }
+ body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+} 
 </style>
 
 </head>
@@ -67,11 +73,11 @@ padding:2px 6px;
 							
 								<c:forEach items="${articleReports }" var="articleReport">
 									<tr class="gradeU" id="articleReport${articleReport.id }">
-										<td >${articleReport.nickname}</td>
+										<td ><a href="<c:url value='/show/blog/${articleReport.userName}'/>" target="_blank">${articleReport.nickname}</a></td>
 										<td >${articleReport.reportContent}</td>
-										<td ><a href="#" target="_black">${articleReport.reportedNickname}</a></td>
-										<td ><a href="#" target="_black">${articleReport.reportedArticleTitle}</a></td>
-										<td ><a href="${articleReport.originalArticleUrl}" target="_black">${articleReport.originalArticleTitle}</a></td>
+										<td ><a href="<c:url value='/show/blog/${articleReport.reportedUserName}'/>" target="_blank">${articleReport.reportedNickname}</a></td>
+										<td ><a href="<c:url value='/show/article/${articleReport.reportedArticleId }'/>" target="_blank">${articleReport.reportedArticleTitle}</a></td>
+										<td ><a href="${articleReport.originalArticleUrl}" target="_blank">${articleReport.originalArticleTitle}</a></td>
 										<td ><fmt:formatDate value="${articleReport.time }" pattern="yyyy-MM-dd"/></td>
 										<td>${articleReport.processResult }</td>
 										<%-- <td>

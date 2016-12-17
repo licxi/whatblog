@@ -7,7 +7,7 @@ import cn.lcxjj.mapper.SystemSetupMapper;
 import cn.lcxjj.pojo.SystemSetup;
 import cn.lcxjj.service.SystemSetupService;
 
-@Service
+@Service("systemSetupService")
 public class SystemSetupServiceImpl implements SystemSetupService {
 
 	@Autowired

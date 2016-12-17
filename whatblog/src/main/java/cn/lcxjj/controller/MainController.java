@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,16 +17,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.lcxjj.pojo.Article;
+import cn.lcxjj.pojo.ArticleReport;
 import cn.lcxjj.pojo.Attention;
 import cn.lcxjj.pojo.HostUser;
 import cn.lcxjj.pojo.Message;
-import cn.lcxjj.pojo.SystemSetup;
 import cn.lcxjj.pojo.Type;
+import cn.lcxjj.pojo.UserReport;
+import cn.lcxjj.service.ArticleReportService;
 import cn.lcxjj.service.ArticleService;
 import cn.lcxjj.service.AttentionService;
 import cn.lcxjj.service.MessageService;
 import cn.lcxjj.service.SystemSetupService;
 import cn.lcxjj.service.TypeService;
+import cn.lcxjj.service.UserReportService;
 import cn.lcxjj.service.UserService;
 import cn.lcxjj.util.JSONResult;
 
@@ -61,6 +64,12 @@ public class MainController {
 	
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private ArticleReportService articleReportService;
+	
+	@Autowired
+	private UserReportService userReportService;
 
 	@RequestMapping("index")
 	public String index(ModelMap map, @RequestParam(value = "page", required = false) Integer page) {
@@ -135,7 +144,38 @@ public class MainController {
 		attention.setUserName(userName);
 		attention.setAttentionUserName(attentionUserName);
 		int result = attentionService.saveAttention(attention );
-		return result > 0?new JSONResult<>("0", "关注成功！"):new JSONResult<>("-2", "关注失败！");
+		//返回插入的主键
+		return result > 0?new JSONResult<Integer>("0", attention.getId(),"关注成功！"):new JSONResult<>("-1", "关注失败！");
 	}
+	
+	@ResponseBody
+	@RequestMapping("notAttentionUser")
+	public Object noAttentionUser(@RequestParam("attentionId") Integer attentionId){
+		int result = attentionService.deleteByPrimaryKey(attentionId);
+		return result > 0 ?new JSONResult<>("0", "已取消关注"):new JSONResult<>("-1", "取消关注失败");
+	}
+	
+	@ResponseBody
+	@RequestMapping("reportArticle")
+	public Object reportArticle(@RequestBody ArticleReport articleReport){
+		if(articleReport == null){
+			return new JSONResult<>("-1", "举报失败！");
+		}
+		int result = articleReportService.saveArticleReport(articleReport);
+		return result > 0 ? new JSONResult<>("0", "举报成功！"):new JSONResult<>("-1", "举报失败！");
+	}
+	
+	@ResponseBody
+	@RequestMapping("reportUser")
+	public Object reportUser(@RequestBody UserReport userReport){
+		if(userReport == null){
+			return new JSONResult<>("-1", "举报失败！");
+		}
+		System.out.println(userReport);
+		int result = userReportService.saveUserReport(userReport);
+		return result > 0 ? new JSONResult<>("0", "举报成功！"):new JSONResult<>("-1", "举报失败！");
+	}
+	
+	
 
 }

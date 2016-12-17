@@ -51,11 +51,18 @@ public interface ArticleMapper {
     List<Article> selectHostArticleByUserName(String userName);
     
     /**
-     * 获取用户的文章，并且统计文章的评论数
+     * 用户获取自己的文章，并且统计文章的评论数
      * @param userName
      * @return
      */
     List<Article> getUserAllArticle(String userName);
+    
+    /**
+     * 获取用户的文章，并且统计文章的评论数
+     * @param userName
+     * @return
+     */
+    List<Article> getUserAllArticleNoWithLockedArticle(String userName);
     
     /**
      * 获取一篇文章的内容，及评论
@@ -84,6 +91,7 @@ public interface ArticleMapper {
      * articleUp  false 未置顶 ，true 置顶
      * hostArticle false 不查找热门文章，true 查找热门文章
      * search String  为null不查找
+     * typeId  short 文章所属分类ID
      * @param map
      * @return
      */
@@ -99,4 +107,18 @@ public interface ArticleMapper {
     Map<String,Object> findAriclePropertyByArticleId(Integer articldId);
     int modifyArticleUp(Map<String, Object> map);
     int modifyArticleLock(Map<String, Object> map);
+    
+    /**
+     * 增加阅读量
+     * @param articleId 文章的ID
+     * @return
+     */
+    int articleClick(int articleId);
+    
+    /**
+     * 
+     * @param map可选参数： search 查找添加，typeId 根据文章的分类查找
+     * @return
+     */
+    List<Article> SearchArticleNoWithLockedArticle(Map<String,Object> map);
 }

@@ -13,7 +13,6 @@ import com.github.pagehelper.PageInfo;
 
 import cn.lcxjj.mapper.ArticleMapper;
 import cn.lcxjj.pojo.Article;
-import cn.lcxjj.pojo.Type;
 import cn.lcxjj.service.ArticleService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,13 +48,13 @@ public class ArticleTest {
 	
 	@Test
 	public void getArticleAndComment(){
-		//System.out.println(articleService.getArticleAndComment(8));
-		System.out.println(articleService.selectHostArticle(0,2));
+		articleService.getArticleAndComment(8);
+		//System.out.println(articleService.selectHostArticle(0,2));
 	}
 	
 	@Test
 	public void searchArticle(){
-		System.out.println(articleService.searchArticle(false, false, false,"WhatBlog"));
+		System.out.println(articleService.searchArticle(false, false, false,null,(byte) 2));
 	}
 	
 	@Test

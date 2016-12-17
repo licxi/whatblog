@@ -98,7 +98,7 @@
 						</span>
 					</div>
 					<div class="logo-element">
-						WhatBlog
+						${systemName }
 						<!--导航栏缩小时显示文字-->
 					</div>
 				</li>
@@ -110,8 +110,8 @@
 						class="fa fa-globe"></i> <span class="nav-label">撰写文章</span></a></li>
 				<li><a href="<c:url value='/${user_name}/articleManage'/>"><i
 						class="fa fa-globe"></i> <span class="nav-label">管理文章</span></a></li>
-				<li><a href="<c:url value='/${user_name}/commentManage'/>"><i
-						class="fa fa-globe"></i> <span class="nav-label">评论管理</span></a></li>
+				<%-- <li><a href="<c:url value='/${user_name}/commentManage'/>"><i
+						class="fa fa-globe"></i> <span class="nav-label">评论管理</span></a></li> --%>
 				<li><a href="<c:url value='/${user_name}/attentionManage'/>"><i
 						class="fa fa-globe"></i> <span class="nav-label">关注管理</span></a></li>
 				<li><a href="<c:url value='/${user_name}/messageManage'/>"><i
@@ -136,7 +136,7 @@
 						style="font-size: 26px; padding-top: 10px; padding-left: 16px;">
 						<!-- <input type="text" placeholder="搜索你的文章" class="form-control"
 								name="keywords" id="top-search" required> -->
-						<a href="../"><strong>WhatBlog主页</strong></a>
+						<a href="../"><strong>${systemName }主页</strong></a>
 
 					</div>
 					<!-- </form> -->

@@ -42,6 +42,8 @@ public interface ArticleService {
      */
     List<Article> getUserAllArticle(String userName);
     
+    public List<Article> getUserAllArticleNoWithLockedArticle(String userName);
+    
     /**
      * 获取一篇文章的内容，及评论
      * @param article_id
@@ -94,7 +96,7 @@ public interface ArticleService {
      * @param map
      * @return
      */
-    List<Article> searchArticle(boolean articleIsLock,boolean articleUp,boolean hostArticle,String search);
+    List<Article> searchArticle(boolean articleIsLock,boolean articleUp,boolean hostArticle,String search,Byte typeId);
 
     /**
      * map 属性描述
@@ -125,6 +127,19 @@ public interface ArticleService {
      * @return
      */
     List<Article> selectNewArticle();
+    
+    /**
+     * 增加阅读量
+     * @param articleId
+     * @return
+     */
+    int articleClick(int articleId);
 
+    /**
+     * 
+     * @param map可选参数： search 查找添加，typeId 根据文章的分类查找
+     * @return
+     */
+    List<Article> SearchArticleNoWithLockedArticle(String search, Byte typeId);
 
 }

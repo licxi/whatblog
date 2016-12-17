@@ -12,23 +12,20 @@ public class Comment {
     
     private String headUrl;
 
-    public String getHeadUrl() {
-		return headUrl;
-	}
-
-	public void setHeadUrl(String headUrl) {
-		this.headUrl = headUrl;
-	}
-
+    
 	private String content;
 
     private Date time;
 
+    private Integer toCommentId;
+    
     private String toUserName;
     
     private String toNickname;
 
     private Integer articleId;
+    
+    private String formatTime;
     
     /**
 	 * 评论内容
@@ -75,6 +72,24 @@ public class Comment {
 	public void setTime(Date time) {
 		this.time = time;
 	}
+	
+	
+	public Integer getToCommentId() {
+		return toCommentId;
+	}
+
+	public void setToCommentId(Integer toCommentId) {
+		this.toCommentId = toCommentId;
+	}
+
+	public String getHeadUrl() {
+		return headUrl;
+	}
+
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+	}
+
 
 	public String getToUserName() {
 		return toUserName;
@@ -109,13 +124,26 @@ public class Comment {
 		this.comments = comments;
 	}
 
-	@Override
-	public String toString() {
-		return "Comment [id=" + id + ", userName=" + userName + ", nickname=" + nickname + ", content=" + content
-				+ ", time=" + time + ", toUserName=" + toUserName + ", toNickname=" + toNickname + ", articleId="
-				+ articleId + ", comments=" + comments + "]";
+	
+	
+	public String getFormatTime() {
+		return formatTime;
 	}
 
+	public void setFormatTime(String formatTime) {
+		this.formatTime = formatTime;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", userName=" + userName + ", nickname=" + nickname + ", headUrl=" + headUrl
+				+ ", content=" + content + ", time=" + time + ", toCommentId=" + toCommentId + ", toUserName="
+				+ toUserName + ", toNickname=" + toNickname + ", articleId=" + articleId + ", formatTime=" + formatTime
+				+ ", comments=" + comments + "]";
+	}
+	
+
+	
 	
 
    

@@ -28,7 +28,8 @@ public class UserController {
 	
 	
 	@RequestMapping("toLogin")
-	public String toLogin(Model model){
+	public String toLogin(Model model,@RequestParam(value="fromurl",required=false) String fromUrl){
+		model.addAttribute("fromurl", fromUrl);
 		model.addAttribute("type", 1);
 		return "user/login_register";
 	}
@@ -38,8 +39,6 @@ public class UserController {
 		model.addAttribute("content", content);
 		return "user/showUeditorContent";
 	}
-	
-	
 	
 	
 	@RequestMapping("toReg")
@@ -80,7 +79,7 @@ public class UserController {
 			return "redirect:toLogin";
 		}
 		if(result){
-			return "main/reg_success";
+			return "redirect:toLogin";
 		}else{
 			return "redirect:toReg";
 		}
@@ -88,7 +87,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="doLogin",method=RequestMethod.POST)
-	public Map<String, String> doLogin(HttpServletRequest request,String username,String password){
+	public Map<String, String> doLogin(HttpServletRequest request,String username,String password,@RequestParam(value="fromurl",required=false) String fromUrl){
 		Map<String,String> map = new HashMap<String,String>();
 		HttpSession session = request.getSession();
 		username = username.trim();
@@ -106,7 +105,12 @@ public class UserController {
 		} else if(result == 1){
 			map.put("code", "ok");
 			map.put("msg", "登录成功");
-			map.put("callback", request.getContextPath()+"/");
+			System.err.println("fromurl："+fromUrl);
+			if(fromUrl != null && !fromUrl.trim().isEmpty()){
+				map.put("callback", fromUrl);
+			}else{
+				map.put("callback", request.getContextPath()+"/");
+			}
 			User user = userService.selectByUserName(username);
 			session.setAttribute("user_name", username);
 			session.setAttribute("nickname", user.getNickname());

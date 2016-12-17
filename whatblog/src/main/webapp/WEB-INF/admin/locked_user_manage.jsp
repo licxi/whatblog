@@ -19,6 +19,12 @@ th {
 td {
 	text-align: center;
 }
+ body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+} 
 </style>
 
 </head>
@@ -72,8 +78,8 @@ td {
 
 								<c:forEach items="${users }" var="user">
 									<tr class="gradeU" id="user${user.id }">
-										<td>${user.userName }</td>
-										<td>${user.nickname }</td>
+										<td><a href="<c:url value='/show/blog/${user.userName}'/>" target="_black">${user.userName }</a></td>
+										<td><a href="<c:url value='/show/blog/${user.userName}'/>" target="_black">${user.nickname }</a></td>
 										<td><fmt:formatDate value="${user.createTime }"
 												pattern="yyyy-MM-dd" /></td>
 										<td>${user.phone }</td>

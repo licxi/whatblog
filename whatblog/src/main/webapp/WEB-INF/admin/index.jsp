@@ -17,7 +17,14 @@ td {
 	text-align: center;
 }
 </style>
-
+<style type="text/css">
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
+</style>
 </head>
 <body>
 
@@ -79,7 +86,7 @@ td {
 											style="float: left !important;">标题</span> <span
 											style="float: right !important;">点击数</span></a> -->
 										<c:forEach items="${hostArticles }" var="article">
-											<a href="" class="list-group-item">${article.articleTitle}
+											<a href="<c:url value='/show/article/${article.id }'/>" class="list-group-item" target="_black">${article.articleTitle}
 											<span style="float: right !important;">${article.nickname }</span></a>
 										</c:forEach>
 									</c:if>
@@ -102,7 +109,7 @@ td {
 											style="float: right !important;">关注数</span></a> -->
 											
 										<c:forEach items="${hostUsers }" var="user">
-											<a href=""  class="list-group-item">${user.nickname}<span
+											<a href="<c:url value='/show/blog/${user.userName}'/>" target="_black" class="list-group-item">${user.nickname}<span
 									style="float: right !important;">关注数：${user.attentionCount}</span></a>
 									</c:forEach>
 									</c:if>

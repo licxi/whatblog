@@ -20,6 +20,12 @@ td {
 	text-align: center;	
 }
 
+ body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+} 
 .opra{
 padding:2px 6px;
 }
@@ -67,9 +73,9 @@ padding:2px 6px;
 							
 								<c:forEach items="${userReports }" var="userReport">
 									<tr class="gradeU" id="userReport${userReport.id }">
-										<td ><a href="#" target="_black">${userReport.nickname}</a></td>
+										<td ><a href="<c:url value='/show/blog/${userReport.userName}'/>" target="_blank">${userReport.nickname}</a></td>
 										<td >${userReport.reportContent}</td>
-										<td ><a href="#" target="_black">${userReport.reportedNickname}</a></td>
+										<td ><a href="<c:url value='/show/blog/${userReport.reportedUserName}'/>" target="_blank">${userReport.reportedNickname}</a></td>
 										<td ><fmt:formatDate value="${userReport.time }" pattern="yyyy-MM-dd"/></td>
 										<%-- <td>
 											<button class="btn btn-danger" onclick="deleteSuggest(${suggest.id})">删除</button>
@@ -123,7 +129,6 @@ padding:2px 6px;
 		type="text/javascript"></script
 	<script type="text/javascript" src="<c:url value='/js/type_op.js'/>"></script>
 
-	
 	
 	<!-- 返回顶部 -->
 	<script>

@@ -14,7 +14,15 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css" rel="stylesheet'/>"
 	rel="stylesheet">
-</head>
+
+<style type="text/css">
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
+</style>
 </head>
 <body>
 	<c:import url="../public/user_sidebar.jsp"></c:import>

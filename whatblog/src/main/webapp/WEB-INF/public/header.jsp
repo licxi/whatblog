@@ -8,11 +8,11 @@
 					<a href="" title="WhatBlog" style="height: 80px"></a>
 				</h1> -->
 				<ul class="nav hidden-xs-nav">
-					<li class="active"><a href=""><span
+					<li class="active"><a href="<c:url value='/'/>"><span
 							class="glyphicon glyphicon-home"></span>网站首页</a></li>
 					<c:if test="${types != null && types.size() != 0 }">
 					<c:forEach items="${types }" var="type">
-					<li><a href=""><span class="glyphicon glyphicon-erase"></span>${type.typeName }</a></li>
+					<li><a href="<c:url value='/search/article?wd=${wd }&t=${type.id }'/>"><span class="glyphicon glyphicon-erase"></span>${type.typeName }</a></li>
 					</c:forEach>
 					</c:if>
 				</ul>

@@ -14,6 +14,14 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/mystyle.css" rel="stylesheet'/>"
 	rel="stylesheet">
+<style type="text/css">
+body {
+	overflow: auto !important;
+}
+.modal{
+	overflow: auto !important;
+}
+</style>
 </head>
 <body>
 	<c:import url="../public/user_sidebar.jsp"></c:import>
@@ -28,7 +36,7 @@
 						<div class="col-lg-3 ">
 							<div class="ibox float-e-margins myshadow">
 								<div class="ibox-title">
-									<a href="<c:url value='/${user_name}/attentionManage'/>"><h5>关注你人数</h5></a>
+									<a href="<c:url value='/${user_name}/attentionManage?t=1'/>"><h5>关注你人数</h5></a>
 								</div>
 								<div class="ibox-content">
 									<h1 class="no-margins">${attentionCount }</h1>
@@ -58,7 +66,7 @@
 						<div class="col-lg-3">
 							<div class="ibox float-e-margins myshadow">
 								<div class="ibox-title">
-									<h5>你关注的人数</h5>
+									<a href="<c:url value='/${user_name}/attentionManage?t=2'/>"><h5>你关注的人数</h5></a>
 								</div>
 								<div class="ibox-content">
 									<h1 class="no-margins">${youAttentionCount }</h1>

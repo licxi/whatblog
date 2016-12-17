@@ -30,4 +30,8 @@ public interface CommentService {
 	 * @return
 	 */
 	List<Comment> selectAll();
+	
+	int saveComment(Comment comment);
+	
+	Comment selectOne(int commentId);
 }

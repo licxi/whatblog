@@ -280,7 +280,7 @@ public class AdminController {
 			@RequestParam(value = "search", required = false) String search) {
 		page = page == null ? 1 : page;
 		PageHelper.startPage(page, PAGESIZE);
-		List<Article> articles = articleService.searchArticle(false, false, false, search);
+		List<Article> articles = articleService.searchArticle(false, false, false, search,null);
 		PageInfo<Article> pages = new PageInfo<Article>(articles);
 		map.put("url", "articleManage");
 		map.put("pages", pages);
@@ -292,7 +292,7 @@ public class AdminController {
 			@RequestParam(value = "search", required = false) String search) {
 		page = page == null ? 1 : page;
 		PageHelper.startPage(page, PAGESIZE);
-		List<Article> articles = articleService.searchArticle(false, false, true, search);
+		List<Article> articles = articleService.searchArticle(false, false, true, search,null);
 		PageInfo<Article> pages = new PageInfo<Article>(articles);
 		map.put("url", "hostArticleManage");
 		map.put("pages", pages);
@@ -304,7 +304,7 @@ public class AdminController {
 			@RequestParam(value = "search", required = false) String search) {
 		page = page == null ? 1 : page;
 		PageHelper.startPage(page, PAGESIZE);
-		List<Article> articles = articleService.searchArticle(true, false, false, search);
+		List<Article> articles = articleService.searchArticle(true, false, false, search,null);
 		PageInfo<Article> pages = new PageInfo<Article>(articles);
 		map.put("url", "lockArticleManage");
 		map.put("pages", pages);
@@ -316,7 +316,7 @@ public class AdminController {
 			@RequestParam(value = "search", required = false) String search) {
 		page = page == null ? 1 : page;
 		PageHelper.startPage(page, PAGESIZE);
-		List<Article> articles = articleService.searchArticle(false, true, false, search);
+		List<Article> articles = articleService.searchArticle(false, true, false, search,null);
 		PageInfo<Article> pages = new PageInfo<Article>(articles);
 		map.put("url", "upArticleManage");
 		map.put("pages", pages);

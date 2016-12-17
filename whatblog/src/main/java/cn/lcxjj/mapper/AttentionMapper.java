@@ -1,6 +1,7 @@
 package cn.lcxjj.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.lcxjj.pojo.Attention;
 import cn.lcxjj.pojo.HostUser;
@@ -57,6 +58,11 @@ public interface AttentionMapper {
      */
     List<Attention> selectByAttentionUserName(String attentionUserName);
     
-    
+    /**
+     * 必选参数 user_name，attention_user_name
+     * @param map
+     * @return 关注的主键 id 或者 null
+     */
+    Object isAttentioned(Map<String,String> map);
     
 }

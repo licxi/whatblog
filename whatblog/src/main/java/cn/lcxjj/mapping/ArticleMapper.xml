@@ -19,6 +19,43 @@
     <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
   </resultMap>
   
+  
+  <resultMap id="commentMap" type="cn.lcxjj.pojo.Comment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="to_comment_id" property="toCommentId" jdbcType="INTEGER" />
+    <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, article_title, create_time, article_click, user_name, type_id, article_type, 
+    article_summary, article_up, article_support, show_image
+  </sql>
+  <sql id="Blob_Column_List" >
+    article_content
+  </sql>
+  
+  <!-- map 参数 search typeId -->
+  <select id="SearchArticleNoWithLockedArticle" parameterType="map" resultMap="articleMapAndCommentCount">
+  	select 
+    <include refid="Base_Column_List" />
+    from article
+    <where>
+    	article_support=0 and article_type = 1
+    	<if test="search != null">
+    		and article_title like CONCAT('%',#{search},'%')
+    	</if>
+    	<if test="typeId != null">
+    		and type_id = #{typeId,jdbcType=TINYINT}
+    	</if>
+    </where>
+    	order by article_click desc,create_time desc,article_up desc
+  </select>
+  
   <select id="searchArticle" parameterType="map" resultMap="articleMapAndCommentCount">
   	select 
     <include refid="Base_Column_List" />
@@ -33,6 +70,9 @@
     	<if test="search != null">
     		and article_title like CONCAT('%',#{search},'%')
     	</if>
+    	<if test="typeId != null">
+    		and type_id = #{typeId,jdbcType=TINYINT}
+    	</if>
     </where>
     <if test="hostArticle == true">
     	order by article_click desc,create_time desc
@@ -40,23 +80,6 @@
   </select>
   
   
-  <resultMap id="commentMap" type="cn.lcxjj.pojo.Comment" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_name" property="userName" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="time" property="time" jdbcType="TIMESTAMP" />
-    <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
-    <result column="article_id" property="articleId" jdbcType="INTEGER" />
-  </resultMap>
-  
-  
-  <sql id="Base_Column_List" >
-    id, article_title, create_time, article_click, user_name, type_id, article_type, 
-    article_summary, article_up, article_support, show_image
-  </sql>
-  <sql id="Blob_Column_List" >
-    article_content
-  </sql>
   <!-- =========================================================================== -->
   <resultMap type="cn.lcxjj.pojo.Article" id="articleMapAndCommentCount" extends="BaseResultMap">
 		<!-- <id property="id" column="id"/> -->
@@ -77,6 +100,11 @@
 		where user_name = #{userName,jdbcType=VARCHAR} 
 		order by article_click desc,create_time desc
 	</select>
+	<select id="getUserAllArticleNoWithLockedArticle" parameterType="java.lang.String" resultMap="articleMapAndCommentCount">
+		select * from article 
+		where article_support=0 and article_type = 1 and user_name = #{userName,jdbcType=VARCHAR}
+		order by article_click desc,create_time desc
+	</select>
 	<!-- 统计某篇文章的评论数 -->
 	<select id="commentCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
 		select count(*) from comment where article_id=#{id,jdbcType=INTEGER}
@@ -84,6 +112,8 @@
 	<!-- =========================================================================== -->
 	
 	<resultMap type="cn.lcxjj.pojo.Article" id="articleComments" extends="ResultMapWithBLOBs">
+		<collection property="nickname" column="user_name" javaType="java.lang.String" select="getNickname"
+		ofType="java.lang.String"></collection> <!-- 获取分类 -->
 		<collection property="commentsCount" column="id" javaType="java.lang.Integer" select="commentCount"
 		ofType="java.lang.Integer"></collection> <!-- 获取文章评论数，包括回复评论的数量 -->
 		<collection property="comments" column="id" javaType="java.util.ArrayList" select="getArticleComments"
@@ -92,6 +122,7 @@
 		ofType="java.lang.String"></collection> <!-- 获取分类 -->
 	</resultMap>
 	
+	<!-- 根据ID查找文章内容和评论 -->
 	<select id="getArticleAndComment" parameterType="java.lang.Integer" resultMap="articleComments">
 		select 
 		 <include refid="Base_Column_List" />
@@ -126,7 +157,7 @@
 	
 	<!-- 获取某篇文章的评论 -->
 	<select id="getArticleComments" parameterType="java.lang.Integer" resultMap="CommentDetailMap">
-		select id,user_name,content,time,to_user_name,article_id from comment where article_id=#{id,jdbcType=INTEGER}
+		select id,user_name,content,time,to_comment_id,to_user_name,article_id from comment where article_id=#{id,jdbcType=INTEGER}
 	</select>
 	
 	
@@ -161,6 +192,10 @@
   <update id="modifyArticleLock" parameterType="map">
   	update article set article_support = #{articleLock,jdbcType=INTEGER} where id=#{articleId,jdbcType=INTEGER}
   </update>
+  <update id="articleClick" parameterType="java.lang.Integer">
+  	update article set article_click = article_click + 1 where id=#{articleId,jdbcType=INTEGER}
+  </update>
+  
   
   
   
@@ -190,6 +225,7 @@
     select 
     <include refid="Base_Column_List" />
     from article
+    where article_support = 0 and article_type = 1
     order by article_click desc,create_time desc
     <if test="start != null and size != null">
     limit #{start,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
@@ -201,6 +237,7 @@
     select 
     <include refid="Base_Column_List" />
     from article
+    where article_support = 0 and article_type = 1
     order by create_time desc
   </select>
   
